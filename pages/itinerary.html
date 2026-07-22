@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Itinerary — REEF Midriff Islands Trip</title>
+<link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+  <header id="site-header" class="site-header"></header>
+
+  <main id="page-content" class="page-main">
+    <p class="loading-note">Loading trip info…</p>
+  </main>
+
+  <footer id="site-footer" class="site-footer"></footer>
+
+  <script>window.SITE_ROOT = "../";</script>
+  <script src="../js/site-config.js"></script>
+  <script src="../js/loader.js"></script>
+  <script src="../js/render.js"></script>
+  <script>
+    window.addEventListener("trip-data-ready", function () { window.initPage("itinerary"); });
+    if (window.TRIP_DATA) { window.initPage("itinerary"); }
+  </script>
+</body>
+</html>
