@@ -390,5 +390,6 @@ window.initPage = function (pageId) {
   renderFooter();
   var container = document.getElementById("page-content");
   var renderer = PAGE_RENDERERS[pageId];
+  if (container) container.innerHTML = "";
   if (container && renderer) renderer(container);
 };
