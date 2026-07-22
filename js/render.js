@@ -15,7 +15,8 @@ var NAV_ITEMS = [
   { id: "itinerary", label: "Itinerary", href: "pages/itinerary.html" },
   { id: "pretrip", label: "Pre-Trip Info", href: "pages/pre-trip-info.html" },
   { id: "study", label: "Study Tips", href: "pages/study-tips.html" },
-  { id: "fun", label: "During-Trip Fun", href: "pages/during-trip-fun.html" }
+  { id: "fun", label: "During-Trip Fun", href: "pages/during-trip-fun.html" },
+  { id: "leader", label: "Trip Leader", href: "pages/trip-leader.html" }
 ];
 
 function el(tag, attrs, children) {
@@ -119,6 +120,9 @@ function renderHome(container) {
         text: leader.name + " — " + leader.email + (leader.phone ? " · " + leader.phone : "")
       }));
     });
+    leaderCard.appendChild(el("p", {}, [
+      el("a", { href: window.SITE_ROOT + "pages/trip-leader.html", text: "Meet your trip leader →" })
+    ]));
     container.appendChild(leaderCard);
   }
 
@@ -375,6 +379,61 @@ function renderDuringTripFun(container) {
   }
 }
 
+/* ---------- Trip Leader ---------- */
+
+function renderTripLeader(container) {
+  var data = window.TRIP_DATA;
+  var leaders = data.tripLeaders || [];
+
+  container.appendChild(el("h1", {
+    class: "page-title",
+    text: leaders.length > 1 ? "Your Trip Leaders" : "Your Trip Leader"
+  }));
+  container.appendChild(el("p", {
+    class: "page-subtitle",
+    text: "The REEF staff (or volunteer) leading " + data.program + " to " + data.destination + "."
+  }));
+
+  if (!leaders.length) {
+    container.appendChild(el("div", { class: "card" }, [
+      el("p", { class: "empty-note", text: "Trip leader details haven't been added yet — check back soon." })
+    ]));
+    return;
+  }
+
+  leaders.forEach(function (leader) {
+    var card = el("div", { class: "card" });
+
+    if (leader.photo) {
+      card.appendChild(el("img", {
+        src: window.tripResourceUrl ? window.tripResourceUrl(leader.photo) : leader.photo,
+        alt: leader.name,
+        style: "max-width:160px;border-radius:10px;float:right;margin:0 0 0.75rem 1rem;"
+      }));
+    }
+
+    card.appendChild(el("h2", { text: leader.name }));
+    if (leader.role) card.appendChild(el("p", { html: "<strong>" + leader.role + "</strong>" }));
+
+    var bioParas = Array.isArray(leader.bio) ? leader.bio : (leader.bio ? [leader.bio] : []);
+    bioParas.forEach(function (para) { card.appendChild(el("p", { text: para })); });
+
+    var contactBits = [leader.email];
+    if (leader.phone) contactBits.push(leader.phone);
+    card.appendChild(el("p", { text: contactBits.join(" · ") }));
+
+    container.appendChild(card);
+
+    if (leader.funFact && leader.funFact.value) {
+      var factCard = el("div", { class: "card about-card" }, [
+        el("h2", { text: (leader.funFact.label || "Fun fact") + (leaders.length > 1 ? " — " + leader.name : "") })
+      ]);
+      factCard.appendChild(el("p", { html: "<strong>" + leader.funFact.value + "</strong>" + (leader.funFact.note ? " — " + leader.funFact.note : "") }));
+      container.appendChild(factCard);
+    }
+  });
+}
+
 /* ---------- Dispatcher ---------- */
 
 var PAGE_RENDERERS = {
@@ -382,7 +441,8 @@ var PAGE_RENDERERS = {
   itinerary: renderItinerary,
   pretrip: renderPreTripInfo,
   study: renderStudyTips,
-  fun: renderDuringTripFun
+  fun: renderDuringTripFun,
+  leader: renderTripLeader
 };
 
 window.initPage = function (pageId) {
@@ -390,6 +450,5 @@ window.initPage = function (pageId) {
   renderFooter();
   var container = document.getElementById("page-content");
   var renderer = PAGE_RENDERERS[pageId];
-  if (container) container.innerHTML = "";
   if (container && renderer) renderer(container);
 };
