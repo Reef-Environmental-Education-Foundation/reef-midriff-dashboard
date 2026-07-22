@@ -346,6 +346,37 @@ function renderDuringTripFun(container) {
     container.appendChild(discoveryCard);
   }
 
+  if (fun.pastTripPhotos && ((fun.pastTripPhotos.photos && fun.pastTripPhotos.photos.length) || (fun.pastTripPhotos.albums && fun.pastTripPhotos.albums.length))) {
+    var ptp = fun.pastTripPhotos;
+    var photoCard = el("div", { class: "card" }, [el("h2", { text: ptp.heading || "Photos from Past Trips" })]);
+    if (ptp.intro) photoCard.appendChild(el("p", { text: ptp.intro }));
+
+    if (ptp.photos && ptp.photos.length) {
+      var grid = el("div", { class: "photo-grid" });
+      ptp.photos.forEach(function (photo) {
+        var link = el("a", { href: photo.sourceUrl || photo.src, target: "_blank", rel: "noopener" }, [
+          el("img", { src: photo.src, alt: photo.alt || "" })
+        ]);
+        grid.appendChild(link);
+      });
+      photoCard.appendChild(grid);
+      photoCard.appendChild(el("p", { class: "photo-credit", text: "Photos: REEF.org / REEF Field Survey Trips Flickr" }));
+    }
+
+    if (ptp.albums && ptp.albums.length) {
+      var albumList = el("ul");
+      ptp.albums.forEach(function (album) {
+        var li = el("li");
+        li.appendChild(el("a", { href: album.url, target: "_blank", rel: "noopener", text: album.label }));
+        if (album.note) li.appendChild(document.createTextNode(" — " + album.note));
+        albumList.appendChild(li);
+      });
+      photoCard.appendChild(albumList);
+    }
+
+    container.appendChild(photoCard);
+  }
+
   var card = el("div", { class: "card" });
   if (fun.intro) card.appendChild(el("p", { text: fun.intro }));
 
