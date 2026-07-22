@@ -1,0 +1,352 @@
+/* ============================================================
+   REEF Field Survey Trips — Dashboard shared styles
+   Generic shell styling only. No trip-specific content here —
+   all trip text lives in trips/<trip-id>/trip-data.js.
+
+   Reused verbatim from the Bonaire dashboard (Website Dashboard
+   (Draft) V1.4) per the platform's "one reusable shell" rule.
+   Do not fork this file per trip — if a trip needs a style
+   change, it needs to be a shell change that benefits every trip.
+
+   Brand: REEF Blue for headers/nav, Teal (#00A79D) for accents
+   — teal is used in place of REEF Red per the standing
+   accessibility rule (red is not visible to colorblind readers).
+   ============================================================ */
+
+:root {
+  --reef-blue: #24408e;
+  --reef-blue-dark: #1a3068;
+  --reef-yellow: #ffdd00;
+  --accent-teal: #00a79d;
+  --accent-teal-dark: #00857d;
+  --ink: #1f2937;
+  --ink-light: #4b5563;
+  --bg-page: #f7fafc;
+  --bg-card: #ffffff;
+  --border: #e2e8f0;
+  --font-body: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--bg-page);
+  line-height: 1.55;
+}
+
+a { color: var(--accent-teal-dark); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { max-width: 100%; }
+
+/* ---------- Header / Top Nav ---------- */
+
+.site-header {
+  background: linear-gradient(135deg, var(--reef-blue) 0%, var(--reef-blue-dark) 100%);
+  color: #fff;
+  padding: 0.9rem 1.25rem;
+}
+
+.site-header-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.brand-lockup img {
+  height: 34px;
+  width: auto;
+  display: block;
+}
+
+.brand-lockup .trip-title {
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+}
+
+.brand-lockup .trip-dates {
+  font-size: 0.8rem;
+  color: #cfe0ff;
+  font-weight: 400;
+}
+
+.site-nav {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.site-nav a {
+  color: #fff;
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  opacity: 0.85;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.site-nav a:hover {
+  background: rgba(255, 255, 255, 0.14);
+  opacity: 1;
+  text-decoration: none;
+}
+
+.site-nav a.active {
+  background: var(--accent-teal);
+  opacity: 1;
+}
+
+/* ---------- Layout ---------- */
+
+.page-main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.75rem 1.25rem 3.5rem;
+}
+
+.page-title {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--reef-blue);
+  margin: 0 0 0.25rem;
+}
+
+.page-subtitle {
+  color: var(--ink-light);
+  margin: 0 0 1.5rem;
+  font-size: 1rem;
+}
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem 1.4rem;
+  margin-bottom: 1.1rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.card h2 {
+  color: var(--reef-blue);
+  font-size: 1.15rem;
+  margin: 0 0 0.6rem;
+  border-bottom: 2px solid var(--accent-teal);
+  padding-bottom: 0.4rem;
+}
+
+.about-card {
+  background: #f2fbfa;
+  border-color: var(--accent-teal);
+}
+
+.card h3 {
+  color: var(--ink);
+  font-size: 1rem;
+  margin: 0.9rem 0 0.35rem;
+}
+
+.card ul, .card ol {
+  margin: 0.3rem 0 0.3rem 1.1rem;
+  padding: 0;
+}
+
+.card li { margin-bottom: 0.45rem; }
+
+.card p { margin: 0.4rem 0; }
+
+/* ---------- Nav home / Start Here tiles ---------- */
+
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.tile {
+  display: block;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--accent-teal);
+  border-radius: 10px;
+  padding: 1.15rem 1.25rem;
+  color: var(--ink);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.tile:hover {
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+
+.tile .tile-title {
+  font-weight: 700;
+  color: var(--reef-blue);
+  font-size: 1.05rem;
+  margin-bottom: 0.3rem;
+}
+
+.tile .tile-desc {
+  font-size: 0.9rem;
+  color: var(--ink-light);
+}
+
+/* ---------- Itinerary ---------- */
+
+.day-block {
+  margin-bottom: 1.1rem;
+}
+
+.day-heading {
+  font-weight: 700;
+  color: #fff;
+  background: var(--accent-teal);
+  padding: 0.5rem 0.85rem;
+  border-radius: 8px 8px 0 0;
+  font-size: 1rem;
+}
+
+.day-heading .day-tag {
+  font-weight: 500;
+  opacity: 0.9;
+  font-size: 0.85rem;
+  margin-left: 0.4rem;
+}
+
+.event-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+}
+
+.event-table td {
+  padding: 0.55rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  font-size: 0.92rem;
+}
+
+.event-table tr:last-child td { border-bottom: none; }
+
+.event-table td.time-col {
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--reef-blue);
+  width: 130px;
+}
+
+/* ---------- Resource links (flashcards, field guide, jeopardy) ---------- */
+
+.resource-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--accent-teal);
+  color: #fff;
+  font-weight: 700;
+  padding: 0.55rem 1rem;
+  border-radius: 7px;
+  margin-top: 0.4rem;
+}
+
+.resource-link:hover {
+  background: var(--accent-teal-dark);
+  text-decoration: none;
+}
+
+.toolkit-item {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.9rem 1.05rem;
+  margin-bottom: 0.75rem;
+  background: #fbfdfd;
+}
+
+.toolkit-item h3 { margin-top: 0; }
+
+/* ---------- Fish jokes (collapsible Q&A) ---------- */
+
+.joke {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  margin-bottom: 0.6rem;
+  background: #fbfdfd;
+}
+
+.joke summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--reef-blue);
+}
+
+.joke summary::marker {
+  color: var(--accent-teal);
+}
+
+.joke p {
+  margin: 0.5rem 0 0.1rem;
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  text-align: center;
+  color: var(--ink-light);
+  font-size: 0.82rem;
+  padding: 1.5rem 1rem 2.25rem;
+}
+
+.site-footer .tagline {
+  color: var(--reef-blue);
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+/* ---------- Misc ---------- */
+
+.tag-pill {
+  display: inline-block;
+  background: #eaf7f6;
+  color: var(--accent-teal-dark);
+  border: 1px solid var(--accent-teal);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  margin-left: 0.4rem;
+}
+
+.loading-note, .empty-note {
+  color: var(--ink-light);
+  font-style: italic;
+}
+
+@media (max-width: 640px) {
+  .site-header-inner { flex-direction: column; align-items: flex-start; }
+  .event-table td.time-col { width: 90px; }
+  .site-nav { gap: 0.5rem; }
+  .site-nav a { padding: 0.5rem 0.75rem; }
+  .tile { padding: 1.3rem 1.25rem; }
+}
