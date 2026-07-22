@@ -20,7 +20,12 @@
      as an open prep task in the Trip Leader Playbook itself).
      Links point to REEF's real TEP Surveyor Toolbox / Fishinar
      archive instead of a fabricated quick-reference.
-   - No Midriff-specific photos or destination imagery exist yet.
+   - No 2026 Midriff-specific photos exist yet (trip hasn't happened). As of
+     2026-07-22, the During-Trip Fun page now shows a photo teaser + album
+     links from REEF's own Flickr, from past trips on this same liveaboard
+     route (2022 Explore Baja, 2017 Baja) — real REEF.org-hosted photos, not
+     staged. Once the 2026 trip happens, its own photos should replace/
+     supplement these.
    - No detailed hour-by-hour daily dive schedule exists yet (unlike
      Bonaire, whose Pre-Trip Info PDF had one) — the Captain sets
      daily sites based on conditions per the Playbook's own
@@ -282,6 +287,44 @@ window.TRIP_DATA = {
         question: "Which fish story from this trip are you most excited to tell people back home?"
       }
     ],
+    pastTripPhotos: {
+      heading: "Photos from Past Trips to the Sea of Cortez",
+      intro: "No Midriff-specific photos exist yet for 2026 (see VERSION.md), but REEF has run this exact liveaboard route before — here's a taste from past trips aboard the Rocio del Mar.",
+      photos: [
+        {
+          src: "https://live.staticflickr.com/65535/52419550335_0e77bf419d_c.jpg",
+          sourceUrl: "https://www.flickr.com/photos/reeforg/52419550335/in/album-72177720302805813",
+          alt: "REEF's 2022 Explore Baja trip aboard the Rocio del Mar"
+        },
+        {
+          src: "https://live.staticflickr.com/65535/52419113571_383f96d0e4_c.jpg",
+          sourceUrl: "https://www.flickr.com/photos/reeforg/52419113571/in/album-72177720302805813",
+          alt: "REEF's 2022 Explore Baja trip aboard the Rocio del Mar"
+        },
+        {
+          src: "https://live.staticflickr.com/65535/52419392004_41394e24d0_z.jpg",
+          sourceUrl: "https://www.flickr.com/photos/reeforg/52419392004/in/album-72177720302805813",
+          alt: "REEF's 2022 Explore Baja trip aboard the Rocio del Mar"
+        },
+        {
+          src: "https://live.staticflickr.com/65535/52419623248_5d7a6a877f_h.jpg",
+          sourceUrl: "https://www.flickr.com/photos/reeforg/52419623248/in/album-72177720302805813",
+          alt: "REEF's 2022 Explore Baja trip aboard the Rocio del Mar"
+        }
+      ],
+      albums: [
+        {
+          label: "2022 Explore Baja Field Survey — full album (158 photos)",
+          url: "https://flic.kr/s/aHBqjAaHeX",
+          note: "Same liveaboard, Midriff Islands to Cabo San Lucas."
+        },
+        {
+          label: "2017 Baja REEF Field Survey — full album (33 photos)",
+          url: "https://flic.kr/s/aHsm92KdGh",
+          note: "Also aboard the Rocio del Mar, led by Brice and Christy Semmens."
+        }
+      ]
+    },
     intro: "A few more things to enjoy whenever you like — recurring traditions from past REEF trips, plus a little evening fun.",
     items: [
       {
