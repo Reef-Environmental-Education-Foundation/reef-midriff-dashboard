@@ -38,7 +38,21 @@ window.TRIP_DATA = {
   startDate: "2026-09-12",
 
   tripLeaders: [
-    { name: "Martha Klitzkie", email: "martha@REEF.org", phone: "305-393-5364 (cell/WhatsApp)" }
+    {
+      name: "Martha Klitzkie",
+      role: "REEF Co-Executive Director of Strategy and Operations",
+      email: "martha@REEF.org",
+      phone: "305-393-5364 (cell/WhatsApp)",
+      bio: [
+        "Martha is REEF's Co-Executive Director of Strategy and Operations. Before joining the REEF staff team in 2011, her passion for teaching people about the oceans grew over ten years of leading residential marine science programs. Her undergraduate degree focused on environmental education, and her master's was in Educational Leadership and Administration.",
+        "She's passionate about connecting people with the marine environment and building a sense of community among ocean enthusiasts — and she's enthusiastic about expanding REEF's impact and reach to create a future where healthy oceans thrive. She believes it's the little things that change the world, like how a single fish survey adds up to the world's largest marine sighting database."
+      ],
+      funFact: {
+        label: "Favorite fish to spot",
+        value: "Yellowhead Jawfish",
+        note: "keep an eye on sandy burrows this trip — you might catch one 'airing out' its mouthful of eggs."
+      }
+    }
   ],
 
   home: {
