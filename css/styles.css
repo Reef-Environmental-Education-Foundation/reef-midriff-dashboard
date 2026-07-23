@@ -324,6 +324,12 @@ img { max-width: 100%; }
   margin-bottom: 0.25rem;
 }
 
+/* Last-updated line + feedback-routing note — added 2026-07-23 */
+.site-footer .footer-meta {
+  margin-top: 0.4rem;
+  opacity: 0.85;
+}
+
 /* ---------- Misc ---------- */
 
 .tag-pill {
