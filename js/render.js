@@ -79,6 +79,30 @@ function renderFooter() {
   }));
 }
 
+/* ---------- Site-wide banner ----------
+   Added 2026-07-23, per request to add a photo "at least on the first
+   landing page, perhaps across all pages." Reads an optional
+   data.home.bannerImage { src, alt, credit } — src is a path inside the
+   trip's own resources/ folder, resolved via tripResourceUrl like every
+   other trip resource link. Pure function of TRIP_DATA, rendered once by
+   window.initPage on every page (not per-renderer), so every trip and
+   every page gets this for free the moment it sets bannerImage — no
+   trip-specific code here. No banner set = nothing rendered. */
+
+function renderBanner() {
+  var data = window.TRIP_DATA;
+  var banner = data && data.home && data.home.bannerImage;
+  if (!banner || !banner.src) return null;
+  var src = window.tripResourceUrl ? window.tripResourceUrl(banner.src) : banner.src;
+  var wrap = el("div", { class: "site-banner" }, [
+    el("img", { src: src, alt: banner.alt || "", class: "site-banner-img" })
+  ]);
+  if (banner.credit) {
+    wrap.appendChild(el("p", { class: "photo-credit", text: "Photo: " + banner.credit }));
+  }
+  return wrap;
+}
+
 function renderList(items) {
   var ul = el("ul");
   items.forEach(function (item) {
@@ -119,23 +143,30 @@ function computeGuideStage(data) {
 }
 
 var STAGE_COPY = {
+  // Headlines switched 2026-07-23 from a "cadence unit" count (e.g. "51
+  // evening fish ID sessions away") to a plain day count ("Our adventure
+  // begins in 51 days"). The unit-based framing read as a mouthful once a
+  // trip's cadenceLabel was more than a couple words, and mixing it with a
+  // day count elsewhere on the same page felt inconsistent. cadenceLabel
+  // stays in the schema (still useful as documentation of a trip's evening
+  // tradition name) — it's just no longer read here.
   early: {
-    headline: function (n, unit) { return n + " " + unit + (n === 1 ? "" : "s") + " away — plenty of time to get ready."; },
+    headline: function (n) { return "Our adventure begins in " + n + " day" + (n === 1 ? "" : "s") + " — plenty of time to get ready."; },
     action: "Get to know your trip leader and start on early paperwork.",
     navId: "pretrip"
   },
   ramping: {
-    headline: function (n, unit) { return n + " " + unit + (n === 1 ? "" : "s") + " away — a good time to start on forms and packing."; },
+    headline: function (n) { return "Our adventure begins in " + n + " day" + (n === 1 ? "" : "s") + " — now is a good time to start on forms and packing."; },
     action: "Start on your forms and general packing list.",
     navId: "pretrip"
   },
   intensify: {
-    headline: function (n, unit) { return n + " " + unit + (n === 1 ? "" : "s") + " away and counting — time to get serious about fish ID."; },
+    headline: function (n) { return "Our adventure begins in " + n + " day" + (n === 1 ? "" : "s") + " — time to get serious about fish ID."; },
     action: "Start your fish ID prep for the trip.",
     navId: "study"
   },
   finalWeek: {
-    headline: function (n, unit) { return "Just " + n + " " + unit + (n === 1 ? "" : "s") + " away!"; },
+    headline: function (n) { return "Our adventure begins in just " + n + " day" + (n === 1 ? "" : "s") + "!"; },
     action: "Finish packing and read what your first day will feel like.",
     navId: "pretrip"
   },
@@ -154,8 +185,7 @@ var STAGE_COPY = {
 function renderCountdownCard(data) {
   var stage = computeGuideStage(data);
   var copy = STAGE_COPY[stage];
-  var unit = (data.home && data.home.cadenceLabel) ? data.home.cadenceLabel : "check-in";
-  var headline = (stage === "during" || stage === "after") ? copy.headline() : copy.headline(daysUntil(data.startDate), unit);
+  var headline = (stage === "during" || stage === "after") ? copy.headline() : copy.headline(daysUntil(data.startDate));
 
   var card = el("div", { class: "card countdown-card" }, [el("h2", { text: headline })]);
   card.appendChild(el("p", { text: copy.action }));
@@ -174,13 +204,27 @@ function renderLeaderIntroCard(data) {
   var multi = leaders.length > 1;
   var card = el("div", { class: "card" }, [el("h2", { text: multi ? "Your Trip Leaders" : "Your Trip Leader" })]);
   leaders.forEach(function (leader) {
+    var textWrap = el("div", { class: "leader-intro-text" });
     var line = leader.name + (leader.role ? " — " + leader.role : "");
-    card.appendChild(el("p", { html: "<strong>" + line + "</strong>" }));
+    textWrap.appendChild(el("p", { html: "<strong>" + line + "</strong>" }));
     if (leader.funFact && leader.funFact.value) {
-      card.appendChild(el("p", { html: "<em>" + (leader.funFact.label || "Fun fact") + ":</em> " + leader.funFact.value }));
+      textWrap.appendChild(el("p", { html: "<em>" + (leader.funFact.label || "Fun fact") + ":</em> " + leader.funFact.value }));
     }
     if (leader.whyILead) {
-      card.appendChild(el("p", { class: "why-i-lead", text: "“" + leader.whyILead + "”" }));
+      textWrap.appendChild(el("p", { class: "why-i-lead", text: "“" + leader.whyILead + "”" }));
+    }
+
+    if (leader.photo) {
+      card.appendChild(el("div", { class: "leader-intro-row" }, [
+        el("img", {
+          src: window.tripResourceUrl ? window.tripResourceUrl(leader.photo) : leader.photo,
+          alt: leader.name,
+          class: "leader-photo-thumb"
+        }),
+        textWrap
+      ]));
+    } else {
+      card.appendChild(textWrap);
     }
   });
   var navItem = findNavItem("leader");
@@ -196,6 +240,14 @@ function renderFeaturedFishCard(data) {
   var ff = data.home && data.home.featuredFish;
   if (!ff || !ff.name) return null;
   var card = el("div", { class: "card about-card" }, [el("h2", { text: "Today's Featured Fish: " + ff.name })]);
+  if (ff.photo && ff.photo.src) {
+    card.appendChild(el("img", {
+      src: window.tripResourceUrl ? window.tripResourceUrl(ff.photo.src) : ff.photo.src,
+      alt: ff.photo.alt || ff.name,
+      class: "fish-photo-thumb"
+    }));
+    if (ff.photo.credit) card.appendChild(el("p", { class: "photo-credit", text: "Photo: " + ff.photo.credit }));
+  }
   if (ff.blurb) card.appendChild(el("p", { text: ff.blurb }));
   return card;
 }
@@ -330,7 +382,10 @@ function renderPreTripInfo(container) {
   }
 
   if (info.priorityList && info.priorityList.length) {
-    var priorityCard = el("div", { class: "card priority-card" }, [el("h2", { text: "If You Do Nothing Else, Do These Three Things" })]);
+    // Heading generalized 2026-07-23 to drop the specific count ("...Three
+    // Things") — this is shell-level text shared by every trip, and a
+    // trip's real must-do list isn't always exactly three items long.
+    var priorityCard = el("div", { class: "card priority-card" }, [el("h2", { text: "If You Do Nothing Else, Do These Things" })]);
     var ol = el("ol");
     info.priorityList.forEach(function (item) { ol.appendChild(el("li", { text: item })); });
     priorityCard.appendChild(ol);
@@ -367,8 +422,11 @@ function renderPreTripInfo(container) {
   if (data.tripLeaders && data.tripLeaders.length) {
     var leaderCard = el("div", { class: "card" }, [el("h2", { text: "Questions Before You Go?" })]);
     data.tripLeaders.forEach(function (leader) {
+      // Email only — no personal cell/WhatsApp numbers on this public,
+      // unauthenticated page, even if a trip's data happens to include one.
+      // See render.js's renderTripLeader() for the same rule.
       leaderCard.appendChild(el("p", {
-        text: leader.name + " — " + leader.email + (leader.phone ? " · " + leader.phone : "")
+        text: leader.name + " — " + leader.email
       }));
     });
     container.appendChild(leaderCard);
@@ -502,6 +560,14 @@ function renderDuringTripFun(container) {
       el("h2", { text: "Fish (or Food) for Thought" })
     ]);
     discoveryCard.appendChild(el("p", { text: "A few things to think about, chat over dinner, or just enjoy on your own — come back and browse whenever it's useful. There's no schedule to keep and nothing to miss." }));
+    if (today.photo && today.photo.src) {
+      discoveryCard.appendChild(el("img", {
+        src: window.tripResourceUrl ? window.tripResourceUrl(today.photo.src) : today.photo.src,
+        alt: today.photo.alt || "",
+        class: "fish-photo-thumb"
+      }));
+      if (today.photo.credit) discoveryCard.appendChild(el("p", { class: "photo-credit", text: "Photo: " + today.photo.credit }));
+    }
     discoveryCard.appendChild(el("p", { text: today.fact }));
     discoveryCard.appendChild(el("p", { html: "<strong>If you feel like it:</strong> " + today.question }));
     if (today.prompt) {
@@ -625,7 +691,7 @@ function renderTripLeader(container) {
   }));
   container.appendChild(el("p", {
     class: "page-subtitle",
-    text: "The REEF staff (or volunteer) leading " + data.program + " to " + data.destination + "."
+    text: "The REEF team member leading the " + data.program + " to " + data.destination + "."
   }));
 
   if (!leaders.length) {
@@ -656,9 +722,10 @@ function renderTripLeader(container) {
       card.appendChild(el("p", { class: "why-i-lead", text: "“" + leader.whyILead + "”" }));
     }
 
-    var contactBits = [leader.email];
-    if (leader.phone) contactBits.push(leader.phone);
-    card.appendChild(el("p", { text: contactBits.join(" · ") }));
+    // Email only — no personal cell/WhatsApp numbers on this public,
+    // unauthenticated page, even if leader.phone happens to be set in a
+    // trip's data. See render.js's renderPreTripInfo() for the same rule.
+    card.appendChild(el("p", { text: leader.email }));
 
     container.appendChild(card);
 
@@ -666,6 +733,14 @@ function renderTripLeader(container) {
       var factCard = el("div", { class: "card about-card" }, [
         el("h2", { text: (leader.funFact.label || "Fun fact") + (leaders.length > 1 ? " — " + leader.name : "") })
       ]);
+      if (leader.funFact.photo && leader.funFact.photo.src) {
+        factCard.appendChild(el("img", {
+          src: window.tripResourceUrl ? window.tripResourceUrl(leader.funFact.photo.src) : leader.funFact.photo.src,
+          alt: leader.funFact.photo.alt || leader.funFact.value,
+          class: "fish-photo-thumb"
+        }));
+        if (leader.funFact.photo.credit) factCard.appendChild(el("p", { class: "photo-credit", text: "Photo: " + leader.funFact.photo.credit }));
+      }
       factCard.appendChild(el("p", { html: "<strong>" + leader.funFact.value + "</strong>" + (leader.funFact.note ? " — " + leader.funFact.note : "") }));
       container.appendChild(factCard);
     }
@@ -698,6 +773,53 @@ function renderReflection(container) {
     container.appendChild(highlightsCard);
   }
 
+  // Trip photo albums (Flickr, Google Photos, etc.) — added 2026-07-23.
+  // Shell-level and generic: any trip can point here once real photos
+  // exist. Rendered as plain links, same pattern as During-Trip Fun's
+  // past-trip-photos albums list. Note field is a good place to flag an
+  // album as open/collaborative rather than REEF-curated.
+  if (r.photoAlbums && r.photoAlbums.length) {
+    var albumsCard = el("div", { class: "card" }, [el("h2", { text: "Trip Photos" })]);
+    var albumList = el("ul");
+    r.photoAlbums.forEach(function (album) {
+      var li = el("li");
+      li.appendChild(el("a", { href: album.url, target: "_blank", rel: "noopener", text: album.label }));
+      if (album.note) li.appendChild(document.createTextNode(" — " + album.note));
+      albumList.appendChild(li);
+    });
+    albumsCard.appendChild(albumList);
+    container.appendChild(albumsCard);
+  }
+
+  // Post-trip data-entry reminder — added 2026-07-23. Optional structured
+  // block: a nudge to submit survey data, an optional time-sensitive
+  // deadline note, a link to reef.org/dataentry, and an optional extra
+  // resource (e.g. a trip's geographic zone codes file) living in that
+  // trip's own resources/ folder. Generic enough for any trip to use once
+  // it has actually happened.
+  if (r.dataEntry) {
+    var de = r.dataEntry;
+    var deCard = el("div", { class: "card" }, [el("h2", { text: de.heading || "Enter Your Survey Data" })]);
+    if (de.intro) deCard.appendChild(el("p", { text: de.intro }));
+    if (de.deadlineNote) deCard.appendChild(el("p", { html: "<strong>" + de.deadlineNote + "</strong>" }));
+    if (de.link) {
+      deCard.appendChild(el("p", {}, [
+        el("a", { href: de.link.url, target: "_blank", rel: "noopener", text: de.link.label })
+      ]));
+    }
+    if (de.extraResource) {
+      deCard.appendChild(el("p", {}, [
+        el("a", {
+          href: window.tripResourceUrl ? window.tripResourceUrl(de.extraResource.href) : de.extraResource.href,
+          target: "_blank",
+          rel: "noopener",
+          text: de.extraResource.label
+        })
+      ]));
+    }
+    container.appendChild(deCard);
+  }
+
   if (r.conservationNote) {
     container.appendChild(el("div", { class: "card about-card" }, [
       el("h2", { text: "Why It Matters" }),
@@ -706,13 +828,19 @@ function renderReflection(container) {
   }
 
   if (r.invitation) {
+    // html (not text): this is trusted, hand-authored static content (same
+    // convention as leader bio/funFact lines above), which lets a trip
+    // include a real <a> link — e.g. www.REEF.org/trips — rather than a
+    // plain-text URL.
     container.appendChild(el("div", { class: "card" }, [
       el("h2", { text: "See You on the Next One?" }),
-      el("p", { text: r.invitation })
+      el("p", { html: r.invitation })
     ]));
   }
 
-  if (!r.thankYou && !r.conservationNote && !r.invitation && (!r.highlights || !r.highlights.length)) {
+  if (!r.thankYou && !r.conservationNote && !r.invitation &&
+      (!r.highlights || !r.highlights.length) &&
+      (!r.photoAlbums || !r.photoAlbums.length) && !r.dataEntry) {
     container.appendChild(el("div", { class: "card" }, [
       el("p", { class: "empty-note", text: "Reflection content hasn't been added for this trip yet — check back after the expedition." })
     ]));
@@ -735,6 +863,16 @@ window.initPage = function (pageId) {
   renderHeader(pageId);
   renderFooter();
   var container = document.getElementById("page-content");
+  if (!container) return;
+  // Clear the static "Loading trip info…" placeholder (and anything from a
+  // previous render) before appending real content. This used to be done
+  // ad hoc, inconsistently, in each page's inline bootstrap script — some
+  // pages cleared it, some didn't, which is why the placeholder text kept
+  // showing up above the real page content. Doing it once here, in the one
+  // function every page already calls, makes it impossible to forget.
+  container.innerHTML = "";
+  var banner = renderBanner();
+  if (banner) container.appendChild(banner);
   var renderer = PAGE_RENDERERS[pageId];
-  if (container && renderer) renderer(container);
+  if (renderer) renderer(container);
 };
