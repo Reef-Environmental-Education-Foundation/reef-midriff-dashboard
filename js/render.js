@@ -12,15 +12,37 @@
    01_Updated_Shared_Shell.md for what changed and why.
    ============================================================ */
 
+// Labels updated 2026-07-23 per the REEF Participant Dashboard Platform PRD
+// (governing spec): Study Tips -> Prepare & Study, During-Trip Fun -> Fishy
+// Hour (now REEF's official cross-trip term for the daily fish ID
+// gathering, not just a Bonaire nickname), Reflection -> Your Impact. Ids,
+// hrefs, and file names deliberately left unchanged — those are internal
+// wiring (trip-data.js keys, PAGE_RENDERERS keys, file paths) with no
+// participant-facing effect, and renaming them would touch every trip's
+// data file and every page's bootstrap script for zero visible benefit.
 var NAV_ITEMS = [
   { id: "home", label: "Start Here", href: "index.html" },
   { id: "itinerary", label: "Itinerary", href: "pages/itinerary.html" },
   { id: "pretrip", label: "Pre-Trip Info", href: "pages/pre-trip-info.html" },
-  { id: "study", label: "Study Tips", href: "pages/study-tips.html" },
-  { id: "fun", label: "During-Trip Fun", href: "pages/during-trip-fun.html" },
+  { id: "study", label: "Prepare & Study", href: "pages/study-tips.html" },
+  { id: "fun", label: "Fishy Hour", href: "pages/during-trip-fun.html" },
   { id: "leader", label: "Trip Leader", href: "pages/trip-leader.html" },
-  { id: "reflection", label: "Reflection", href: "pages/reflection.html" }
+  { id: "reflection", label: "Your Impact", href: "pages/reflection.html" }
 ];
+
+var MONTH_NAMES = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"];
+
+// Added 2026-07-23 for the shared "Last Updated" footer line (PRD: "Last
+// Updated should come from trip metadata"). Reads data.lastUpdated, an
+// ISO date string ("YYYY-MM-DD") each trip's data file sets and updates
+// whenever its content changes. Not present = nothing rendered.
+function formatDisplayDate(isoDate) {
+  var parts = isoDate.split("-");
+  var y = parseInt(parts[0], 10), m = parseInt(parts[1], 10), d = parseInt(parts[2], 10);
+  if (!y || !m || !d) return isoDate;
+  return MONTH_NAMES[m - 1] + " " + d + ", " + y;
+}
 
 function el(tag, attrs, children) {
   var node = document.createElement(tag);
@@ -71,11 +93,23 @@ function renderHeader(activePageId) {
 }
 
 function renderFooter() {
+  var data = window.TRIP_DATA;
   var mount = document.getElementById("site-footer");
   if (!mount) return;
   mount.appendChild(el("div", { class: "tagline", text: "Explore. Discover. Make a Difference." }));
   mount.appendChild(el("div", {
     text: "Reef Environmental Education Foundation · P.O. Box 370246, Key Largo, FL 33037 · 305-852-0030 · www.REEF.org · info@REEF.org"
+  }));
+  // Last Updated + feedback line — added 2026-07-23 per the governing PRD.
+  // Both are shell-level and generic: lastUpdated comes from this trip's own
+  // data file, and the feedback routing (Trip Leader or trips@REEF.org) is
+  // the same for every trip, so neither needs trip-specific code here.
+  if (data && data.lastUpdated) {
+    mount.appendChild(el("div", { class: "footer-meta", text: "Last updated " + formatDisplayDate(data.lastUpdated) }));
+  }
+  mount.appendChild(el("div", {
+    class: "footer-meta",
+    text: "See something on this site that should be fixed? Let your trip leader know, or email trips@REEF.org."
   }));
 }
 
@@ -172,12 +206,12 @@ var STAGE_COPY = {
   },
   during: {
     headline: function () { return "The expedition is happening right now."; },
-    action: "Check today's During-Trip Fun for today's discovery.",
+    action: "Check today's Fishy Hour for today's discovery.",
     navId: "fun"
   },
   after: {
     headline: function () { return "This expedition has wrapped up — thank you for surveying with REEF."; },
-    action: "Visit the Reflection page for a shared send-off and what's next.",
+    action: "Visit Your Impact for a shared send-off and what's next.",
     navId: "reflection"
   }
 };
@@ -208,7 +242,7 @@ function renderLeaderIntroCard(data) {
     var line = leader.name + (leader.role ? " — " + leader.role : "");
     textWrap.appendChild(el("p", { html: "<strong>" + line + "</strong>" }));
     if (leader.funFact && leader.funFact.value) {
-      textWrap.appendChild(el("p", { html: "<em>" + (leader.funFact.label || "Fun fact") + ":</em> " + leader.funFact.value }));
+      textWrap.appendChild(el("p", { html: "<em>" + (leader.funFact.label || "Favorite Fish in This Region") + ":</em> " + leader.funFact.value }));
     }
     if (leader.whyILead) {
       textWrap.appendChild(el("p", { class: "why-i-lead", text: "“" + leader.whyILead + "”" }));
@@ -454,27 +488,41 @@ function renderPreTripInfo(container) {
     container.appendChild(card);
   });
 
+  // "Questions Before You Go?" — restructured 2026-07-23 per the governing
+  // PRD's shared contact-routing rule: administrative questions (forms,
+  // payments, reservations, logistics) go to trips@REEF.org; educational,
+  // fish ID, destination, and participant-experience questions go to the
+  // trip leader. Shell-level and generic — trips@REEF.org is a constant
+  // REEF address, not trip-specific, so every trip gets the same routing
+  // for free.
+  var contactCard = el("div", { class: "card" }, [el("h2", { text: "Questions Before You Go?" })]);
+  contactCard.appendChild(el("p", {
+    html: "<strong>Forms, payments, reservations, or other administrative questions:</strong> email <strong>trips@REEF.org</strong>."
+  }));
   if (data.tripLeaders && data.tripLeaders.length) {
-    var leaderCard = el("div", { class: "card" }, [el("h2", { text: "Questions Before You Go?" })]);
+    var leaderNote = el("p", {
+      html: "<strong>Fish ID, " + data.destination + " itself, or what to expect on this trip:</strong> reach out to your trip leader —"
+    });
+    contactCard.appendChild(leaderNote);
     data.tripLeaders.forEach(function (leader) {
       // Email only — no personal cell/WhatsApp numbers on this public,
       // unauthenticated page, even if a trip's data happens to include one.
       // See render.js's renderTripLeader() for the same rule.
-      leaderCard.appendChild(el("p", {
+      contactCard.appendChild(el("p", {
         text: leader.name + " — " + leader.email
       }));
     });
-    container.appendChild(leaderCard);
   }
+  container.appendChild(contactCard);
 }
 
-/* ---------- Study Tips ---------- */
+/* ---------- Prepare & Study (formerly "Study Tips") ---------- */
 
 function renderStudyTips(container) {
   var data = window.TRIP_DATA;
   var st = data.studyTips || {};
 
-  container.appendChild(el("h1", { class: "page-title", text: "Study Tips" }));
+  container.appendChild(el("h1", { class: "page-title", text: "Prepare & Study" }));
   container.appendChild(el("p", { class: "page-subtitle", text: "Get ready for " + data.destination + " fish ID." }));
 
   var introCard = el("div", { class: "card" });
@@ -569,7 +617,11 @@ function renderStudyTips(container) {
   }
 }
 
-/* ---------- During-Trip Fun ---------- */
+/* ---------- Fishy Hour (formerly "During-Trip Fun") ----------
+   Renamed 2026-07-23 per the governing PRD: "Fishy Hour" is now REEF's
+   official cross-trip term for the daily fish ID gathering, not a
+   Bonaire-only nickname. Function name / dispatcher key left as-is
+   (internal wiring only). */
 
 function currentTripDayIndex(data, totalDays) {
   if (!data.startDate || !totalDays) return 0;
@@ -585,7 +637,7 @@ function renderDuringTripFun(container) {
   var data = window.TRIP_DATA;
   var fun = data.duringTripFun || {};
 
-  container.appendChild(el("h1", { class: "page-title", text: "During-Trip Fun" }));
+  container.appendChild(el("h1", { class: "page-title", text: "Fishy Hour" }));
   container.appendChild(el("p", { class: "page-subtitle", text: "A few things to notice, wonder about, and enjoy whenever you check in." }));
 
   if (fun.dailyDiscoveries && fun.dailyDiscoveries.length) {
@@ -765,8 +817,12 @@ function renderTripLeader(container) {
     container.appendChild(card);
 
     if (leader.funFact && leader.funFact.value) {
+      // Label defaults to "Favorite Fish in This Region" (not a generic "Fun
+      // fact") per the governing PRD's shared Trip Leader section rename —
+      // every trip should set funFact.label explicitly, but this keeps old
+      // data honest if one doesn't.
       var factCard = el("div", { class: "card about-card" }, [
-        el("h2", { text: (leader.funFact.label || "Fun fact") + (leaders.length > 1 ? " — " + leader.name : "") })
+        el("h2", { text: (leader.funFact.label || "Favorite Fish in This Region") + (leaders.length > 1 ? " — " + leader.name : "") })
       ]);
       if (leader.funFact.photo && leader.funFact.photo.src) {
         factCard.appendChild(el("img", {
@@ -779,24 +835,45 @@ function renderTripLeader(container) {
       factCard.appendChild(el("p", { html: "<strong>" + leader.funFact.value + "</strong>" + (leader.funFact.note ? " — " + leader.funFact.note : "") }));
       container.appendChild(factCard);
     }
+
+    // "Ask Me About" — added 2026-07-23 per the governing PRD's Trip Leader
+    // page spec (Bio, Why I Lead, Favorite Fish in This Region, Ask Me
+    // About). Data-driven (leader.askMeAbout, an array of topic strings) so
+    // it works for any trip the moment a leader's data includes it; a leader
+    // without it (e.g. a co-leader whose profile isn't built out yet) simply
+    // doesn't get the card, same pattern as bio/whyILead/funFact above.
+    if (leader.askMeAbout && leader.askMeAbout.length) {
+      var askCard = el("div", { class: "card" }, [
+        el("h2", { text: "Ask Me About" + (leaders.length > 1 ? " — " + leader.name : "") })
+      ]);
+      askCard.appendChild(renderList(leader.askMeAbout));
+      askCard.appendChild(el("p", {
+        class: "empty-note",
+        text: "For forms, payments, reservations, or other administrative questions, email trips@REEF.org instead."
+      }));
+      container.appendChild(askCard);
+    }
   });
 }
 
-/* ---------- Reflection ----------
+/* ---------- Your Impact (formerly "Reflection") ----------
    New shared page, added in the 2026-07-22 sprint (Section 9 of the
-   approved Experience Review). Category A / shared content only —
-   thank-you, non-personal highlights, a conservation note, and an
-   invitation back. No participant photos, no "your memories," no
-   login — that's the future Personal Participant Dashboard's "My
-   Memories" (Category B), not this page. All fields optional so this
-   works honestly before a trip has even happened. */
+   approved Experience Review); renamed 2026-07-23 per the governing PRD,
+   which also gives this page a clearer job: explain VFSP, how participant
+   observations contribute to science and conservation outcomes, and
+   post-trip next steps. Category A / shared content only — thank-you,
+   non-personal highlights, a conservation note, and an invitation back. No
+   participant photos, no "your memories," no login — that's the future
+   Personal Participant Dashboard's "My Memories" (Category B), not this
+   page. All fields optional so this works honestly before a trip has even
+   happened. */
 
 function renderReflection(container) {
   var data = window.TRIP_DATA;
   var r = data.reflection || {};
 
-  container.appendChild(el("h1", { class: "page-title", text: "Reflection" }));
-  container.appendChild(el("p", { class: "page-subtitle", text: "A shared send-off, and a look toward what's next." }));
+  container.appendChild(el("h1", { class: "page-title", text: "Your Impact" }));
+  container.appendChild(el("p", { class: "page-subtitle", text: "How your observations become part of REEF's science — and a shared send-off." }));
 
   if (r.thankYou) {
     container.appendChild(el("div", { class: "card" }, [el("p", { text: r.thankYou })]));
@@ -806,6 +883,24 @@ function renderReflection(container) {
     var highlightsCard = el("div", { class: "card" }, [el("h2", { text: "A Few Highlights" })]);
     highlightsCard.appendChild(renderList(r.highlights));
     container.appendChild(highlightsCard);
+  }
+
+  // Impact stats — added 2026-07-23 per the PRD's QA rule to "hide optional
+  // statistics until verified" (called out specifically for Bonaire species
+  // totals, but written generically since any trip could eventually have
+  // post-trip numbers). Each entry needs verified:true to render at all —
+  // an entered-but-unverified stat (e.g. a species count still being
+  // checked against the batch report) stays invisible rather than showing
+  // provisional or estimated numbers. No verified entries = nothing renders.
+  if (r.impactStats && r.impactStats.length) {
+    var verifiedStats = r.impactStats.filter(function (s) { return s.verified; });
+    if (verifiedStats.length) {
+      var statsCard = el("div", { class: "card about-card" }, [el("h2", { text: "This Trip's Impact, By the Numbers" })]);
+      verifiedStats.forEach(function (s) {
+        statsCard.appendChild(el("p", { html: "<strong>" + s.value + "</strong> " + s.label }));
+      });
+      container.appendChild(statsCard);
+    }
   }
 
   // Trip photo albums (Flickr, Google Photos, etc.) — added 2026-07-23.
@@ -877,7 +972,7 @@ function renderReflection(container) {
       (!r.highlights || !r.highlights.length) &&
       (!r.photoAlbums || !r.photoAlbums.length) && !r.dataEntry) {
     container.appendChild(el("div", { class: "card" }, [
-      el("p", { class: "empty-note", text: "Reflection content hasn't been added for this trip yet — check back after the expedition." })
+      el("p", { class: "empty-note", text: "Your Impact content hasn't been added for this trip yet — check back after the expedition." })
     ]));
   }
 }
