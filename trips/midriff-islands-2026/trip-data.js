@@ -95,15 +95,16 @@ window.TRIP_DATA = {
       name: "Frogfish",
       blurb: "Frogfish are ambush predators that lure prey with a modified fin spine that looks like a tiny fishing rod and bait — and they're masters of camouflage, so they're often sitting in plain sight near sponges and rubble. Slow down and look closely."
     },
-    // Rotating pre-trip pool — added 2026-07-23. Sourced from REEF's own
-    // Batch Report for the "Rocio del Mar Baja Field Survey 2019" trip
-    // (this exact liveaboard route, TEP region, led by Amy Lee — REEF's
-    // reef.org/db/reports/batch), cross-referenced with REEF's own species
-    // reference pages (reef.org/species/...) for scientific name and
-    // description text where REEF has published one. render.js's
-    // pickFeaturedFish() rotates through this list in the last 30 days
-    // before the trip (every 4 days); outside that window Start Here shows
-    // the static Frogfish spotlight above instead. Ordered roughly by how
+    // Rotating pre-trip pool — added 2026-07-23, window widened to 60 days
+    // out the same day (v2). Sourced from REEF's own Batch Report for the
+    // "Rocio del Mar Baja Field Survey 2019" trip (this exact liveaboard
+    // route, TEP region, led by Amy Lee — REEF's reef.org/db/reports/batch),
+    // cross-referenced with REEF's own species reference pages
+    // (reef.org/species/...) for scientific name and description text
+    // where REEF has published one. render.js's pickFeaturedFish() rotates
+    // through this list in the last 60 days before the trip (every 4
+    // days); outside that window Start Here shows the static Frogfish
+    // spotlight above instead. Ordered roughly by how
     // frequently REEF's own group recorded each species (highest first).
     // Five species below have real REEF-written descriptions; the other six
     // have a confirmed photo and credit but REEF hasn't published a written
