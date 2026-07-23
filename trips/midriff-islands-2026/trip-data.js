@@ -95,6 +95,77 @@ window.TRIP_DATA = {
       name: "Frogfish",
       blurb: "Frogfish are ambush predators that lure prey with a modified fin spine that looks like a tiny fishing rod and bait — and they're masters of camouflage, so they're often sitting in plain sight near sponges and rubble. Slow down and look closely."
     },
+    // Rotating pre-trip pool — added 2026-07-23. Sourced from REEF's own
+    // Batch Report for the "Rocio del Mar Baja Field Survey 2019" trip
+    // (this exact liveaboard route, TEP region, led by Amy Lee — REEF's
+    // reef.org/db/reports/batch), cross-referenced with REEF's own species
+    // reference pages (reef.org/species/...) for scientific name and
+    // description text where REEF has published one. render.js's
+    // pickFeaturedFish() rotates through this list in the last 30 days
+    // before the trip (every 4 days); outside that window Start Here shows
+    // the static Frogfish spotlight above instead. Ordered roughly by how
+    // frequently REEF's own group recorded each species (highest first).
+    // Five species below have real REEF-written descriptions; the other six
+    // have a confirmed photo and credit but REEF hasn't published a written
+    // profile for them yet — flagged honestly in their blurb rather than
+    // inventing distinctive features not in REEF's own text.
+    featuredFishPool: [
+      {
+        name: "Mexican Hogfish",
+        blurb: "Also called the streamer hogfish, for the long, trailing filaments on its dorsal, anal, and tail fins. Look for a yellow bar across the midbody — REEF's own 2019 Sea of Cortez trip recorded this as the single most frequently sighted fish of the week.",
+        photo: { src: "resources/photos/mexican-hogfish.jpg", alt: "Mexican Hogfish in the Sea of Cortez", credit: "Beth & Al Brunton" }
+      },
+      {
+        name: "King Angelfish",
+        blurb: "Dark blue body with yellow-to-orange markings on the dorsal and anal fins, and a crown of pale blue spots on the forehead — look for the white bar behind the pectoral fin and the bright yellow tail. Often solitary, but sometimes seen in large schools.",
+        photo: { src: "resources/photos/king-angelfish.jpg", alt: "King Angelfish in the Sea of Cortez", credit: "Beth & Al Brunton" }
+      },
+      {
+        name: "Leopard Grouper",
+        blurb: "REEF doesn't have a written species profile for this one yet, but it was one of the most frequently sighted fish on REEF's own 2019 Sea of Cortez survey trip — keep an eye out and see what you notice.",
+        photo: { src: "resources/photos/leopard-grouper.jpg", alt: "Leopard Grouper in the Sea of Cortez", credit: "Dan Grolemund" }
+      },
+      {
+        name: "Scissortail Damselfish",
+        blurb: "Greenish brown to gray, lightening toward a pale belly — named for the dark-bordered \"scissortail\" and a small white spot near the rear of the dorsal fin.",
+        photo: { src: "resources/photos/scissortail-damselfish.jpg", alt: "Scissortail Damselfish in the Sea of Cortez", credit: "New World Publications" }
+      },
+      {
+        name: "Blue-and-Yellow Chromis",
+        blurb: "REEF doesn't have a written species profile for this one yet, but it was a regular sighting on REEF's own 2019 Sea of Cortez survey trip — keep an eye out and see what you notice.",
+        photo: { src: "resources/photos/blue-and-yellow-chromis.jpg", alt: "Blue-and-Yellow Chromis in the Sea of Cortez", credit: "Jonathan Laven" }
+      },
+      {
+        name: "Finescale Triggerfish",
+        blurb: "REEF doesn't have a written species profile for this one yet, but it was a regular sighting on REEF's own 2019 Sea of Cortez survey trip — keep an eye out and see what you notice.",
+        photo: { src: "resources/photos/finescale-triggerfish.jpg", alt: "Finescale Triggerfish in the Sea of Cortez", credit: "Jonathan Laven" }
+      },
+      {
+        name: "Panama Graysby",
+        blurb: "REEF doesn't have a written species profile for this one yet, but it was a regular sighting on REEF's own 2019 Sea of Cortez survey trip — keep an eye out and see what you notice.",
+        photo: { src: "resources/photos/panama-graysby.jpg", alt: "Panama Graysby in the Sea of Cortez", credit: "John Wolfe" }
+      },
+      {
+        name: "Cortez Damselfish",
+        blurb: "REEF doesn't have a written species profile for this one yet, but it was a regular sighting on REEF's own 2019 Sea of Cortez survey trip — keep an eye out and see what you notice.",
+        photo: { src: "resources/photos/cortez-damselfish-adult.jpg", alt: "Cortez Damselfish in the Sea of Cortez", credit: "Beth & Al Brunton" }
+      },
+      {
+        name: "Barberfish",
+        blurb: "A small silver-and-yellow butterflyfish with a black ring around the snout and a black bar running from the dorsal fin to just above the eye.",
+        photo: { src: "resources/photos/barberfish.jpg", alt: "Barberfish in the Sea of Cortez", credit: "Beth & Al Brunton" }
+      },
+      {
+        name: "Cortez Angelfish",
+        blurb: "Gray body with two yellow bars across the face — the King Angelfish's closest lookalike in these waters, and the two species even hybridize where their ranges overlap.",
+        photo: { src: "resources/photos/cortez-angelfish.jpg", alt: "Cortez Angelfish in the Sea of Cortez", credit: "Beth & Al Brunton" }
+      },
+      {
+        name: "Panamic Sergeant Major",
+        blurb: "REEF doesn't have a written species profile for this one yet, but it was a regular sighting on REEF's own 2019 Sea of Cortez survey trip — keep an eye out and see what you notice.",
+        photo: { src: "resources/photos/panamic-sergeant-major.jpg", alt: "Panamic Sergeant Major in the Sea of Cortez", credit: "Beth & Al Brunton" }
+      }
+    ],
     destinationStory: {
       heading: "Why the Midriff Islands Matter",
       body: [
