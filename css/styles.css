@@ -343,6 +343,42 @@ img { max-width: 100%; }
   font-style: italic;
 }
 
+/* ---------- Living Start Here (countdown, featured tile, "why I lead") ----------
+   Added in the 2026-07-22 Public Expedition Guide sprint. See
+   01_Updated_Shared_Shell.md for what reads each of these. ---------- */
+
+.countdown-card h2 {
+  font-size: 1.3rem;
+}
+
+.tile.tile-featured {
+  border-left-color: var(--reef-yellow);
+  box-shadow: 0 0 0 2px rgba(255, 221, 0, 0.35);
+}
+
+.why-i-lead {
+  font-style: italic;
+  color: var(--ink-light);
+  border-left: 3px solid var(--accent-teal);
+  padding-left: 0.75rem;
+  margin: 0.6rem 0;
+}
+
+/* ---------- Pre-Trip Info priority callout ---------- */
+
+.priority-card {
+  background: #fffbea;
+  border-color: var(--reef-yellow);
+}
+
+.priority-card h2 {
+  border-bottom-color: var(--reef-yellow);
+}
+
+.priority-card ol li {
+  font-weight: 600;
+}
+
 /* ---------- Past-trip photo teaser (any trip can use this) ---------- */
 
 .photo-grid {
