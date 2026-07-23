@@ -5,9 +5,11 @@
    strings live in this file — only structure/labels that are
    the same for every trip (page names, section order, etc).
 
-   Reused verbatim from the Bonaire dashboard shell. Do not add
-   Midriff-specific (or any trip-specific) logic here — if a
-   feature needs shell code, it needs to work for every trip.
+   Shared byte-for-byte across every trip's shell. Do not add
+   trip-specific (Midriff-only or Bonaire-only) logic here — if a
+   feature needs shell code, it needs to work for every trip. See
+   this trip's VERSION.md and the sprint's
+   01_Updated_Shared_Shell.md for what changed and why.
    ============================================================ */
 
 var NAV_ITEMS = [
@@ -16,7 +18,8 @@ var NAV_ITEMS = [
   { id: "pretrip", label: "Pre-Trip Info", href: "pages/pre-trip-info.html" },
   { id: "study", label: "Study Tips", href: "pages/study-tips.html" },
   { id: "fun", label: "During-Trip Fun", href: "pages/during-trip-fun.html" },
-  { id: "leader", label: "Trip Leader", href: "pages/trip-leader.html" }
+  { id: "leader", label: "Trip Leader", href: "pages/trip-leader.html" },
+  { id: "reflection", label: "Reflection", href: "pages/reflection.html" }
 ];
 
 function el(tag, attrs, children) {
@@ -31,6 +34,10 @@ function el(tag, attrs, children) {
     if (child) node.appendChild(child);
   });
   return node;
+}
+
+function findNavItem(navId) {
+  return NAV_ITEMS.filter(function (n) { return n.id === navId; })[0];
 }
 
 function renderHeader(activePageId) {
@@ -80,6 +87,128 @@ function renderList(items) {
   return ul;
 }
 
+/* ---------- Living Start Here helpers ----------
+   Added in the 2026-07-22 "Public Expedition Guide" sprint. Pure
+   functions of window.TRIP_DATA + the visitor's clock — no
+   trip-specific strings, so every trip gets a countdown, a stage-
+   aware "next action," and a featured tile for free. See
+   01_Updated_Shared_Shell.md for the full writeup. */
+
+function daysUntil(isoDate) {
+  var target = new Date(isoDate + "T00:00:00");
+  var now = new Date();
+  return Math.ceil((target - now) / 86400000);
+}
+
+/* Where "now" sits relative to the trip, per the approved Dynamic
+   Content Timeline (120/60/30/7 days out, during, after). Only
+   needs startDate/endDate — endDate falls back to startDate so a
+   trip missing it still works, just with a one-day "during" window. */
+function computeGuideStage(data) {
+  if (!data.startDate) return "early";
+  var start = new Date(data.startDate + "T00:00:00");
+  var end = data.endDate ? new Date(data.endDate + "T23:59:59") : start;
+  var now = new Date();
+  if (now > end) return "after";
+  if (now >= start) return "during";
+  var out = daysUntil(data.startDate);
+  if (out <= 7) return "finalWeek";
+  if (out <= 30) return "intensify";
+  if (out <= 60) return "ramping";
+  return "early";
+}
+
+var STAGE_COPY = {
+  early: {
+    headline: function (n, unit) { return n + " " + unit + (n === 1 ? "" : "s") + " away — plenty of time to get ready."; },
+    action: "Get to know your trip leader and start on early paperwork.",
+    navId: "pretrip"
+  },
+  ramping: {
+    headline: function (n, unit) { return n + " " + unit + (n === 1 ? "" : "s") + " away — a good time to start on forms and packing."; },
+    action: "Start on your forms and general packing list.",
+    navId: "pretrip"
+  },
+  intensify: {
+    headline: function (n, unit) { return n + " " + unit + (n === 1 ? "" : "s") + " away and counting — time to get serious about fish ID."; },
+    action: "Start your fish ID prep for the trip.",
+    navId: "study"
+  },
+  finalWeek: {
+    headline: function (n, unit) { return "Just " + n + " " + unit + (n === 1 ? "" : "s") + " away!"; },
+    action: "Finish packing and read what your first day will feel like.",
+    navId: "pretrip"
+  },
+  during: {
+    headline: function () { return "The expedition is happening right now."; },
+    action: "Check today's During-Trip Fun for today's discovery.",
+    navId: "fun"
+  },
+  after: {
+    headline: function () { return "This expedition has wrapped up — thank you for surveying with REEF."; },
+    action: "Visit the Reflection page for a shared send-off and what's next.",
+    navId: "reflection"
+  }
+};
+
+function renderCountdownCard(data) {
+  var stage = computeGuideStage(data);
+  var copy = STAGE_COPY[stage];
+  var unit = (data.home && data.home.cadenceLabel) ? data.home.cadenceLabel : "check-in";
+  var headline = (stage === "during" || stage === "after") ? copy.headline() : copy.headline(daysUntil(data.startDate), unit);
+
+  var card = el("div", { class: "card countdown-card" }, [el("h2", { text: headline })]);
+  card.appendChild(el("p", { text: copy.action }));
+  var navItem = findNavItem(copy.navId);
+  if (navItem) {
+    card.appendChild(el("p", {}, [
+      el("a", { class: "resource-link", href: window.SITE_ROOT + navItem.href, text: navItem.label + " →" })
+    ]));
+  }
+  return card;
+}
+
+function renderLeaderIntroCard(data) {
+  var leaders = data.tripLeaders || [];
+  if (!leaders.length) return null;
+  var multi = leaders.length > 1;
+  var card = el("div", { class: "card" }, [el("h2", { text: multi ? "Your Trip Leaders" : "Your Trip Leader" })]);
+  leaders.forEach(function (leader) {
+    var line = leader.name + (leader.role ? " — " + leader.role : "");
+    card.appendChild(el("p", { html: "<strong>" + line + "</strong>" }));
+    if (leader.funFact && leader.funFact.value) {
+      card.appendChild(el("p", { html: "<em>" + (leader.funFact.label || "Fun fact") + ":</em> " + leader.funFact.value }));
+    }
+    if (leader.whyILead) {
+      card.appendChild(el("p", { class: "why-i-lead", text: "“" + leader.whyILead + "”" }));
+    }
+  });
+  var navItem = findNavItem("leader");
+  if (navItem) {
+    card.appendChild(el("p", {}, [
+      el("a", { href: window.SITE_ROOT + navItem.href, text: "Meet your trip leader" + (multi ? "s" : "") + " →" })
+    ]));
+  }
+  return card;
+}
+
+function renderFeaturedFishCard(data) {
+  var ff = data.home && data.home.featuredFish;
+  if (!ff || !ff.name) return null;
+  var card = el("div", { class: "card about-card" }, [el("h2", { text: "Today's Featured Fish: " + ff.name })]);
+  if (ff.blurb) card.appendChild(el("p", { text: ff.blurb }));
+  return card;
+}
+
+function renderDestinationStoryCard(data) {
+  var story = data.home && data.home.destinationStory;
+  if (!story || !story.heading) return null;
+  var card = el("div", { class: "card" }, [el("h2", { text: story.heading })]);
+  var paras = Array.isArray(story.body) ? story.body : (story.body ? [story.body] : []);
+  paras.forEach(function (p) { card.appendChild(el("p", { text: p })); });
+  return card;
+}
+
 /* ---------- Start Here ---------- */
 
 function renderHome(container) {
@@ -97,34 +226,39 @@ function renderHome(container) {
     ]));
   }
 
+  if (data.startDate) container.appendChild(renderCountdownCard(data));
+
+  var leaderIntro = renderLeaderIntroCard(data);
+  if (leaderIntro) container.appendChild(leaderIntro);
+
+  var featuredFish = renderFeaturedFishCard(data);
+  if (featuredFish) container.appendChild(featuredFish);
+
+  var destinationStory = renderDestinationStoryCard(data);
+  if (destinationStory) container.appendChild(destinationStory);
+
+  var stage = data.startDate ? computeGuideStage(data) : null;
+  var featuredNavId = stage && STAGE_COPY[stage] ? STAGE_COPY[stage].navId : null;
+
   var tileGrid = el("div", { class: "tile-grid" });
   var tileDefs = [
-    { navId: "itinerary", desc: "Day-by-day plan for the week — islands, dives, and the whale shark snorkel day." },
+    { navId: "itinerary", desc: "Day-by-day plan for the week." },
     { navId: "pretrip", desc: "Everything to arrange before you fly: forms, fees, packing, and travel details." },
-    { navId: "study", desc: "How to prep your fish ID before you arrive, including the Sea of Cortez basics." },
-    { navId: "fun", desc: "Fish facts, conversation starters, wildlife of the day, and a little evening fun — check in whenever." }
+    { navId: "study", desc: "How to prep your fish ID before you arrive." },
+    { navId: "fun", desc: "Fish facts, conversation starters, and a little evening fun — check in whenever." }
   ];
   tileDefs.forEach(function (t) {
-    var navItem = NAV_ITEMS.filter(function (n) { return n.id === t.navId; })[0];
-    tileGrid.appendChild(el("a", { class: "tile", href: window.SITE_ROOT + navItem.href }, [
+    var navItem = findNavItem(t.navId);
+    if (!navItem) return;
+    tileGrid.appendChild(el("a", {
+      class: "tile" + (t.navId === featuredNavId ? " tile-featured" : ""),
+      href: window.SITE_ROOT + navItem.href
+    }, [
       el("div", { class: "tile-title", text: navItem.label }),
       el("div", { class: "tile-desc", text: t.desc })
     ]));
   });
   container.appendChild(tileGrid);
-
-  if (data.tripLeaders && data.tripLeaders.length) {
-    var leaderCard = el("div", { class: "card" }, [el("h2", { text: "Trip Leader" + (data.tripLeaders.length > 1 ? "s" : "") })]);
-    data.tripLeaders.forEach(function (leader) {
-      leaderCard.appendChild(el("p", {
-        text: leader.name + " — " + leader.email + (leader.phone ? " · " + leader.phone : "")
-      }));
-    });
-    leaderCard.appendChild(el("p", {}, [
-      el("a", { href: window.SITE_ROOT + "pages/trip-leader.html", text: "Meet your trip leader →" })
-    ]));
-    container.appendChild(leaderCard);
-  }
 
   if (data.home && data.home.aboutThisResource) {
     var about = data.home.aboutThisResource;
@@ -187,6 +321,21 @@ function renderPreTripInfo(container) {
     class: "page-subtitle",
     text: "Everything to sort out before you head to " + data.destination + "."
   }));
+
+  if (info.firstDayVignette) {
+    var vignetteParas = Array.isArray(info.firstDayVignette) ? info.firstDayVignette : [info.firstDayVignette];
+    var vignetteCard = el("div", { class: "card about-card" }, [el("h2", { text: "What Your First Day Actually Feels Like" })]);
+    vignetteParas.forEach(function (p) { vignetteCard.appendChild(el("p", { text: p })); });
+    container.appendChild(vignetteCard);
+  }
+
+  if (info.priorityList && info.priorityList.length) {
+    var priorityCard = el("div", { class: "card priority-card" }, [el("h2", { text: "If You Do Nothing Else, Do These Three Things" })]);
+    var ol = el("ol");
+    info.priorityList.forEach(function (item) { ol.appendChild(el("li", { text: item })); });
+    priorityCard.appendChild(ol);
+    container.appendChild(priorityCard);
+  }
 
   (info.sections || []).forEach(function (section) {
     var card = el("div", { class: "card" }, [el("h2", { text: section.heading })]);
@@ -271,6 +420,18 @@ function renderStudyTips(container) {
     container.appendChild(toolkitCard);
   }
 
+  if (st.lookalikes && st.lookalikes.pairs && st.lookalikes.pairs.length) {
+    var lookalikeCard = el("div", { class: "card" }, [el("h2", { text: "Lookalikes Worth Knowing Before You Go" })]);
+    if (st.lookalikes.intro) lookalikeCard.appendChild(el("p", { text: st.lookalikes.intro }));
+    st.lookalikes.pairs.forEach(function (pair) {
+      lookalikeCard.appendChild(el("div", { class: "toolkit-item" }, [
+        el("h3", { text: pair.names }),
+        el("p", { text: pair.note })
+      ]));
+    });
+    container.appendChild(lookalikeCard);
+  }
+
   if (st.surveyBasics) {
     var sb = st.surveyBasics;
     var surveyCard = el("div", { class: "card" }, [el("h2", { text: "How REEF Surveys Work" })]);
@@ -343,6 +504,9 @@ function renderDuringTripFun(container) {
     discoveryCard.appendChild(el("p", { text: "A few things to think about, chat over dinner, or just enjoy on your own — come back and browse whenever it's useful. There's no schedule to keep and nothing to miss." }));
     discoveryCard.appendChild(el("p", { text: today.fact }));
     discoveryCard.appendChild(el("p", { html: "<strong>If you feel like it:</strong> " + today.question }));
+    if (today.prompt) {
+      discoveryCard.appendChild(el("p", { html: "<strong>One thing to notice today:</strong> " + today.prompt }));
+    }
     container.appendChild(discoveryCard);
   }
 
@@ -377,6 +541,37 @@ function renderDuringTripFun(container) {
     container.appendChild(photoCard);
   }
 
+  if (fun.gamesToolkit && fun.gamesToolkit.items && fun.gamesToolkit.items.length) {
+    var gt = fun.gamesToolkit;
+    var gamesCard = el("div", { class: "card" }, [el("h2", { text: gt.heading || "Fishy Hour Games" })]);
+    if (gt.intro) gamesCard.appendChild(el("p", { text: gt.intro }));
+    gt.items.forEach(function (item) {
+      var itemBox = el("div", { class: "toolkit-item" }, [
+        el("h3", { text: item.title }),
+        el("p", { text: item.desc })
+      ]);
+      if (item.href) {
+        itemBox.appendChild(el("a", {
+          class: "resource-link",
+          href: window.tripResourceUrl(item.href),
+          target: "_blank",
+          rel: "noopener",
+          text: "Open the " + item.title
+        }));
+      } else if (item.externalUrl) {
+        itemBox.appendChild(el("a", {
+          class: "resource-link",
+          href: item.externalUrl,
+          target: "_blank",
+          rel: "noopener",
+          text: item.linkLabel || ("Open " + item.title)
+        }));
+      }
+      gamesCard.appendChild(itemBox);
+    });
+    container.appendChild(gamesCard);
+  }
+
   var card = el("div", { class: "card" });
   if (fun.intro) card.appendChild(el("p", { text: fun.intro }));
 
@@ -392,6 +587,14 @@ function renderDuringTripFun(container) {
         target: "_blank",
         rel: "noopener",
         text: "Open the " + item.title
+      }));
+    } else if (item.externalUrl) {
+      itemBox.appendChild(el("a", {
+        class: "resource-link",
+        href: item.externalUrl,
+        target: "_blank",
+        rel: "noopener",
+        text: item.linkLabel || ("Open " + item.title)
       }));
     }
     card.appendChild(itemBox);
@@ -449,6 +652,10 @@ function renderTripLeader(container) {
     var bioParas = Array.isArray(leader.bio) ? leader.bio : (leader.bio ? [leader.bio] : []);
     bioParas.forEach(function (para) { card.appendChild(el("p", { text: para })); });
 
+    if (leader.whyILead) {
+      card.appendChild(el("p", { class: "why-i-lead", text: "“" + leader.whyILead + "”" }));
+    }
+
     var contactBits = [leader.email];
     if (leader.phone) contactBits.push(leader.phone);
     card.appendChild(el("p", { text: contactBits.join(" · ") }));
@@ -465,6 +672,53 @@ function renderTripLeader(container) {
   });
 }
 
+/* ---------- Reflection ----------
+   New shared page, added in the 2026-07-22 sprint (Section 9 of the
+   approved Experience Review). Category A / shared content only —
+   thank-you, non-personal highlights, a conservation note, and an
+   invitation back. No participant photos, no "your memories," no
+   login — that's the future Personal Participant Dashboard's "My
+   Memories" (Category B), not this page. All fields optional so this
+   works honestly before a trip has even happened. */
+
+function renderReflection(container) {
+  var data = window.TRIP_DATA;
+  var r = data.reflection || {};
+
+  container.appendChild(el("h1", { class: "page-title", text: "Reflection" }));
+  container.appendChild(el("p", { class: "page-subtitle", text: "A shared send-off, and a look toward what's next." }));
+
+  if (r.thankYou) {
+    container.appendChild(el("div", { class: "card" }, [el("p", { text: r.thankYou })]));
+  }
+
+  if (r.highlights && r.highlights.length) {
+    var highlightsCard = el("div", { class: "card" }, [el("h2", { text: "A Few Highlights" })]);
+    highlightsCard.appendChild(renderList(r.highlights));
+    container.appendChild(highlightsCard);
+  }
+
+  if (r.conservationNote) {
+    container.appendChild(el("div", { class: "card about-card" }, [
+      el("h2", { text: "Why It Matters" }),
+      el("p", { text: r.conservationNote })
+    ]));
+  }
+
+  if (r.invitation) {
+    container.appendChild(el("div", { class: "card" }, [
+      el("h2", { text: "See You on the Next One?" }),
+      el("p", { text: r.invitation })
+    ]));
+  }
+
+  if (!r.thankYou && !r.conservationNote && !r.invitation && (!r.highlights || !r.highlights.length)) {
+    container.appendChild(el("div", { class: "card" }, [
+      el("p", { class: "empty-note", text: "Reflection content hasn't been added for this trip yet — check back after the expedition." })
+    ]));
+  }
+}
+
 /* ---------- Dispatcher ---------- */
 
 var PAGE_RENDERERS = {
@@ -473,7 +727,8 @@ var PAGE_RENDERERS = {
   pretrip: renderPreTripInfo,
   study: renderStudyTips,
   fun: renderDuringTripFun,
-  leader: renderTripLeader
+  leader: renderTripLeader,
+  reflection: renderReflection
 };
 
 window.initPage = function (pageId) {
