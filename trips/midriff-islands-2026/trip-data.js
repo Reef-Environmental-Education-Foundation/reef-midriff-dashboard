@@ -48,7 +48,12 @@ window.TRIP_DATA = {
       name: "Martha Klitzkie",
       role: "REEF Co-Executive Director of Strategy and Operations",
       email: "martha@REEF.org",
-      phone: "305-393-5364 (cell/WhatsApp)",
+      // Phone/WhatsApp intentionally removed 2026-07-23 — this is a public,
+      // unauthenticated page (viewable via plain view-source), so no
+      // personal cell numbers belong here. Email only. See render.js —
+      // renderPreTripInfo() and renderTripLeader() no longer render a
+      // phone field even if one is present.
+      photo: "resources/photos/martha-klitzkie-headshot.jpg", // credit: Stacey Henderson
       bio: [
         "Martha is REEF's Co-Executive Director of Strategy and Operations. Before joining the REEF staff team in 2011, her passion for teaching people about the oceans grew over ten years of leading residential marine science programs. Her undergraduate degree focused on environmental education, and her master's was in Educational Leadership and Administration.",
         "She's passionate about connecting people with the marine environment and building a sense of community among ocean enthusiasts — and she's enthusiastic about expanding REEF's impact and reach to create a future where healthy oceans thrive. She believes it's the little things that change the world, like how a single fish survey adds up to the world's largest marine sighting database."
@@ -56,7 +61,8 @@ window.TRIP_DATA = {
       funFact: {
         label: "Favorite fish to spot",
         value: "Yellowhead Jawfish",
-        note: "keep an eye on sandy burrows this trip — you might catch one 'airing out' its mouthful of eggs."
+        note: "keep an eye on sandy burrows this trip — you might catch one 'airing out' its mouthful of eggs.",
+        photo: { src: "resources/photos/yellowhead-jawfish.jpg", alt: "Yellowhead Jawfish", credit: "Carol Cox" }
       },
       whyILead: "Leading REEF trips combines so many things I care about: exploring remarkable places, connecting with wonderful people, and discovering something new about the underwater world. I love helping people see the ocean in a new way. Whether someone is brand new to fish identification or has surveyed for decades, everyone has something to learn and something to share. My goal is for every participant to leave with new skills, new friends, and a deeper appreciation and understanding of the ocean."
     }
@@ -69,6 +75,20 @@ window.TRIP_DATA = {
     // Bonaire has "Fishy Hour," so this uses the actual term already used
     // elsewhere in this file (see itinerary.days' "Evenings" entry).
     cadenceLabel: "evening fish ID session",
+    // Banner photo added 2026-07-23 — a Sea of Cortez pinnacle (Isla
+    // Ángel de la Guarda / Midriff region), sourced from REEF's own 2019
+    // trip-planning photos, not stock photography. Credit note: filename
+    // convention suggests Amy Lee (a real, long-tenured REEF trip leader),
+    // but this specific photo wasn't separately confirmed as her credit —
+    // flagged for confirmation, not treated as certain. See Change Log.
+    bannerImage: {
+      src: "resources/photos/midriff-banner.jpg",
+      alt: "A rock pinnacle in the Sea of Cortez, Midriff Islands region",
+      credit: "Amy Lee (credit inferred from file naming — not separately confirmed)"
+    },
+    // No confirmed Frogfish photo exists yet for this region (see Study
+    // Tips/During-Trip Fun gaps below) — left without a photo field rather
+    // than attaching an unconfirmed image to a specific species claim.
     featuredFish: {
       name: "Frogfish",
       blurb: "Frogfish are ambush predators that lure prey with a modified fin spine that looks like a tiny fishing rod and bait — and they're masters of camouflage, so they're often sitting in plain sight near sponges and rubble. Slow down and look closely."
@@ -136,8 +156,15 @@ window.TRIP_DATA = {
       "You'll likely be tired by the time you reach Puerto Peñasco — it's an early flight into Phoenix, a few hours on the shuttle with a border crossing in the middle, and then suddenly you're standing at Marina Fonatur looking at the Rocio del Mar.",
       "There's no rush once you're aboard: dinner's waiting around 7:00 PM, and the welcome meeting happens during the overnight transit out of port — so there's nothing to prepare for on the spot. Just settle into your cabin and get your bearings."
     ],
+    // Expanded 2026-07-23 — the real must-do list for a Mexico Liveaboards
+    // trip is longer than three items (the shared shell heading no longer
+    // hardcodes a count; see render.js). Passport photo + New Passenger
+    // Registration were already documented under "Forms to Complete Before
+    // You Go" below but were missing from this priority callout.
     priorityList: [
       "Complete your REEF Liability Form (Smartwaiver) as soon as you can — REEF can't ship your survey materials until it's done.",
+      "Send a close-up photo of your passport's photo/info page to Documents@MexicoLiveaboards.com at least two weeks before departure.",
+      "New to Mexico Liveaboards? Complete your New Passenger Registration. Returning guests, use the individual portal link Stacey sent you instead.",
       "Book your Head Out to Rocky Point shuttle and note your transfer info on your Rocio del Mar passenger forms.",
       "Pack your full dive kit — Puerto Peñasco has no fin/mask/wetsuit rentals, so there's no backup plan if you leave gear at home."
     ],
@@ -150,7 +177,7 @@ window.TRIP_DATA = {
           "The shuttle departs PHX Terminal 4, Door #5 (outer curb, north side arrivals) and crosses the U.S.–Mexico border at Lukeville/Sonoyta — the driver handles the crossing process and makes scheduled rest stops along the way.",
           { label: "Book your Head Out to Rocky Point shuttle", url: "https://www.headouttorockypoint.com/scuba", note: "About $175–190 per person, paid directly to the shuttle company. Note your transfer arrangements on your Rocio del Mar passenger forms once booked." },
           "On the return, plan to disembark around 7:30 AM on September 19 and book your departing PHX flight for 2:00 PM or later.",
-          "Arriving a different way? Let Martha know so we can plan around it."
+          "Arriving a different way? Let Martha know so we can plan accordingly."
         ]
       },
       {
@@ -327,7 +354,11 @@ window.TRIP_DATA = {
     ],
     pastTripPhotos: {
       heading: "Photos from Past Trips to the Sea of Cortez",
-      intro: "No Midriff-specific photos exist yet for 2026 (see VERSION.md), but REEF has run this exact liveaboard route before — here's a taste from past trips aboard the Rocio del Mar.",
+      // Rewritten 2026-07-23 to read as participant-facing copy rather than
+      // an internal build note ("see VERSION.md" was a leftover reference
+      // to this project's own dev documentation, not something a
+      // participant should ever see).
+      intro: "This will be our first trip together to the Midriff Islands in 2026, so we don't have this year's photos yet — but REEF has sailed this same route aboard the Rocio del Mar before, and these shots give you a real taste of what's waiting for you.",
       photos: [
         {
           src: "https://live.staticflickr.com/65535/52419550335_0e77bf419d_c.jpg",
@@ -360,6 +391,11 @@ window.TRIP_DATA = {
           label: "2017 Baja REEF Field Survey — full album (33 photos)",
           url: "https://flic.kr/s/aHsm92KdGh",
           note: "Also aboard the Rocio del Mar, led by Brice and Christy Semmens."
+        },
+        {
+          label: "Read a 2021 Explore Baja trip report",
+          url: "https://www.bluewaterdivetravel.com/article/explore-baja-trip-report-2021",
+          note: "A third-party account of this same Rocio del Mar route, from Blue Water Dive Travel — jawfish, sea lions, whale sharks, and frogfish all make an appearance."
         }
       ]
     },
@@ -398,7 +434,7 @@ window.TRIP_DATA = {
   reflection: {
     thankYou: "Thank you for signing up to spend a week counting fish with us. Whether you're reading this before you've even packed a bag or looking back at a week that's already behind you, the same thing is true: every survey you log becomes part of something REEF has been building since 1993, one sighting at a time.",
     conservationNote: "Every fish survey logged this week adds to REEF's Volunteer Fish Survey Project — the same long-running database that's helped track real changes in reef fish populations across the Tropical Eastern Pacific for decades. Your data doesn't stop being useful when you fly home; it becomes part of the record for as long as REEF keeps this work going.",
-    invitation: "If this week leaves you wanting more, REEF runs Field Survey Trips to destinations all over the world, every year — ask Martha about what's coming up next, or keep an eye on reef.org for upcoming trips."
+    invitation: "If this week leaves you wanting more, REEF runs Field Survey Trips to destinations all over the world, every year — ask Martha about what's coming up next, or keep an eye on <a href=\"https://www.REEF.org/trips\" target=\"_blank\" rel=\"noopener\">www.REEF.org/trips</a> for upcoming trips."
     // highlights: intentionally left out — there's nothing genuine to put
     // here before the trip happens. Once it does, add a few real, shared
     // (non-personal) moments — no participant names or photos.
