@@ -75,16 +75,18 @@ window.TRIP_DATA = {
     // Bonaire has "Fishy Hour," so this uses the actual term already used
     // elsewhere in this file (see itinerary.days' "Evenings" entry).
     cadenceLabel: "evening fish ID session",
-    // Banner photo added 2026-07-23 — a Sea of Cortez pinnacle (Isla
-    // Ángel de la Guarda / Midriff region), sourced from REEF's own 2019
-    // trip-planning photos, not stock photography. Credit note: filename
-    // convention suggests Amy Lee (a real, long-tenured REEF trip leader),
-    // but this specific photo wasn't separately confirmed as her credit —
-    // flagged for confirmation, not treated as certain. See Change Log.
+    // Banner photo replaced 2026-07-23 (v2) — Martha felt the original rock-
+    // pinnacle banner wasn't inspiring enough. Swapped for a livelier shot:
+    // a curious pod of sea lions, sourced from REEF's own species photo
+    // library (Fish and Invertebrate Algae Photos/TEP Region Fish Photos/),
+    // credited in-file to Christy Semmens — matches the file-naming-is-the-
+    // photographer convention Martha confirmed is safe to trust, and ties
+    // directly to the "curious sea lion divers" line in destinationStory
+    // below.
     bannerImage: {
       src: "resources/photos/midriff-banner.jpg",
-      alt: "A rock pinnacle in the Sea of Cortez, Midriff Islands region",
-      credit: "Amy Lee (credit inferred from file naming — not separately confirmed)"
+      alt: "A curious pod of sea lions in the Sea of Cortez, Midriff Islands region",
+      credit: "Christy Semmens"
     },
     // No confirmed Frogfish photo exists yet for this region (see Study
     // Tips/During-Trip Fun gaps below) — left without a photo field rather
