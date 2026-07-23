@@ -41,6 +41,7 @@ window.TRIP_DATA = {
   location: "Aboard the Rocio del Mar (Mexico Liveaboards)",
   dateRange: "September 12–19, 2026",
   startDate: "2026-09-12",
+  endDate: "2026-09-19",
 
   tripLeaders: [
     {
@@ -56,12 +57,29 @@ window.TRIP_DATA = {
         label: "Favorite fish to spot",
         value: "Yellowhead Jawfish",
         note: "keep an eye on sandy burrows this trip — you might catch one 'airing out' its mouthful of eggs."
-      }
+      },
+      whyILead: "Leading REEF trips combines so many things I care about: exploring remarkable places, connecting with wonderful people, and discovering something new about the underwater world. I love helping people see the ocean in a new way. Whether someone is brand new to fish identification or has surveyed for decades, everyone has something to learn and something to share. My goal is for every participant to leave with new skills, new friends, and a deeper appreciation and understanding of the ocean."
     }
   ],
 
   home: {
     welcomeNote: "Welcome to the Midriff Islands! Here's everything for the week in one place — the itinerary, what to sort out before you fly, some fish ID prep for the Sea of Cortez, and a few things to enjoy once we're all aboard, September 12–19.",
+    // Cadence label powers the Living Start Here countdown ("N {cadenceLabel}s
+    // away") — Midriff doesn't have a branded evening tradition name the way
+    // Bonaire has "Fishy Hour," so this uses the actual term already used
+    // elsewhere in this file (see itinerary.days' "Evenings" entry).
+    cadenceLabel: "evening fish ID session",
+    featuredFish: {
+      name: "Frogfish",
+      blurb: "Frogfish are ambush predators that lure prey with a modified fin spine that looks like a tiny fishing rod and bait — and they're masters of camouflage, so they're often sitting in plain sight near sponges and rubble. Slow down and look closely."
+    },
+    destinationStory: {
+      heading: "Why the Midriff Islands Matter",
+      body: [
+        "This stretch of the Sea of Cortez is home to sea lion colonies, mobula rays that leap clear out of the water, and — around Bahía de los Ángeles — some of the most reliable whale shark encounters anywhere in the world.",
+        "It's also part of REEF's Tropical Eastern Pacific survey region, where every fish logged this week joins a dataset that's been tracking reef fish populations for decades — the same one that makes a REEF trip different from an ordinary dive vacation."
+      ]
+    },
     aboutThisResource: {
       heading: "Before You Dive In",
       body: [
@@ -114,6 +132,15 @@ window.TRIP_DATA = {
   },
 
   preTripInfo: {
+    firstDayVignette: [
+      "You'll likely be tired by the time you reach Puerto Peñasco — it's an early flight into Phoenix, a few hours on the shuttle with a border crossing in the middle, and then suddenly you're standing at Marina Fonatur looking at the Rocio del Mar.",
+      "There's no rush once you're aboard: dinner's waiting around 7:00 PM, and the welcome meeting happens during the overnight transit out of port — so there's nothing to prepare for on the spot. Just settle into your cabin and get your bearings."
+    ],
+    priorityList: [
+      "Complete your REEF Liability Form (Smartwaiver) as soon as you can — REEF can't ship your survey materials until it's done.",
+      "Book your Head Out to Rocky Point shuttle and note your transfer info on your Rocio del Mar passenger forms.",
+      "Pack your full dive kit — Puerto Peñasco has no fin/mask/wetsuit rentals, so there's no backup plan if you leave gear at home."
+    ],
     sections: [
       {
         heading: "Getting to the Boat",
@@ -217,6 +244,15 @@ window.TRIP_DATA = {
         }
       ]
     },
+    lookalikes: {
+      intro: "A pair worth knowing before you go, so a tricky ID doesn't throw you off:",
+      pairs: [
+        {
+          names: "King Angelfish vs. Cortez Angelfish",
+          note: "Close enough relatives that they sometimes hybridize where their ranges overlap — a great early lesson in why fish ID is about patterns, not just field-guide certainty."
+        }
+      ]
+    },
     surveyBasics: {
       intro: "Here's the other half of getting ready: how a REEF survey actually works. No certification or experience needed, just curiosity and a little practice.",
       steps: [
@@ -260,7 +296,8 @@ window.TRIP_DATA = {
       },
       {
         fact: "Jawfish are mouthbrooders — the male incubates the eggs by holding them in his mouth until they hatch, occasionally 'airing them out' by spitting and re-catching the whole clutch.",
-        question: "Has anyone spotted a jawfish peeking out of its burrow yet?"
+        question: "Has anyone spotted a jawfish peeking out of its burrow yet?",
+        prompt: "Look for a jawfish hovering just above its burrow entrance rather than fully out — that's their usual posture."
       },
       {
         fact: "Frogfish are ambush predators that lure prey with a modified fin spine that looks like a tiny fishing rod and bait — and they're masters of camouflage, so they're often sitting in plain sight.",
@@ -272,7 +309,8 @@ window.TRIP_DATA = {
       },
       {
         fact: "Sea lion colonies are common around the Midriff Islands, and young sea lions are famously curious divers — don't be surprised if one comes over to check out your gear rather than the other way around.",
-        question: "What's the most curious animal encounter you've had so far this trip?"
+        question: "What's the most curious animal encounter you've had so far this trip?",
+        prompt: "If a young sea lion comes over to check out your gear, that's completely normal here — no need to swim away."
       },
       {
         fact: "Bahía de los Ángeles is one of the more reliable places in the world to encounter whale sharks, the largest fish in the ocean — despite their size, they're filter feeders and no threat to snorkelers.",
@@ -325,6 +363,10 @@ window.TRIP_DATA = {
         }
       ]
     },
+    // gamesToolkit: intentionally not added for Midriff — unlike Bonaire,
+    // no built Fishy-Hour-style game (Jeopardy, Bingo, etc.) exists yet for
+    // this trip. The shell (render.js renderDuringTripFun) already supports
+    // this field the moment REEF builds one for the Sea of Cortez/TEP region.
     intro: "A few more things to enjoy whenever you like — recurring traditions from past REEF trips, plus a little evening fun.",
     items: [
       {
@@ -346,5 +388,19 @@ window.TRIP_DATA = {
       { q: "What did the ocean say to the beach?", a: "Nothing — it just waved." },
       { q: "Why do fish avoid using computers?", a: "They're afraid of the net." }
     ]
+  },
+
+  // Reflection: new shared, non-personal page added this sprint (Phase 7).
+  // Since the 2026 trip hasn't happened yet, this is deliberately written to
+  // work honestly pre-trip too — no invented recap or photos. Once the trip
+  // happens, add real (non-personal, no participant names/photos) highlights
+  // here and consider a past-trip-photos-style teaser for actual 2026 shots.
+  reflection: {
+    thankYou: "Thank you for signing up to spend a week counting fish with us. Whether you're reading this before you've even packed a bag or looking back at a week that's already behind you, the same thing is true: every survey you log becomes part of something REEF has been building since 1993, one sighting at a time.",
+    conservationNote: "Every fish survey logged this week adds to REEF's Volunteer Fish Survey Project — the same long-running database that's helped track real changes in reef fish populations across the Tropical Eastern Pacific for decades. Your data doesn't stop being useful when you fly home; it becomes part of the record for as long as REEF keeps this work going.",
+    invitation: "If this week leaves you wanting more, REEF runs Field Survey Trips to destinations all over the world, every year — ask Martha about what's coming up next, or keep an eye on reef.org for upcoming trips."
+    // highlights: intentionally left out — there's nothing genuine to put
+    // here before the trip happens. Once it does, add a few real, shared
+    // (non-personal) moments — no participant names or photos.
   }
 };
