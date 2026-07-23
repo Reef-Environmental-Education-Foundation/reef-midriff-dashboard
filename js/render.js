@@ -237,21 +237,24 @@ function renderLeaderIntroCard(data) {
 }
 
 /* ---------- Rotating pre-trip Featured Fish ----------
-   Added 2026-07-23. A single static Featured Fish is fine for most of
-   the pre-trip window, but in the last stretch before a trip —
-   ROTATION_WINDOW_DAYS out, which lines up with the "intensify" and
-   "finalWeek" countdown stages where copy already shifts toward
-   getting serious about fish ID — participants are actually studying,
-   so a rotating spotlight pulls more weight. If a trip supplies
-   home.featuredFishPool (an array of entries shaped exactly like
-   featuredFish — name/blurb/photo), Start Here rotates through it
-   once inside that window, changing every ROTATION_CADENCE_DAYS days.
-   Outside the window, or if no pool is set, this falls back to the
-   single static home.featuredFish untouched — so trips without a pool
-   (e.g. Bonaire, at first) need zero changes. The pool should be real,
-   REEF-sourced species (e.g. pulled from a Batch/Geographic Area
-   Report) — see the Change Log for how Midriff's pool was sourced. */
-var ROTATION_WINDOW_DAYS = 30;
+   Added 2026-07-23, window widened to 60 days on 2026-07-23 (v2). A
+   single static Featured Fish is fine for most of the pre-trip window,
+   but in the last stretch before a trip — ROTATION_WINDOW_DAYS out,
+   which now lines up with the "ramping" countdown stage's start (60
+   days out is exactly where copy shifts from "plenty of time" to
+   "start on forms and packing") through "intensify" and "finalWeek" —
+   participants are gradually easing into trip prep, so a rotating
+   spotlight pulls more weight than a single static fish for that whole
+   stretch. If a trip supplies home.featuredFishPool (an array of
+   entries shaped exactly like featuredFish — name/blurb/photo), Start
+   Here rotates through it once inside that window, changing every
+   ROTATION_CADENCE_DAYS days. Outside the window, or if no pool is
+   set, this falls back to the single static home.featuredFish
+   untouched — so trips without a pool (e.g. Bonaire, at first) need
+   zero changes. The pool should be real, REEF-sourced species (e.g.
+   pulled from a Batch/Geographic Area Report) — see the Change Log
+   for how Midriff's pool was sourced. */
+var ROTATION_WINDOW_DAYS = 60;
 var ROTATION_CADENCE_DAYS = 4;
 
 function pickFeaturedFish(data) {
