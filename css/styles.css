@@ -413,6 +413,53 @@ img { max-width: 100%; }
   margin: 0.2rem 0 0;
 }
 
+/* ---------- Site-wide banner + leader/fish photos (2026-07-23 "add photos" round) ----------
+   Banner reads data.home.bannerImage; leader headshots read
+   tripLeaders[].photo; fish photos read home.featuredFish.photo,
+   tripLeaders[].funFact.photo, and duringTripFun.dailyDiscoveries[].photo.
+   All optional — no photo, no image, nothing breaks. See render.js. */
+
+.site-banner {
+  margin: 0 0 1.5rem;
+}
+
+.site-banner-img {
+  width: 100%;
+  max-height: 340px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.leader-intro-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.leader-intro-row .leader-intro-text {
+  flex: 1;
+  min-width: 200px;
+}
+
+.leader-photo-thumb {
+  width: 84px;
+  height: 84px;
+  object-fit: cover;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.fish-photo-thumb {
+  width: 100%;
+  max-width: 280px;
+  border-radius: 10px;
+  display: block;
+  margin: 0.4rem 0 0.3rem;
+  object-fit: cover;
+}
+
 @media (max-width: 640px) {
   .site-header-inner { flex-direction: column; align-items: flex-start; }
   .event-table td.time-col { width: 90px; }
