@@ -236,8 +236,40 @@ function renderLeaderIntroCard(data) {
   return card;
 }
 
+/* ---------- Rotating pre-trip Featured Fish ----------
+   Added 2026-07-23. A single static Featured Fish is fine for most of
+   the pre-trip window, but in the last stretch before a trip —
+   ROTATION_WINDOW_DAYS out, which lines up with the "intensify" and
+   "finalWeek" countdown stages where copy already shifts toward
+   getting serious about fish ID — participants are actually studying,
+   so a rotating spotlight pulls more weight. If a trip supplies
+   home.featuredFishPool (an array of entries shaped exactly like
+   featuredFish — name/blurb/photo), Start Here rotates through it
+   once inside that window, changing every ROTATION_CADENCE_DAYS days.
+   Outside the window, or if no pool is set, this falls back to the
+   single static home.featuredFish untouched — so trips without a pool
+   (e.g. Bonaire, at first) need zero changes. The pool should be real,
+   REEF-sourced species (e.g. pulled from a Batch/Geographic Area
+   Report) — see the Change Log for how Midriff's pool was sourced. */
+var ROTATION_WINDOW_DAYS = 30;
+var ROTATION_CADENCE_DAYS = 4;
+
+function pickFeaturedFish(data) {
+  var home = data.home || {};
+  var pool = home.featuredFishPool;
+  if (pool && pool.length && data.startDate) {
+    var daysOut = daysUntil(data.startDate);
+    if (daysOut >= 0 && daysOut <= ROTATION_WINDOW_DAYS) {
+      var daysIntoWindow = ROTATION_WINDOW_DAYS - daysOut;
+      var idx = Math.floor(daysIntoWindow / ROTATION_CADENCE_DAYS) % pool.length;
+      return pool[idx];
+    }
+  }
+  return home.featuredFish;
+}
+
 function renderFeaturedFishCard(data) {
-  var ff = data.home && data.home.featuredFish;
+  var ff = pickFeaturedFish(data);
   if (!ff || !ff.name) return null;
   var card = el("div", { class: "card about-card" }, [el("h2", { text: "Today's Featured Fish: " + ff.name })]);
   if (ff.photo && ff.photo.src) {
