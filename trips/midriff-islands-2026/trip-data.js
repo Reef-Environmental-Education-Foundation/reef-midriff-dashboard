@@ -32,6 +32,20 @@
      Operations & Safety Boundaries section, so the itinerary below
      is presented at the island/day level, honestly, not invented
      down to the hour.
+
+   2026-07-23 PRD implementation pass: adopted "Fishy Hour" as the
+   official cross-trip term (cadenceLabel + every prior "evening fish
+   ID session" mention); replaced Martha's reused Yellowhead Jawfish
+   funFact with a Bluespotted Jawfish narrative specific to this
+   region (see Change Log for sourcing); added askMeAbout and
+   lastUpdated; removed the unverified "bee season" pack note and the
+   self-contradictory outlet-adapter recommendation; expanded regional
+   lookalikes from one pair to three; softened whale shark language to
+   read as seasonal, not guaranteed; trimmed the repeated 1993/Roving
+   Diver Technique origin story down to a cross-reference in Prepare &
+   Study since Start Here already tells it in full. See the REEF
+   Participant Dashboard Platform PRD (governing spec) and this
+   project's own implementation summary for the complete list.
    ============================================================ */
 
 window.TRIP_DATA = {
@@ -42,6 +56,9 @@ window.TRIP_DATA = {
   dateRange: "September 12–19, 2026",
   startDate: "2026-09-12",
   endDate: "2026-09-19",
+  // Drives the shared footer's "Last updated" line (render.js renderFooter).
+  // Update this whenever this file's content changes.
+  lastUpdated: "2026-07-23",
 
   tripLeaders: [
     {
@@ -58,23 +75,40 @@ window.TRIP_DATA = {
         "Martha is REEF's Co-Executive Director of Strategy and Operations. Before joining the REEF staff team in 2011, her passion for teaching people about the oceans grew over ten years of leading residential marine science programs. Her undergraduate degree focused on environmental education, and her master's was in Educational Leadership and Administration.",
         "She's passionate about connecting people with the marine environment and building a sense of community among ocean enthusiasts — and she's enthusiastic about expanding REEF's impact and reach to create a future where healthy oceans thrive. She believes it's the little things that change the world, like how a single fish survey adds up to the world's largest marine sighting database."
       ],
+      // funFact replaced 2026-07-23 per the governing PRD — Martha's Midriff
+      // favorite fish is now the Bluespotted Jawfish (Opistognathus
+      // rosenblatti), a Gulf of California endemic, rather than the
+      // Yellowhead Jawfish reused from her Bonaire entry (a Caribbean
+      // species with no place in a Sea of Cortez trip). Facts below verified
+      // against FishBase, WoRMS, and IUCN (Least Concern, assessed 2007) —
+      // see the Change Log for full sourcing and one open item: no
+      // confirmed photo has been sourced for this species yet, so no photo
+      // field is set (same "don't attach an unconfirmed image" rule this
+      // file already follows elsewhere, e.g. featuredFish above).
       funFact: {
-        label: "Favorite fish to spot",
-        value: "Yellowhead Jawfish",
-        note: "keep an eye on sandy burrows this trip — you might catch one 'airing out' its mouthful of eggs.",
-        photo: { src: "resources/photos/yellowhead-jawfish.jpg", alt: "Yellowhead Jawfish", credit: "Carol Cox" }
+        label: "Favorite Fish in This Region",
+        value: "Bluespotted Jawfish",
+        note: "found only in the Gulf of California, so this is one of the few trips anywhere you can look for it — watch for one hovering just above its sandy burrow; it drops straight back in the instant it feels threatened.",
       },
-      whyILead: "Leading REEF trips combines so many things I care about: exploring remarkable places, connecting with wonderful people, and discovering something new about the underwater world. I love helping people see the ocean in a new way. Whether someone is brand new to fish identification or has surveyed for decades, everyone has something to learn and something to share. My goal is for every participant to leave with new skills, new friends, and a deeper appreciation and understanding of the ocean."
+      whyILead: "Leading REEF trips combines so many things I care about: exploring remarkable places, connecting with wonderful people, and discovering something new about the underwater world. I love helping people see the ocean in a new way. Whether someone is brand new to fish identification or has surveyed for decades, everyone has something to learn and something to share. My goal is for every participant to leave with new skills, new friends, and a deeper appreciation and understanding of the ocean.",
+      // Added 2026-07-23 per the governing PRD's Trip Leader page spec.
+      askMeAbout: [
+        "Fish ID for anything you spotted on a dive that day",
+        "How the Roving Diver Technique and REEF's Experience Levels work",
+        "What to expect on a liveaboard trip, if this is your first one",
+        "Sea of Cortez / Tropical Eastern Pacific marine life and conservation"
+      ]
     }
   ],
 
   home: {
     welcomeNote: "Welcome to the Midriff Islands! Here's everything for the week in one place — the itinerary, what to sort out before you fly, some fish ID prep for the Sea of Cortez, and a few things to enjoy once we're all aboard, September 12–19.",
     // Cadence label powers the Living Start Here countdown ("N {cadenceLabel}s
-    // away") — Midriff doesn't have a branded evening tradition name the way
-    // Bonaire has "Fishy Hour," so this uses the actual term already used
-    // elsewhere in this file (see itinerary.days' "Evenings" entry).
-    cadenceLabel: "evening fish ID session",
+    // away"). Updated 2026-07-23 — "Fishy Hour" is now REEF's official
+    // cross-trip term for the daily fish ID gathering (governing PRD), so
+    // Midriff uses it too rather than the generic "evening fish ID session"
+    // this used to say.
+    cadenceLabel: "Fishy Hour",
     // Banner photo replaced 2026-07-23 (v2) — Martha felt the original rock-
     // pinnacle banner wasn't inspiring enough. Swapped for a livelier shot:
     // a curious pod of sea lions, sourced from REEF's own species photo
@@ -170,14 +204,18 @@ window.TRIP_DATA = {
     destinationStory: {
       heading: "Why the Midriff Islands Matter",
       body: [
-        "This stretch of the Sea of Cortez is home to sea lion colonies, mobula rays that leap clear out of the water, and — around Bahía de los Ángeles — some of the most reliable whale shark encounters anywhere in the world.",
-        "It's also part of REEF's Tropical Eastern Pacific survey region, where every fish logged this week joins a dataset that's been tracking reef fish populations for decades — the same one that makes a REEF trip different from an ordinary dive vacation."
+        // Tightened 2026-07-23 (PRD: "tighten Start Here copy") and reworded
+        // so whale sharks read as seasonal, not guaranteed — matching the
+        // conditional framing already used in the itinerary and Fishy Hour
+        // ("optional add-on," "typically offered," "if it happens").
+        "This stretch of the Sea of Cortez is home to sea lion colonies, mobula rays that leap clear out of the water, and, seasonally, some of the best whale shark encounters anywhere in the world around Bahía de los Ángeles.",
+        "It's also part of REEF's Tropical Eastern Pacific survey region — every fish you log this week joins a dataset that's been tracking reef fish populations for decades, the same one that makes a REEF trip different from an ordinary dive vacation."
       ]
     },
     aboutThisResource: {
       heading: "Before You Dive In",
       body: [
-        "Welcome! This page brings together trip information, travel logistics, fish ID resources, and a few other helpful references for our REEF Field Survey Trip to the Midriff Islands. Use whatever is helpful to you, and don't worry about trying to read everything before you arrive — we'll explore it all together throughout the week during evening fish ID sessions, conversations, and plenty of time on and around the water.",
+        "Welcome! This page brings together trip information, travel logistics, fish ID resources, and a few other helpful references for our REEF Field Survey Trip to the Midriff Islands. Use whatever's useful to you now, and save the rest — we'll work through plenty of it together during Fishy Hour, conversations, and time on and around the water all week.",
         "This trip is a liveaboard aboard the Rocio del Mar, so a bit more advance planning goes into getting everyone from Phoenix to the boat than on a resort-based trip — the Pre-Trip Info page walks through it step by step.",
         "If you think of something that would make this even more helpful for future trips, we'd love to hear your ideas."
       ]
@@ -186,7 +224,7 @@ window.TRIP_DATA = {
 
   itinerary: {
     overview: "This is a liveaboard trip aboard the Rocio del Mar, so the rhythm is a little different from a resort-based trip: we board in Puerto Peñasco the evening of September 12 and spend the week moving between islands in the Midriff region of the Sea of Cortez — Isla Ángel de la Guarda, Isla San Pedro Mártir, Isla Salsipuedes, Isla Las Ánimas, and Bahía de los Ángeles — with 3-4 dives most days. The Captain and crew set the exact daily dive sites based on conditions, so think of the plan below as the shape of the week rather than a fixed hour-by-hour schedule.",
-    note: "Because a small liveaboard's schedule depends on weather, currents, and what each island offers that day, the Captain and divemasters make the day-to-day call on sites and timing — that's their expertise, not ours. Martha will keep everyone posted on the plan each morning. Evenings are our chance to gather in the salon for a short fish ID session tied to whatever we actually saw that day.",
+    note: "Because a small liveaboard's schedule depends on weather, currents, and what each island offers that day, the Captain and divemasters make the day-to-day call on sites and timing — that's their expertise, not ours. Martha will keep everyone posted on the plan each morning. Evenings are Fishy Hour, our chance to gather in the salon for a short fish ID session tied to whatever we actually saw that day.",
     days: [
       {
         date: "Saturday, September 12",
@@ -203,7 +241,7 @@ window.TRIP_DATA = {
         tag: "Island Days",
         events: [
           { time: "Daily", desc: "3–4 dives a day across the Midriff Islands, exact sites set by the Captain based on conditions — likely stops include Isla Ángel de la Guarda, Isla San Pedro Mártir, Isla Salsipuedes, and Isla Las Ánimas." },
-          { time: "Evenings", desc: "A short, casual fish ID session in the salon based on what the group actually saw that day, plus our recurring traditions (Fish of the Day, Wildlife of the Day, species-count updates — see During-Trip Fun)." }
+          { time: "Evenings", desc: "Fishy Hour: a short, casual fish ID gathering in the salon based on what the group actually saw that day, plus our recurring traditions (Fish of the Day, Wildlife of the Day, species-count updates — see Fishy Hour)." }
         ]
       },
       {
@@ -269,7 +307,7 @@ window.TRIP_DATA = {
         items: [
           "Ten cabins aboard the Rocio del Mar, most set up as two twin bunks, a few as queen or full-bed-with-bunk configurations.",
           "Wi-Fi is limited — about $50/device within roughly 10 miles of an island, and unavailable during open-water crossings. Plan on being mostly offline for the week.",
-          "Evening fish ID sessions happen in the boat's salon, using the onboard TV/computer station.",
+          "Fishy Hour happens each evening in the boat's salon, using the onboard TV/computer station.",
           "Outlets aboard are 110V, standard U.S. plugs.",
           "REEF's trip leader handles marine life education and survey facilitation; the Captain and divemasters make all diving, safety, and scheduling decisions."
         ]
@@ -308,10 +346,18 @@ window.TRIP_DATA = {
           "Dive certification card and dive insurance card (DAN or similar).",
           "Dive computer, SMB, and whistle (all required) — plus your full dive kit, since gear rental isn't available locally.",
           "5mm wetsuit and a hooded vest.",
-          "Reef-safe sunscreen, a rash guard, and foot coverings for the deck (it's bee season).",
+          // "(it's bee season)" removed 2026-07-23 — unverified and
+          // unexplained (no confirmation of what "bee season" means for
+          // participants or whether it poses any real risk). Flagged for
+          // REEF confirmation before adding back with real detail.
+          "Reef-safe sunscreen, a rash guard, and foot coverings for the deck.",
           "Any medications you take, including motion-sickness remedies just in case — and let Martha know ahead of time about anything (like an EpiPen) that needs cool storage.",
           "Camera, housing, and batteries if you're bringing one — pack batteries and memory cards in your carry-on.",
-          "A dry bag and a U.S.-style outlet adapter if you need one (outlets aboard are 110V, standard U.S. plugs).",
+          // Outlet-adapter recommendation removed 2026-07-23 — the boat's
+          // outlets are already standard 110V U.S. plugs (see "What to
+          // Expect Onboard" above), so a "U.S.-style outlet adapter" was
+          // self-contradictory as written. A dry bag stands on its own.
+          "A dry bag.",
           "Fish ID resources you like to study from, and your REEF shirt!"
         ]
       }
@@ -321,11 +367,11 @@ window.TRIP_DATA = {
   studyTips: {
     intro: "These lists aren't a checklist to complete — think of them like learning your neighbors' names before trying to memorize the phone book. Don't hesitate to look into a fish that isn't mentioned here, either — some of the most memorable discoveries are the unexpected ones. Here's where to spend your prep time:",
     tips: [
-      "Learn families before species. Once you can place a fish in its family (angelfish, triggerfish, damselfish, blenny, etc.), the rest gets much easier — families share body shape and behavior, so species-level ID is often just color and pattern from there.",
-      "Know your lookalikes. The Sea of Cortez's King Angelfish and Cortez Angelfish are a classic pair to watch for — they even hybridize where their ranges overlap, so don't worry about getting every one perfectly labeled.",
+      "Learn families before species. Once you can place a fish in its family (angelfish, triggerfish, damselfish, wrasse, blenny, etc.), the rest gets much easier — families share body shape and behavior, so species-level ID is often just color and pattern from there.",
+      "Know your lookalikes. The Sea of Cortez's King Angelfish and Cortez Angelfish are a classic pair to watch for — they even hybridize where their ranges overlap, which is exactly why fish ID is about patterns, not perfect labels.",
       "Look low and slow for the small stuff. Blennies, jawfish, seahorses, and frogfish reward patient, careful looking rather than fast swimming — REEF's trip leaders will point these out at Fishy Hour.",
       "Expect variation. Fish look different from different angles and life stages — a photo you studied ahead of time may look a little different head-on or as a juvenile.",
-      "Save some for the evening fish ID session. Each night we'll gather to talk fish and share the day's favorite finds. No advance prep required — just come curious.",
+      "Save some for Fishy Hour. Each night we'll gather to talk fish and share the day's favorite finds. No advance prep required — just come curious.",
       "Questions welcome, any time before the trip. Happy to point you in the right direction."
     ],
     toolkit: {
@@ -345,12 +391,26 @@ window.TRIP_DATA = {
         }
       ]
     },
+    // Expanded 2026-07-23 from a single pair to three — PRD review flagged
+    // Midriff's regional lookalike/fish-family guidance as thin relative to
+    // Bonaire's. All three added here are well-established biology (general
+    // wrasse sex-change / angelfish juvenile-coloration patterns, plus the
+    // already-documented King/Cortez Angelfish hybridization), not
+    // speculative — still worth a REEF science-staff read before publishing.
     lookalikes: {
-      intro: "A pair worth knowing before you go, so a tricky ID doesn't throw you off:",
+      intro: "A few pairs worth knowing before you go, so a tricky ID doesn't throw you off:",
       pairs: [
         {
           names: "King Angelfish vs. Cortez Angelfish",
           note: "Close enough relatives that they sometimes hybridize where their ranges overlap — a great early lesson in why fish ID is about patterns, not just field-guide certainty."
+        },
+        {
+          names: "Mexican Hogfish — juvenile/female vs. terminal-phase male",
+          note: "Like many wrasses, this species changes color dramatically as it matures and changes sex. The streaming fin filaments and bold yellow midbody bar belong to the terminal-phase male — younger fish and females can look quite different."
+        },
+        {
+          names: "Angelfish — juveniles vs. adults",
+          note: "Several angelfish species here look nothing like their adult selves as juveniles, with entirely different color patterns — don't assume a small, unfamiliar-looking fish is a different species from the adult you already know."
         }
       ]
     },
@@ -366,8 +426,8 @@ window.TRIP_DATA = {
           desc: "Site name, date, visibility, current, and habitat. Write it down promptly — memory fades fast once you're back on the boat for the next dive."
         },
         {
-          title: "It's been around since 1993",
-          desc: "The Roving Diver Technique started in the Tropical Western Atlantic and is now used the same way in all 10 of REEF's regions worldwide, including here in the Sea of Cortez."
+          title: "It's the same method everywhere",
+          desc: "You'll use the identical Roving Diver Technique REEF surveyors use in all 10 of its regions worldwide, including here in the Sea of Cortez — see Start Here for how the method got its start."
         }
       ],
       abundance: [
@@ -396,9 +456,16 @@ window.TRIP_DATA = {
         question: "If you spot an angelfish that doesn't look quite like either species in the book, that might be exactly why."
       },
       {
-        fact: "Jawfish are mouthbrooders — the male incubates the eggs by holding them in his mouth until they hatch, occasionally 'airing them out' by spitting and re-catching the whole clutch.",
-        question: "Has anyone spotted a jawfish peeking out of its burrow yet?",
-        prompt: "Look for a jawfish hovering just above its burrow entrance rather than fully out — that's their usual posture."
+        // Rewritten 2026-07-23 to name the actual species (Bluespotted
+        // Jawfish, Martha's favorite fish in this region — see Trip Leader)
+        // instead of a generic, unnamed "jawfish" fact. Sex-linked coloring
+        // and burrow behavior verified against FishBase/Wikipedia; the
+        // mouthbrooding-by-males detail is well-established for the jawfish
+        // family generally but not confirmed species-specifically, hence
+        // "believed to" — flag for REEF science-staff confirmation.
+        fact: "One to watch for here is the Bluespotted Jawfish, found only in the Gulf of California. Colonies burrow into sandy patches near the reef, and — like related species — males are believed to incubate the eggs in their mouths. The color is a fun twist: the vivid blue spotting is actually more pronounced on females and resting males, while courting males turn strikingly pale as they dash up from the burrow to defend their territory.",
+        question: "Has anyone spotted a jawfish hovering just above its burrow yet?",
+        prompt: "Approach slowly and stay low — jawfish drop straight back into the sand the instant they feel threatened, so patience is the only way to get a good look."
       },
       {
         fact: "Frogfish are ambush predators that lure prey with a modified fin spine that looks like a tiny fishing rod and bait — and they're masters of camouflage, so they're often sitting in plain sight.",
@@ -414,7 +481,7 @@ window.TRIP_DATA = {
         prompt: "If a young sea lion comes over to check out your gear, that's completely normal here — no need to swim away."
       },
       {
-        fact: "Bahía de los Ángeles is one of the more reliable places in the world to encounter whale sharks, the largest fish in the ocean — despite their size, they're filter feeders and no threat to snorkelers.",
+        fact: "Bahía de los Ángeles is, seasonally, one of the more reliable places in the world to encounter whale sharks, the largest fish in the ocean — despite their size, they're filter feeders and no threat to snorkelers.",
         question: "If the whale shark snorkel add-on happens this trip, what's the one thing you're hoping to notice up close?"
       },
       {
@@ -507,7 +574,7 @@ window.TRIP_DATA = {
   // here and consider a past-trip-photos-style teaser for actual 2026 shots.
   reflection: {
     thankYou: "Thank you for signing up to spend a week counting fish with us. Whether you're reading this before you've even packed a bag or looking back at a week that's already behind you, the same thing is true: every survey you log becomes part of something REEF has been building since 1993, one sighting at a time.",
-    conservationNote: "Every fish survey logged this week adds to REEF's Volunteer Fish Survey Project — the same long-running database that's helped track real changes in reef fish populations across the Tropical Eastern Pacific for decades. Your data doesn't stop being useful when you fly home; it becomes part of the record for as long as REEF keeps this work going.",
+    conservationNote: "Every fish survey logged this week adds to REEF's Volunteer Fish Survey Project (VFSP) — the same long-running database that's helped track real changes in reef fish populations across the Tropical Eastern Pacific for decades. Your data doesn't stop being useful when you fly home; it becomes part of the scientific record for as long as REEF keeps this work going, informing conservation research across the region.",
     invitation: "If this week leaves you wanting more, REEF runs Field Survey Trips to destinations all over the world, every year — ask Martha about what's coming up next, or keep an eye on <a href=\"https://www.REEF.org/trips\" target=\"_blank\" rel=\"noopener\">www.REEF.org/trips</a> for upcoming trips."
     // highlights: intentionally left out — there's nothing genuine to put
     // here before the trip happens. Once it does, add a few real, shared
