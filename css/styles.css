@@ -457,6 +457,19 @@ img { max-width: 100%; }
   flex-shrink: 0;
 }
 
+/* Wraps the thumb + its optional credit line (V2 pass, Design Review
+   Section 1.4 — see render.js renderLeaderIntroCard). */
+.leader-photo-col {
+  flex-shrink: 0;
+  text-align: center;
+  max-width: 84px;
+}
+
+.leader-photo-col .photo-credit {
+  font-size: 0.7rem;
+  margin: 0.25rem 0 0;
+}
+
 .fish-photo-thumb {
   width: 100%;
   max-width: 280px;
@@ -472,4 +485,113 @@ img { max-width: 100%; }
   .site-nav { gap: 0.5rem; }
   .site-nav a { padding: 0.5rem 0.75rem; }
   .tile { padding: 1.3rem 1.25rem; }
+}
+
+/* ============================================================
+   V2 additions (2026-07-24) — Expedition Guide V2 Design Review.
+   Everything below is new; nothing above this comment was changed
+   except the header rules noted inline. Kept as one clearly-labeled
+   block, consistent with this file's existing dated-comment
+   convention, so a future editor can see at a glance what V2 added.
+   ============================================================ */
+
+/* ---------- Mobile nav toggle (Design Review Section 6.3) ----------
+   Hidden by default (desktop: nav is always visible, no button shown).
+   Below 640px, the button appears and the nav collapses behind it —
+   replaces the old behavior of letting 8 nav items wrap to 2-3 lines. */
+
+.nav-toggle {
+  display: none;
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nav-toggle:hover { background: rgba(255, 255, 255, 0.24); }
+
+@media (max-width: 640px) {
+  .nav-toggle { display: inline-block; order: 2; }
+  .site-nav {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    order: 3;
+    gap: 0.25rem;
+  }
+  .site-nav.nav-open { display: flex; }
+  .site-nav a { width: 100%; }
+}
+
+/* ---------- Availability band pill (Design Review Sections 1.2, 4, 8) ----------
+   Reads a pre-computed band only — see render.js's renderAvailabilityBand()
+   for why no raw count is ever available to this component. */
+
+.availability-pill {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  vertical-align: middle;
+}
+
+.availability-open { background: #e6f7ed; color: #1a7f4b; border: 1px solid #1a7f4b; }
+.availability-limited { background: #fff8e1; color: #8a6400; border: 1px solid var(--reef-yellow); }
+.availability-waitlist,
+.availability-full { background: #fdecec; color: #b3261e; border: 1px solid #b3261e; }
+
+/* ---------- Requirement / suitability chip (Trip Details) ---------- */
+
+.requirement-line {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.4rem;
+}
+
+.requirement-chip {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.requirement-required { background: #eaf7f6; color: var(--accent-teal-dark); border: 1px solid var(--accent-teal); }
+.requirement-recommended { background: #fff8e1; color: #8a6400; border: 1px solid var(--reef-yellow); }
+.requirement-ask { background: #f1f2f4; color: var(--ink-light); border: 1px solid var(--border); }
+
+.requirement-label { font-weight: 600; }
+
+.requirement-note {
+  margin: 0 0 0.7rem 0;
+  padding-left: 0;
+  color: var(--ink-light);
+  font-size: 0.9rem;
+}
+
+/* ---------- Shared credited-photo wrapper (Design Review Section 1.4) ---------- */
+
+.credited-photo { margin: 0.4rem 0 0.6rem; }
+
+/* ---------- Sticky Register/Join Waitlist CTA (Trip Details) ---------- */
+
+.sticky-cta {
+  position: sticky;
+  bottom: 0;
+  background: linear-gradient(0deg, var(--bg-page) 60%, rgba(247, 250, 252, 0));
+  padding: 1rem 0 0.5rem;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.sticky-cta .resource-link {
+  font-size: 1rem;
+  padding: 0.7rem 1.4rem;
 }

@@ -46,6 +46,19 @@
    Study since Start Here already tells it in full. See the REEF
    Participant Dashboard Platform PRD (governing spec) and this
    project's own implementation summary for the complete list.
+
+   2026-08-09 pass: confirmed the Bluespotted/Yellowhead jawfish naming
+   question raised against this file — they are two distinct real species,
+   not a naming variant of one (Bluespotted = Opistognathus rosenblatti,
+   Gulf of California endemic; Yellowhead = Opistognathus aurifrons,
+   Tropical Western Atlantic/Caribbean, Martha's favorite fish in the
+   world generally and the correct choice for her Bonaire entry). This
+   file's text was already correct from the 07-23 pass. Closed the "no
+   confirmed photo" gap by attaching a real credited photo of O.
+   rosenblatti from REEF's Media Assets archive (Christy Semmens). See
+   TECH_DEBT.md for the new standing process note this prompted: trip
+   leader profiles (funFact especially) need a per-trip regional-accuracy
+   check, not just a one-time write.
    ============================================================ */
 
 window.TRIP_DATA = {
@@ -58,7 +71,7 @@ window.TRIP_DATA = {
   endDate: "2026-09-19",
   // Drives the shared footer's "Last updated" line (render.js renderFooter).
   // Update this whenever this file's content changes.
-  lastUpdated: "2026-07-23",
+  lastUpdated: "2026-08-09",
 
   tripLeaders: [
     {
@@ -70,25 +83,41 @@ window.TRIP_DATA = {
       // personal cell numbers belong here. Email only. See render.js —
       // renderPreTripInfo() and renderTripLeader() no longer render a
       // phone field even if one is present.
-      photo: "resources/photos/martha-klitzkie-headshot.jpg", // credit: Stacey Henderson
+      photo: "resources/photos/martha-klitzkie-headshot.jpg",
+      // Added 2026-07-24 (V2 pass) — this credit previously sat only in a
+      // code comment on this line and was never shown to participants. See
+      // render.js renderLeaderIntroCard/renderTripLeader.
+      photoCredit: "Stacey Henderson",
       bio: [
         "Martha is REEF's Co-Executive Director of Strategy and Operations. Before joining the REEF staff team in 2011, her passion for teaching people about the oceans grew over ten years of leading residential marine science programs. Her undergraduate degree focused on environmental education, and her master's was in Educational Leadership and Administration.",
         "She's passionate about connecting people with the marine environment and building a sense of community among ocean enthusiasts — and she's enthusiastic about expanding REEF's impact and reach to create a future where healthy oceans thrive. She believes it's the little things that change the world, like how a single fish survey adds up to the world's largest marine sighting database."
       ],
       // funFact replaced 2026-07-23 per the governing PRD — Martha's Midriff
-      // favorite fish is now the Bluespotted Jawfish (Opistognathus
-      // rosenblatti), a Gulf of California endemic, rather than the
-      // Yellowhead Jawfish reused from her Bonaire entry (a Caribbean
-      // species with no place in a Sea of Cortez trip). Facts below verified
-      // against FishBase, WoRMS, and IUCN (Least Concern, assessed 2007) —
-      // see the Change Log for full sourcing and one open item: no
-      // confirmed photo has been sourced for this species yet, so no photo
-      // field is set (same "don't attach an unconfirmed image" rule this
-      // file already follows elsewhere, e.g. featuredFish above).
+      // favorite fish is the Bluespotted Jawfish (Opistognathus
+      // rosenblatti), a Gulf of California endemic, NOT the Yellowhead
+      // Jawfish (Opistognathus aurifrons, a Tropical Western Atlantic/
+      // Caribbean species) reused from her Bonaire entry — confirmed
+      // 2026-08-09 these are two genuinely distinct species, not a naming
+      // variant of one. Facts below verified against FishBase, WoRMS, and
+      // IUCN (Least Concern, assessed 2007) — see the Change Log for full
+      // sourcing.
+      // Photo added 2026-08-09, closing the "no confirmed photo" gap noted
+      // when this funFact was first written: sourced from REEF's own Media
+      // Assets archive (Airtable, REEF Species ID 0084), credited photo of
+      // the actual Opistognathus rosenblatti. An unrelated leftover
+      // "yellowhead-jawfish.jpg" file was found sitting unused in this same
+      // resources/photos/ folder (carried over from the Bonaire template
+      // scaffold, never referenced by this file) — flagged for Martha to
+      // delete so it doesn't cause future confusion.
       funFact: {
         label: "Favorite Fish in This Region",
         value: "Bluespotted Jawfish",
         note: "found only in the Gulf of California, so this is one of the few trips anywhere you can look for it — watch for one hovering just above its sandy burrow; it drops straight back in the instant it feels threatened.",
+        photo: {
+          src: "resources/photos/bluespotted-jawfish.jpg",
+          alt: "Bluespotted Jawfish (Opistognathus rosenblatti)",
+          credit: "Christy Semmens"
+        }
       },
       whyILead: "Leading REEF trips combines so many things I care about: exploring remarkable places, connecting with wonderful people, and discovering something new about the underwater world. I love helping people see the ocean in a new way. Whether someone is brand new to fish identification or has surveyed for decades, everyone has something to learn and something to share. My goal is for every participant to leave with new skills, new friends, and a deeper appreciation and understanding of the ocean.",
       // Added 2026-07-23 per the governing PRD's Trip Leader page spec.
@@ -309,7 +338,30 @@ window.TRIP_DATA = {
           "Wi-Fi is limited — about $50/device within roughly 10 miles of an island, and unavailable during open-water crossings. Plan on being mostly offline for the week.",
           "Fishy Hour happens each evening in the boat's salon, using the onboard TV/computer station.",
           "Outlets aboard are 110V, standard U.S. plugs.",
-          "REEF's trip leader handles marine life education and survey facilitation; the Captain and divemasters make all diving, safety, and scheduling decisions."
+          "REEF trip leader role: marine life educator and survey facilitator. The Captain and divemasters own all dive planning, site selection, panga groups, diver supervision and in-water safety decisions."
+        ]
+      },
+      // Added 2026-08-21 at Martha's request. This is the ONLY emergency /
+      // contact information published on this public dashboard. The remaining
+      // destination-level emergency facts (nearest medical facility, nearest
+      // hyperbaric chamber, evacuation plan, embassy/consulate, insurance
+      // claims contact) stay in Airtable for the trip-leader binder and are
+      // deliberately NOT published here.
+      // Personal direct-dial numbers for Valerie and Dora were removed by
+      // Martha before publishing — role inboxes only. This matches the
+      // no-personal-numbers rule already enforced in render.js
+      // (renderTripLeader / renderPreTripInfo).
+      // Source: Mexico Liveaboards "Know Before You Go - Midriff Islands /
+      // Sea of Cortez", updated 2026-05-01, pp. 2 and 7.
+      {
+        heading: "Staying in Touch \u2014 and How Family Can Reach You",
+        intro: "Plan on being mostly offline for the week. If someone at home needs to reach you, they call the vessel's office \u2014 not your phone.",
+        items: [
+          { label: "Mexico Liveaboards 24-hour emergency line: +1 (602) 558-9580", note: "Phone or WhatsApp. This is the number family and friends should call. Give it to them before you leave." },
+          "The vessel maintains daily radio contact with the Mexico Liveaboards US office, and office staff relay messages to the boat.",
+          "Wi-Fi aboard is about $50 per device and only works within roughly 10 miles of an island or at port \u2014 it is unavailable during open-ocean crossings. The office line is the only reliable channel while we are at sea.",
+          { label: "Guest services and passenger documents", note: "Documents@MexicoLiveaboards.com" },
+          { label: "Mexico Liveaboards office", note: "Dora@MexicoLiveaboards.com" }
         ]
       },
       {
@@ -564,6 +616,85 @@ window.TRIP_DATA = {
       { q: "Why are fish so smart?", a: "Because they live in schools." },
       { q: "What did the ocean say to the beach?", a: "Nothing — it just waved." },
       { q: "Why do fish avoid using computers?", a: "They're afraid of the net." }
+    ]
+  },
+
+  // Trip Details: NEW section, added 2026-07-24 for the Expedition Guide V2
+  // pass, per the Product Definition & UX Architecture doc (Section 4.2/5.2).
+  // Every fact below is sourced from the real Airtable Trips/Pricing records
+  // and the Midriff Islands Trip Leader Playbook (pulled directly while
+  // building this file — not invented). Two honest gaps, flagged rather
+  // than guessed, per this project's own "flag, don't guess" convention:
+  // (1) no minimum-certification-level fact exists in either source, so the
+  // one requirement most participants would ask first is marked "ask us,"
+  // not assumed; (2) the vessel's onboard-paid items (park fees, tips) have
+  // no confirmed dollar amount yet in Airtable's Pricing table ("Paid
+  // onboard and Pricing TBD"), so excludes[] says so honestly instead of
+  // inventing a number.
+  tripDetails: {
+    // availabilityBand is the ONLY availability fact in this public file —
+    // deliberately pre-computed, never a raw count. Real source (Airtable
+    // Trips, pulled 2026-07-24): Registered Count 20 / Maximum Capacity 20 /
+    // Waitlist Count 8 — this trip is genuinely full with a real waitlist
+    // today. Update this string by hand when Airtable's numbers change;
+    // never add the raw counts themselves to this file (see render.js's
+    // renderAvailabilityBand comment for why).
+    availabilityBand: "waitlist",
+    accommodations: {
+      heading: "Aboard the Rocio del Mar",
+      body: [
+        "This trip is a full-charter liveaboard aboard the Rocio del Mar (Mexico Liveaboards), boarding at Marina Fonatur in Puerto Peñasco the evening of September 12. The charter carries our full REEF group — about 20 people — for the whole week, moving between islands rather than staying at a fixed resort.",
+        "Cabin assignments are handled by Mexico Liveaboards as part of your passenger registration; note any rooming preference there rather than on this page."
+      ]
+    },
+    // includes/excludes/requirements[0]/faq updated 2026-07-24 against REEF's
+    // own live public listing for this trip (reef.org/events/midriff-island-
+    // field-survey-trip, confirmed 2026-07-24) — this closed the one
+    // requirement gap the Design Review flagged as unconfirmed (see
+    // TECH_DEBT.md, "Required for V2," resolved below) and gave real
+    // inclusion detail (meals, beverages, tanks/weights) this file didn't
+    // have before.
+    includes: [
+      "Seven nights double-occupancy accommodation in a cabin aboard the Rocio del Mar, Sept 12–19",
+      "All planned dives per the itinerary, led by the vessel's crew",
+      "3 daily meals plus snacks; beverages including soda, local beer, and wine",
+      "Taxes and port fees",
+      "Tanks and weights (80 cubic foot tanks; weights and weight belts)",
+      "REEF trip leadership, daily fish ID instruction, and survey facilitation",
+      "REEF program fee and standard trip deposit, per your registration"
+    ],
+    excludes: [
+      "Round-trip flights to Phoenix (PHX)",
+      "Head Out to Rocky Point shuttle, PHX ↔ Puerto Peñasco (~$175–190/person) — book directly, not through REEF",
+      "Marine park fees and gratuities, paid directly aboard the vessel — gratuities are at each participant's discretion",
+      "Dive travel insurance — not included; REEF partners with DiveAssure and DAN if you need to purchase a policy",
+      "Onboard Wi-Fi ($50/device where available; no signal during open-water crossings)",
+      "Optional whale shark snorkel add-on and optional private-divemaster add-on (ask your trip leader for current pricing)",
+      "Nitrox, available by request for an additional fee"
+    ],
+    requirements: [
+      { status: "required", label: "Open Water scuba certification (or higher), plus proof of dive insurance", note: "Per REEF's own trip listing: \"Best Suited For: Divers.\" No advanced certification or minimum dive count is specified for this trip — proof of certification and dive insurance are required to dive, same as any REEF Field Survey Trip." },
+      { status: "required", label: "Dive computer, safety sausage (SMB), and whistle", note: "Required for every diver — all diving is done from two inflatable zodiacs." },
+      { status: "required", label: "Passport valid for international travel", note: "A passport photo page must be sent to Mexico Liveaboards at least 2 weeks before departure." },
+      { status: "required", label: "Vessel passenger registration completed online", note: "Required by Mexico Liveaboards, typically due about 30 days before departure; the online form expires after a 4-hour window once started." },
+      { status: "recommended", label: "Comfortable with limited connectivity for a full week", note: "Wi-Fi is paid and limited near islands, and unavailable entirely during open-water crossings." },
+      { status: "recommended", label: "Comfortable with small-boat transfers and liveaboard living", note: "This is a full-charter liveaboard, not a resort — everyone shares the boat for the whole week." }
+    ],
+    pricing: [
+      { label: "Trip cost (Double Occupancy)", amount: "$3,095 total" },
+      { label: "REEF program fee", amount: "$350" },
+      { label: "Deposit due at booking", amount: "$500" }
+    ],
+    paymentSchedule: [
+      { when: "At booking", amount: "$500 deposit" },
+      { when: "180 days before departure (March 16, 2026)", amount: "$1,298" },
+      { when: "90 days before departure (June 14, 2026)", amount: "$1,297" }
+    ],
+    pricingNote: "Figures above are REEF's own real, current pricing records for this trip. Onboard-paid items (marine park fees, gratuities) are not yet itemized — see What's Not Included.",
+    faq: [
+      { q: "Is this trip right for a first-time liveaboard traveler?", a: "Many participants on this exact roster are repeat Mexico Liveaboards guests, and REEF's trip leader plans a beginner orientation the first night for anyone new to liveaboard diving or REEF surveying. If you're unsure, reach out before booking." },
+      { q: "What if this trip is full?", a: "This trip is currently full, with a real waitlist. Joining the waitlist is the right next step — REEF will reach out if a spot opens." },
+      { q: "Can snorkelers join, or is this dive-only?", a: "REEF's own trip listing describes this trip as \"Best Suited For: Divers,\" and diving requires proof of certification and dive insurance — so plan on this being a dive-focused trip. There is a seasonal whale shark snorkel add-on around Bahía de los Ángeles; ask us if you have a specific non-diving question." }
     ]
   },
 

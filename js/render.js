@@ -20,13 +20,23 @@
 // wiring (trip-data.js keys, PAGE_RENDERERS keys, file paths) with no
 // participant-facing effect, and renaming them would touch every trip's
 // data file and every page's bootstrap script for zero visible benefit.
+//
+// V2 (this file) — REORDERED 2026-07-24 per the Expedition Guide V2 Design
+// Review: order now follows the evaluation-before-preparation journey
+// (Discovery -> Evaluation -> Preparation -> Expedition -> Reflection) from
+// the July 24 Product Definition & UX Architecture doc, instead of the
+// original arbitrary build order. Trip Leader moves up (build trust early);
+// Trip Details is new, inserted right after Itinerary (evaluation-stage
+// content belongs together). Ids/hrefs/file names still untouched — only
+// array order changed, plus one new entry.
 var NAV_ITEMS = [
   { id: "home", label: "Start Here", href: "index.html" },
-  { id: "itinerary", label: "Itinerary", href: "pages/itinerary.html" },
-  { id: "pretrip", label: "Pre-Trip Info", href: "pages/pre-trip-info.html" },
-  { id: "study", label: "Prepare & Study", href: "pages/study-tips.html" },
-  { id: "fun", label: "Fishy Hour", href: "pages/during-trip-fun.html" },
   { id: "leader", label: "Trip Leader", href: "pages/trip-leader.html" },
+  { id: "itinerary", label: "Itinerary", href: "pages/itinerary.html" },
+  { id: "details", label: "Trip Details", href: "pages/trip-details.html" },
+  { id: "study", label: "Prepare & Study", href: "pages/study-tips.html" },
+  { id: "pretrip", label: "Pre-Trip Info", href: "pages/pre-trip-info.html" },
+  { id: "fun", label: "Fishy Hour", href: "pages/during-trip-fun.html" },
   { id: "reflection", label: "Your Impact", href: "pages/reflection.html" }
 ];
 
@@ -79,7 +89,7 @@ function renderHeader(activePageId) {
 
   var brand = el("a", { href: window.SITE_ROOT + "index.html", class: "brand-lockup", style: "color:#fff;" }, [logo, titleWrap]);
 
-  var nav = el("nav", { class: "site-nav" });
+  var nav = el("nav", { class: "site-nav", id: "site-nav" });
   NAV_ITEMS.forEach(function (item) {
     var a = el("a", { href: window.SITE_ROOT + item.href, text: item.label });
     if (item.id === activePageId) {
@@ -89,7 +99,25 @@ function renderHeader(activePageId) {
     nav.appendChild(a);
   });
 
-  mount.appendChild(el("div", { class: "site-header-inner" }, [brand, nav]));
+  // Mobile nav toggle — added in the V2 pass (Design Review Section 6.3).
+  // Growing from 7 to 8 nav items made the old always-wrapping mobile nav
+  // noticeably worse, so below the existing 640px breakpoint the nav now
+  // collapses behind this button instead of wrapping to 2-3 lines. Desktop
+  // behavior (nav always visible, no button shown) is unchanged — this is
+  // pure CSS + one small class toggle, no new dependency.
+  var navToggle = el("button", {
+    class: "nav-toggle",
+    type: "button",
+    "aria-expanded": "false",
+    "aria-controls": "site-nav",
+    text: "Menu ☰"
+  });
+  navToggle.addEventListener("click", function () {
+    var isOpen = nav.classList.toggle("nav-open");
+    navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  });
+
+  mount.appendChild(el("div", { class: "site-header-inner" }, [brand, navToggle, nav]));
 }
 
 function renderFooter() {
@@ -143,6 +171,54 @@ function renderList(items) {
     ul.appendChild(el("li", { text: item }));
   });
   return ul;
+}
+
+/* ---------- Shared credited-photo block ----------
+   Added in the V2 pass (Design Review Section 1.4/4): consolidates three
+   near-identical inline blocks that already existed separately in
+   renderLeaderIntroCard, renderFeaturedFishCard, and renderDuringTripFun —
+   same img + optional "Photo: {credit}" caption, same two CSS classes,
+   different call sites. One helper now backs all of them plus the new
+   Trip Details accommodations photo, so a future fifth call site is a
+   one-line addition instead of another copy-pasted block. Pure function of
+   a { src, alt, credit } object — sizeClass lets callers keep their
+   existing visual sizing (fish-photo-thumb vs. a wider Trip Details photo). */
+function renderCreditedPhoto(photo, sizeClass) {
+  if (!photo || !photo.src) return null;
+  var wrap = el("div", { class: "credited-photo" });
+  wrap.appendChild(el("img", {
+    src: window.tripResourceUrl ? window.tripResourceUrl(photo.src) : photo.src,
+    alt: photo.alt || "",
+    class: sizeClass || "fish-photo-thumb"
+  }));
+  if (photo.credit) wrap.appendChild(el("p", { class: "photo-credit", text: "Photo: " + photo.credit }));
+  return wrap;
+}
+
+/* ---------- Availability band pill ----------
+   Added in the V2 pass (Design Review Sections 1.2, 4, 8) implementing the
+   Architecture doc's Section 7 rule: "the public availability-band
+   component should be technically incapable of rendering a real count,
+   only a computed band." Enforced here at the data layer, not just the
+   render layer — this function only ever reads data.tripDetails.
+   availabilityBand, a pre-computed string ("open" | "limited" | "waitlist"
+   | "full"). The real Registered/Maximum Capacity/Waitlist counts that
+   produced that band live in Airtable, not in this public trip-data file,
+   so there is no raw number anywhere in this codebase for a well-meaning
+   future edit to accidentally expose. */
+var AVAILABILITY_BAND_LABELS = {
+  open: "Open",
+  limited: "Limited Availability",
+  waitlist: "Full — Waitlist Open",
+  full: "Full"
+};
+
+function renderAvailabilityBand(band) {
+  if (!band || !AVAILABILITY_BAND_LABELS[band]) return null;
+  return el("span", {
+    class: "availability-pill availability-" + band,
+    text: AVAILABILITY_BAND_LABELS[band]
+  });
 }
 
 /* ---------- Living Start Here helpers ----------
@@ -249,14 +325,28 @@ function renderLeaderIntroCard(data) {
     }
 
     if (leader.photo) {
-      card.appendChild(el("div", { class: "leader-intro-row" }, [
+      // Photo credit line added in the V2 pass (Design Review Section 1.4):
+      // leader photos are one of the three "photo + caption + attribution"
+      // patterns this section calls out for consolidation, but a real,
+      // documented credit (e.g. Martha's headshot, credited to Stacey
+      // Henderson) was previously only sitting in a trip-data.js code
+      // comment and never actually shown to participants — every other
+      // photo type on this site (featured fish, daily discovery,
+      // accommodations) already displays its credit via
+      // renderCreditedPhoto(). This closes that one gap for leader photos
+      // too, using the same optional-field pattern (no photoCredit set =
+      // nothing rendered, same as before).
+      var photoCol = el("div", { class: "leader-photo-col" }, [
         el("img", {
           src: window.tripResourceUrl ? window.tripResourceUrl(leader.photo) : leader.photo,
           alt: leader.name,
           class: "leader-photo-thumb"
-        }),
-        textWrap
-      ]));
+        })
+      ]);
+      if (leader.photoCredit) {
+        photoCol.appendChild(el("p", { class: "photo-credit", text: "Photo: " + leader.photoCredit }));
+      }
+      card.appendChild(el("div", { class: "leader-intro-row" }, [photoCol, textWrap]));
     } else {
       card.appendChild(textWrap);
     }
@@ -309,14 +399,8 @@ function renderFeaturedFishCard(data) {
   var ff = pickFeaturedFish(data);
   if (!ff || !ff.name) return null;
   var card = el("div", { class: "card about-card" }, [el("h2", { text: "Today's Featured Fish: " + ff.name })]);
-  if (ff.photo && ff.photo.src) {
-    card.appendChild(el("img", {
-      src: window.tripResourceUrl ? window.tripResourceUrl(ff.photo.src) : ff.photo.src,
-      alt: ff.photo.alt || ff.name,
-      class: "fish-photo-thumb"
-    }));
-    if (ff.photo.credit) card.appendChild(el("p", { class: "photo-credit", text: "Photo: " + ff.photo.credit }));
-  }
+  var ffPhoto = renderCreditedPhoto(ff.photo && { src: ff.photo.src, alt: ff.photo.alt || ff.name, credit: ff.photo.credit });
+  if (ffPhoto) card.appendChild(ffPhoto);
   if (ff.blurb) card.appendChild(el("p", { text: ff.blurb }));
   return card;
 }
@@ -347,10 +431,17 @@ function renderHome(container) {
     ]));
   }
 
-  if (data.startDate) container.appendChild(renderCountdownCard(data));
-
+  // Card order changed in the V2 pass (Design Review Section 1.2): leader
+  // intro now comes before the countdown. The Experience Review's own
+  // Emotional Journey Map puts "is this real, is someone actually leading
+  // it" ahead of logistics on a first visit — the countdown is a
+  // preparedness signal, but trust-in-real-people is the higher-priority
+  // one, and code order was previously arbitrary (build order, not journey
+  // order).
   var leaderIntro = renderLeaderIntroCard(data);
   if (leaderIntro) container.appendChild(leaderIntro);
+
+  if (data.startDate) container.appendChild(renderCountdownCard(data));
 
   var featuredFish = renderFeaturedFishCard(data);
   if (featuredFish) container.appendChild(featuredFish);
@@ -362,10 +453,15 @@ function renderHome(container) {
   var featuredNavId = stage && STAGE_COPY[stage] ? STAGE_COPY[stage].navId : null;
 
   var tileGrid = el("div", { class: "tile-grid" });
+  // "details" tile added in the V2 pass — the one new page this release
+  // adds (Design Review Section 1.5). Placed second, right after
+  // Itinerary, matching the reordered nav's evaluation-before-preparation
+  // sequence.
   var tileDefs = [
     { navId: "itinerary", desc: "Day-by-day plan for the week." },
-    { navId: "pretrip", desc: "Everything to arrange before you fly: forms, fees, packing, and travel details." },
+    { navId: "details", desc: "Pricing, what's included, requirements, and FAQ — everything to help you decide." },
     { navId: "study", desc: "How to prep your fish ID before you arrive." },
+    { navId: "pretrip", desc: "Everything to arrange before you fly: forms, fees, packing, and travel details." },
     { navId: "fun", desc: "Fish facts, conversation starters, and a little evening fun — check in whenever." }
   ];
   tileDefs.forEach(function (t) {
@@ -429,6 +525,141 @@ function renderItinerary(container) {
     block.appendChild(table);
     container.appendChild(block);
   });
+}
+
+/* ---------- Trip Details (new in V2) ----------
+   Added per the July 24 Product Definition & UX Architecture doc, Section
+   4.2/5.2: the one new top-level page this release adds. Answers
+   decision-support questions (accommodations, what's included, requirements
+   & suitability, pricing, FAQ) that don't fit the five story-driven pages —
+   distinct from Pre-Trip Info, which stays action-oriented ("what do I need
+   to DO"), not duplicated with it. Reads data.tripDetails, a new top-level
+   trip-data.js section. Every field here is optional so this renders
+   honestly even before a trip's data is fully filled in — same convention
+   as every other page in this file. */
+
+function renderRequirementChip(status) {
+  // Fixed vocabulary, per Architecture doc Section 7 ("small, fixed visual
+  // vocabulary... following the small-role-vocabulary principle"). Adapted
+  // here to "Required / Recommended / Ask Us" rather than "met / not met"
+  // literally: this is a public, unauthenticated page with no participant
+  // identity yet, so the system cannot know whether the person reading it
+  // personally "meets" a requirement. This vocabulary lets a visitor
+  // self-assess against a clear label instead.
+  var labels = { required: "Required", recommended: "Recommended", ask: "Ask Us" };
+  var label = labels[status] || "Ask Us";
+  return el("span", { class: "requirement-chip requirement-" + (labels[status] ? status : "ask"), text: label });
+}
+
+function renderTripDetails(container) {
+  var data = window.TRIP_DATA;
+  var td = data.tripDetails || {};
+
+  container.appendChild(el("h1", { class: "page-title", text: "Trip Details" }));
+  var subtitleRow = el("p", { class: "page-subtitle" }, [
+    document.createTextNode("Pricing, requirements, and everything else to help you decide. ")
+  ]);
+  var band = renderAvailabilityBand(td.availabilityBand);
+  if (band) subtitleRow.appendChild(band);
+  container.appendChild(subtitleRow);
+
+  if (td.accommodations) {
+    var acc = td.accommodations;
+    var accCard = el("div", { class: "card" }, [el("h2", { text: acc.heading || "Accommodations" })]);
+    var accPhoto = renderCreditedPhoto(acc.photo, "fish-photo-thumb");
+    if (accPhoto) accCard.appendChild(accPhoto);
+    (Array.isArray(acc.body) ? acc.body : [acc.body]).forEach(function (p) {
+      if (p) accCard.appendChild(el("p", { text: p }));
+    });
+    container.appendChild(accCard);
+  }
+
+  if ((td.includes && td.includes.length) || (td.excludes && td.excludes.length)) {
+    var incCard = el("div", { class: "card" }, [el("h2", { text: "What's Included / What's Not" })]);
+    if (td.includes && td.includes.length) {
+      incCard.appendChild(el("h3", { text: "Included" }));
+      incCard.appendChild(renderList(td.includes));
+    }
+    if (td.excludes && td.excludes.length) {
+      incCard.appendChild(el("h3", { text: "Not Included / Paid Separately" }));
+      incCard.appendChild(renderList(td.excludes));
+    }
+    container.appendChild(incCard);
+  }
+
+  if (td.requirements && td.requirements.length) {
+    var reqCard = el("div", { class: "card" }, [el("h2", { text: "Requirements & Is This Trip For Me" })]);
+    td.requirements.forEach(function (req) {
+      var line = el("div", { class: "requirement-line" }, [
+        renderRequirementChip(req.status),
+        el("span", { class: "requirement-label", text: req.label })
+      ]);
+      reqCard.appendChild(line);
+      if (req.note) reqCard.appendChild(el("p", { class: "requirement-note", text: req.note }));
+    });
+    container.appendChild(reqCard);
+  }
+
+  if (td.pricing && td.pricing.length) {
+    var priceCard = el("div", { class: "card" }, [el("h2", { text: "Pricing & Payment Schedule" })]);
+    var priceTable = el("table", { class: "event-table" });
+    priceTable.appendChild(el("tr", {}, [
+      el("td", { class: "time-col", html: "<strong>Item</strong>" }),
+      el("td", { html: "<strong>Amount</strong>" })
+    ]));
+    td.pricing.forEach(function (item) {
+      priceTable.appendChild(el("tr", {}, [
+        el("td", { class: "time-col", text: item.label }),
+        el("td", { text: item.amount })
+      ]));
+    });
+    priceCard.appendChild(priceTable);
+    if (td.paymentSchedule && td.paymentSchedule.length) {
+      priceCard.appendChild(el("h3", { text: "Payment Schedule" }));
+      var schedTable = el("table", { class: "event-table" });
+      td.paymentSchedule.forEach(function (row) {
+        schedTable.appendChild(el("tr", {}, [
+          el("td", { class: "time-col", text: row.when }),
+          el("td", { text: row.amount })
+        ]));
+      });
+      priceCard.appendChild(schedTable);
+    }
+    if (td.pricingNote) priceCard.appendChild(el("p", { class: "empty-note", text: td.pricingNote }));
+    container.appendChild(priceCard);
+  }
+
+  if (td.faq && td.faq.length) {
+    var faqCard = el("div", { class: "card" }, [el("h2", { text: "Frequently Asked Questions" })]);
+    td.faq.forEach(function (item) {
+      faqCard.appendChild(el("details", { class: "joke" }, [
+        el("summary", { text: item.q }),
+        el("p", { text: item.a })
+      ]));
+    });
+    container.appendChild(faqCard);
+  }
+
+  if (!td.accommodations && !td.requirements && !td.pricing && !td.faq) {
+    container.appendChild(el("div", { class: "card" }, [
+      el("p", { class: "empty-note", text: "Trip Details hasn't been filled in yet for this trip — check back soon, or reach out with any questions." })
+    ]));
+  }
+
+  // Sticky CTA — new shared component (Design Review Section 4). Honest
+  // link, not a fabricated "Register" flow: the Registration Experience
+  // (baseline Product Strategy Phase 2) isn't live yet, so this points to
+  // REEF's real current contact path rather than implying a connected
+  // booking flow that doesn't exist. Label adapts to the availability band
+  // so a full trip never invites someone to "Register" for a spot that
+  // isn't there.
+  var ctaLabel = (td.availabilityBand === "waitlist" || td.availabilityBand === "full")
+    ? "Contact REEF to Join the Waitlist"
+    : "Contact REEF to Register";
+  var stickyCta = el("div", { class: "sticky-cta" }, [
+    el("a", { href: "mailto:trips@REEF.org", class: "resource-link", text: ctaLabel + " →" })
+  ]);
+  container.appendChild(stickyCta);
 }
 
 /* ---------- Pre-Trip Info ---------- */
@@ -647,14 +878,8 @@ function renderDuringTripFun(container) {
       el("h2", { text: "Fish (or Food) for Thought" })
     ]);
     discoveryCard.appendChild(el("p", { text: "A few things to think about, chat over dinner, or just enjoy on your own — come back and browse whenever it's useful. There's no schedule to keep and nothing to miss." }));
-    if (today.photo && today.photo.src) {
-      discoveryCard.appendChild(el("img", {
-        src: window.tripResourceUrl ? window.tripResourceUrl(today.photo.src) : today.photo.src,
-        alt: today.photo.alt || "",
-        class: "fish-photo-thumb"
-      }));
-      if (today.photo.credit) discoveryCard.appendChild(el("p", { class: "photo-credit", text: "Photo: " + today.photo.credit }));
-    }
+    var discoveryPhoto = renderCreditedPhoto(today.photo, "fish-photo-thumb");
+    if (discoveryPhoto) discoveryCard.appendChild(discoveryPhoto);
     discoveryCard.appendChild(el("p", { text: today.fact }));
     discoveryCard.appendChild(el("p", { html: "<strong>If you feel like it:</strong> " + today.question }));
     if (today.prompt) {
@@ -792,11 +1017,19 @@ function renderTripLeader(container) {
     var card = el("div", { class: "card" });
 
     if (leader.photo) {
-      card.appendChild(el("img", {
-        src: window.tripResourceUrl ? window.tripResourceUrl(leader.photo) : leader.photo,
-        alt: leader.name,
-        style: "max-width:160px;border-radius:10px;float:right;margin:0 0 0.75rem 1rem;"
-      }));
+      // Same photo-credit consolidation as renderLeaderIntroCard above —
+      // one shared reason (Design Review Section 1.4), two call sites.
+      var photoWrap = el("div", { style: "max-width:160px;float:right;margin:0 0 0.75rem 1rem;" }, [
+        el("img", {
+          src: window.tripResourceUrl ? window.tripResourceUrl(leader.photo) : leader.photo,
+          alt: leader.name,
+          style: "width:100%;display:block;border-radius:10px;"
+        })
+      ]);
+      if (leader.photoCredit) {
+        photoWrap.appendChild(el("p", { class: "photo-credit", text: "Photo: " + leader.photoCredit }));
+      }
+      card.appendChild(photoWrap);
     }
 
     card.appendChild(el("h2", { text: leader.name }));
@@ -824,14 +1057,12 @@ function renderTripLeader(container) {
       var factCard = el("div", { class: "card about-card" }, [
         el("h2", { text: (leader.funFact.label || "Favorite Fish in This Region") + (leaders.length > 1 ? " — " + leader.name : "") })
       ]);
-      if (leader.funFact.photo && leader.funFact.photo.src) {
-        factCard.appendChild(el("img", {
-          src: window.tripResourceUrl ? window.tripResourceUrl(leader.funFact.photo.src) : leader.funFact.photo.src,
-          alt: leader.funFact.photo.alt || leader.funFact.value,
-          class: "fish-photo-thumb"
-        }));
-        if (leader.funFact.photo.credit) factCard.appendChild(el("p", { class: "photo-credit", text: "Photo: " + leader.funFact.photo.credit }));
-      }
+      var funFactPhoto = renderCreditedPhoto(leader.funFact.photo && {
+        src: leader.funFact.photo.src,
+        alt: leader.funFact.photo.alt || leader.funFact.value,
+        credit: leader.funFact.photo.credit
+      });
+      if (funFactPhoto) factCard.appendChild(funFactPhoto);
       factCard.appendChild(el("p", { html: "<strong>" + leader.funFact.value + "</strong>" + (leader.funFact.note ? " — " + leader.funFact.note : "") }));
       container.appendChild(factCard);
     }
@@ -982,6 +1213,7 @@ function renderReflection(container) {
 var PAGE_RENDERERS = {
   home: renderHome,
   itinerary: renderItinerary,
+  details: renderTripDetails,
   pretrip: renderPreTripInfo,
   study: renderStudyTips,
   fun: renderDuringTripFun,
