@@ -34,7 +34,7 @@ var NAV_ITEMS = [
   { id: "leader", label: "Trip Leader", href: "pages/trip-leader.html" },
   { id: "itinerary", label: "Itinerary", href: "pages/itinerary.html" },
   { id: "details", label: "Trip Details", href: "pages/trip-details.html" },
-  { id: "study", label: "Prepare & Study", href: "pages/study-tips.html" },
+  { id: "study", label: "Explore & Prepare", href: "pages/study-tips.html" },
   { id: "pretrip", label: "Pre-Trip Info", href: "pages/pre-trip-info.html" },
   { id: "fun", label: "Fishy Hour", href: "pages/during-trip-fun.html" },
   { id: "reflection", label: "Your Impact", href: "pages/reflection.html" }
@@ -135,9 +135,14 @@ function renderFooter() {
   if (data && data.lastUpdated) {
     mount.appendChild(el("div", { class: "footer-meta", text: "Last updated " + formatDisplayDate(data.lastUpdated) }));
   }
+  // Footer routing updated 2026-08-21: this participant site is a pilot, so
+  // feedback about the SITE goes to the leader piloting it, while anything
+  // about the trip itself (forms, payments, reservations, travel changes)
+  // goes to the standing trips@REEF.org inbox. Reusable for any trip — both
+  // addresses are constants, not trip-specific.
   mount.appendChild(el("div", {
     class: "footer-meta",
-    text: "See something on this site that should be fixed? Let your trip leader know, or email trips@REEF.org."
+    text: "This participant site is being piloted for REEF Field Survey Trips. Feedback on the site itself is welcome at martha@REEF.org. For trip logistics — forms, payments, reservations, or travel changes — please email trips@REEF.org."
   }));
 }
 
@@ -262,7 +267,7 @@ var STAGE_COPY = {
   // tradition name) — it's just no longer read here.
   early: {
     headline: function (n) { return "Our adventure begins in " + n + " day" + (n === 1 ? "" : "s") + " — plenty of time to get ready."; },
-    action: "Get to know your trip leader and start on early paperwork.",
+    action: "Get to know your trip leader and take a look at the pre-trip checklist.",
     navId: "pretrip"
   },
   ramping: {
@@ -271,8 +276,8 @@ var STAGE_COPY = {
     navId: "pretrip"
   },
   intensify: {
-    headline: function (n) { return "Our adventure begins in " + n + " day" + (n === 1 ? "" : "s") + " — time to get serious about fish ID."; },
-    action: "Start your fish ID prep for the trip.",
+    headline: function (n) { return "Our adventure begins in " + n + " day" + (n === 1 ? "" : "s") + " — a great time to start exploring the fish of the region."; },
+    action: "Explore fish ID resources for the Sea of Cortez.",
     navId: "study"
   },
   finalWeek: {
@@ -287,7 +292,7 @@ var STAGE_COPY = {
   },
   after: {
     headline: function () { return "This expedition has wrapped up — thank you for surveying with REEF."; },
-    action: "Visit Your Impact for a shared send-off and what's next.",
+    action: "Visit Your Impact to see how your surveys contribute to REEF science.",
     navId: "reflection"
   }
 };
@@ -398,7 +403,7 @@ function pickFeaturedFish(data) {
 function renderFeaturedFishCard(data) {
   var ff = pickFeaturedFish(data);
   if (!ff || !ff.name) return null;
-  var card = el("div", { class: "card about-card" }, [el("h2", { text: "Today's Featured Fish: " + ff.name })]);
+  var card = el("div", { class: "card about-card" }, [el("h2", { text: (data.home && data.home.featuredFishPool && data.home.featuredFishPool.length ? "Today's Featured Fish: " : "Featured Fish: ") + ff.name })]);
   var ffPhoto = renderCreditedPhoto(ff.photo && { src: ff.photo.src, alt: ff.photo.alt || ff.name, credit: ff.photo.credit });
   if (ffPhoto) card.appendChild(ffPhoto);
   if (ff.blurb) card.appendChild(el("p", { text: ff.blurb }));
@@ -459,10 +464,10 @@ function renderHome(container) {
   // sequence.
   var tileDefs = [
     { navId: "itinerary", desc: "Day-by-day plan for the week." },
-    { navId: "details", desc: "Pricing, what's included, requirements, and FAQ — everything to help you decide." },
-    { navId: "study", desc: "How to prep your fish ID before you arrive." },
-    { navId: "pretrip", desc: "Everything to arrange before you fly: forms, fees, packing, and travel details." },
-    { navId: "fun", desc: "Fish facts, conversation starters, and a little evening fun — check in whenever." }
+    { navId: "details", desc: "What's included, what to expect aboard, requirements, and FAQ." },
+    { navId: "study", desc: "Fish ID resources for the Sea of Cortez, at whatever pace suits you." },
+    { navId: "pretrip", desc: "What to arrange before you fly: forms, packing, and travel details." },
+    { navId: "fun", desc: "Fish facts, conversation starters, and a little evening fun." }
   ];
   tileDefs.forEach(function (t) {
     var navItem = findNavItem(t.navId);
@@ -556,11 +561,21 @@ function renderTripDetails(container) {
   var td = data.tripDetails || {};
 
   container.appendChild(el("h1", { class: "page-title", text: "Trip Details" }));
+  // audience === "registered" (added 2026-08-21) switches this page from
+  // evaluation mode to readiness mode: no availability pill, no payment
+  // schedule, no register/waitlist CTA — the people reading it have already
+  // booked and paid. Reusable: any trip whose guide is shared only with
+  // registered participants sets tripDetails.audience = "registered".
+  var registeredOnly = td.audience === "registered";
   var subtitleRow = el("p", { class: "page-subtitle" }, [
-    document.createTextNode("Pricing, requirements, and everything else to help you decide. ")
+    document.createTextNode(registeredOnly
+      ? "What's included, what to expect aboard, and what to have ready."
+      : "Pricing, requirements, and what's included. ")
   ]);
-  var band = renderAvailabilityBand(td.availabilityBand);
-  if (band) subtitleRow.appendChild(band);
+  if (!registeredOnly) {
+    var band = renderAvailabilityBand(td.availabilityBand);
+    if (band) subtitleRow.appendChild(band);
+  }
   container.appendChild(subtitleRow);
 
   if (td.accommodations) {
@@ -601,7 +616,7 @@ function renderTripDetails(container) {
   }
 
   if (td.pricing && td.pricing.length) {
-    var priceCard = el("div", { class: "card" }, [el("h2", { text: "Pricing & Payment Schedule" })]);
+    var priceCard = el("div", { class: "card" }, [el("h2", { text: registeredOnly ? "Trip Cost" : "Pricing & Payment Schedule" })]);
     var priceTable = el("table", { class: "event-table" });
     priceTable.appendChild(el("tr", {}, [
       el("td", { class: "time-col", html: "<strong>Item</strong>" }),
@@ -614,7 +629,7 @@ function renderTripDetails(container) {
       ]));
     });
     priceCard.appendChild(priceTable);
-    if (td.paymentSchedule && td.paymentSchedule.length) {
+    if (!registeredOnly && td.paymentSchedule && td.paymentSchedule.length) {
       priceCard.appendChild(el("h3", { text: "Payment Schedule" }));
       var schedTable = el("table", { class: "event-table" });
       td.paymentSchedule.forEach(function (row) {
@@ -653,13 +668,18 @@ function renderTripDetails(container) {
   // booking flow that doesn't exist. Label adapts to the availability band
   // so a full trip never invites someone to "Register" for a spot that
   // isn't there.
-  var ctaLabel = (td.availabilityBand === "waitlist" || td.availabilityBand === "full")
-    ? "Contact REEF to Join the Waitlist"
-    : "Contact REEF to Register";
-  var stickyCta = el("div", { class: "sticky-cta" }, [
-    el("a", { href: "mailto:trips@REEF.org", class: "resource-link", text: ctaLabel + " →" })
-  ]);
-  container.appendChild(stickyCta);
+  if (!registeredOnly) {
+    var ctaLabel = (td.availabilityBand === "waitlist" || td.availabilityBand === "full")
+      ? "Contact REEF to Join the Waitlist"
+      : "Contact REEF to Register";
+    container.appendChild(el("div", { class: "sticky-cta" }, [
+      el("a", { href: "mailto:trips@REEF.org", class: "resource-link", text: ctaLabel + " →" })
+    ]));
+  } else {
+    container.appendChild(el("div", { class: "card" }, [
+      el("p", { html: "Questions about forms, payments, reservations, or travel changes? Email <strong>trips@REEF.org</strong>." })
+    ]));
+  }
 }
 
 /* ---------- Pre-Trip Info ---------- */
@@ -671,12 +691,12 @@ function renderPreTripInfo(container) {
   container.appendChild(el("h1", { class: "page-title", text: "Pre-Trip Info" }));
   container.appendChild(el("p", {
     class: "page-subtitle",
-    text: "Everything to sort out before you head to " + data.destination + "."
+    text: "What to arrange before you head to " + data.destination + "."
   }));
 
   if (info.firstDayVignette) {
     var vignetteParas = Array.isArray(info.firstDayVignette) ? info.firstDayVignette : [info.firstDayVignette];
-    var vignetteCard = el("div", { class: "card about-card" }, [el("h2", { text: "What Your First Day Actually Feels Like" })]);
+    var vignetteCard = el("div", { class: "card about-card" }, [el("h2", { text: "What Your First Day Looks Like" })]);
     vignetteParas.forEach(function (p) { vignetteCard.appendChild(el("p", { text: p })); });
     container.appendChild(vignetteCard);
   }
@@ -685,7 +705,7 @@ function renderPreTripInfo(container) {
     // Heading generalized 2026-07-23 to drop the specific count ("...Three
     // Things") — this is shell-level text shared by every trip, and a
     // trip's real must-do list isn't always exactly three items long.
-    var priorityCard = el("div", { class: "card priority-card" }, [el("h2", { text: "If You Do Nothing Else, Do These Things" })]);
+    var priorityCard = el("div", { class: "card priority-card" }, [el("h2", { text: "Before the Trip" })]);
     var ol = el("ol");
     info.priorityList.forEach(function (item) { ol.appendChild(el("li", { text: item })); });
     priorityCard.appendChild(ol);
@@ -747,14 +767,14 @@ function renderPreTripInfo(container) {
   container.appendChild(contactCard);
 }
 
-/* ---------- Prepare & Study (formerly "Study Tips") ---------- */
+/* ---------- Explore & Prepare (formerly "Prepare & Study") ---------- */
 
 function renderStudyTips(container) {
   var data = window.TRIP_DATA;
   var st = data.studyTips || {};
 
-  container.appendChild(el("h1", { class: "page-title", text: "Prepare & Study" }));
-  container.appendChild(el("p", { class: "page-subtitle", text: "Get ready for " + data.destination + " fish ID." }));
+  container.appendChild(el("h1", { class: "page-title", text: "Explore & Prepare" }));
+  container.appendChild(el("p", { class: "page-subtitle", text: "Fish ID resources for " + data.destination + ", at whatever pace suits you." }));
 
   var introCard = el("div", { class: "card" });
   if (st.intro) introCard.appendChild(el("p", { text: st.intro }));
@@ -762,7 +782,7 @@ function renderStudyTips(container) {
   container.appendChild(introCard);
 
   if (st.toolkit) {
-    var toolkitCard = el("div", { class: "card" }, [el("h2", { text: "Your Study Toolkit" })]);
+    var toolkitCard = el("div", { class: "card" }, [el("h2", { text: "Your Fish ID Toolkit" })]);
     if (st.toolkit.intro) toolkitCard.appendChild(el("p", { text: st.toolkit.intro }));
 
     (st.toolkit.items || []).forEach(function (item) {
@@ -792,17 +812,10 @@ function renderStudyTips(container) {
     container.appendChild(toolkitCard);
   }
 
-  if (st.lookalikes && st.lookalikes.pairs && st.lookalikes.pairs.length) {
-    var lookalikeCard = el("div", { class: "card" }, [el("h2", { text: "Lookalikes Worth Knowing Before You Go" })]);
-    if (st.lookalikes.intro) lookalikeCard.appendChild(el("p", { text: st.lookalikes.intro }));
-    st.lookalikes.pairs.forEach(function (pair) {
-      lookalikeCard.appendChild(el("div", { class: "toolkit-item" }, [
-        el("h3", { text: pair.names }),
-        el("p", { text: pair.note })
-      ]));
-    });
-    container.appendChild(lookalikeCard);
-  }
+  // The "Lookalikes" component was removed 2026-08-21 per REEF editorial
+  // review: species-comparison and hybridization copy is speculative
+  // identification advice and does not belong on a participant page. Do not
+  // reintroduce it here or in any trip's data file.
 
   if (st.surveyBasics) {
     var sb = st.surveyBasics;
@@ -829,7 +842,7 @@ function renderStudyTips(container) {
     }
 
     if (sb.submitting && sb.submitting.length) {
-      surveyCard.appendChild(el("h3", { text: "Submitting your data" }));
+      surveyCard.appendChild(el("h3", { text: "Submitting your surveys" }));
       surveyCard.appendChild(renderList(sb.submitting));
     }
 
@@ -869,7 +882,7 @@ function renderDuringTripFun(container) {
   var fun = data.duringTripFun || {};
 
   container.appendChild(el("h1", { class: "page-title", text: "Fishy Hour" }));
-  container.appendChild(el("p", { class: "page-subtitle", text: "A few things to notice, wonder about, and enjoy whenever you check in." }));
+  container.appendChild(el("p", { class: "page-subtitle", text: "Onboard fish ID and conversation. Timing is shared during the trip." }));
 
   if (fun.dailyDiscoveries && fun.dailyDiscoveries.length) {
     var dayIdx = currentTripDayIndex(data, fun.dailyDiscoveries.length);
@@ -877,7 +890,7 @@ function renderDuringTripFun(container) {
     var discoveryCard = el("div", { class: "card" }, [
       el("h2", { text: "Fish (or Food) for Thought" })
     ]);
-    discoveryCard.appendChild(el("p", { text: "A few things to think about, chat over dinner, or just enjoy on your own — come back and browse whenever it's useful. There's no schedule to keep and nothing to miss." }));
+    discoveryCard.appendChild(el("p", { text: "A few things to think about or chat over dinner." }));
     var discoveryPhoto = renderCreditedPhoto(today.photo, "fish-photo-thumb");
     if (discoveryPhoto) discoveryCard.appendChild(discoveryPhoto);
     discoveryCard.appendChild(el("p", { text: today.fact }));
@@ -950,6 +963,8 @@ function renderDuringTripFun(container) {
     container.appendChild(gamesCard);
   }
 
+  // Only appended if it actually has content — a trip with no confirmed
+  // evening activities (items: []) and no intro should not render an empty card.
   var card = el("div", { class: "card" });
   if (fun.intro) card.appendChild(el("p", { text: fun.intro }));
 
@@ -977,7 +992,24 @@ function renderDuringTripFun(container) {
     }
     card.appendChild(itemBox);
   });
-  container.appendChild(card);
+  if (card.childNodes.length) container.appendChild(card);
+
+  // "Did You Know?" — added 2026-08-21. Every entry must carry a `source`
+  // string traceable to REEF, the vessel's Know Before You Go document, or
+  // another authoritative scientific source; the source is rendered, so an
+  // unsourced fact is visibly unsourced. Reusable by any trip.
+  if (fun.didYouKnow && fun.didYouKnow.items && fun.didYouKnow.items.length) {
+    var dykCard = el("div", { class: "card about-card" }, [
+      el("h2", { text: fun.didYouKnow.heading || "Did You Know?" })
+    ]);
+    if (fun.didYouKnow.intro) dykCard.appendChild(el("p", { text: fun.didYouKnow.intro }));
+    fun.didYouKnow.items.forEach(function (item) {
+      var box = el("div", { class: "toolkit-item" }, [el("p", { text: item.fact })]);
+      if (item.source) box.appendChild(el("p", { class: "photo-credit", text: "Source: " + item.source }));
+      dykCard.appendChild(box);
+    });
+    container.appendChild(dykCard);
+  }
 
   if (fun.jokes && fun.jokes.length) {
     var jokesCard = el("div", { class: "card" }, [el("h2", { text: "Fish Jokes" })]);
@@ -1104,7 +1136,7 @@ function renderReflection(container) {
   var r = data.reflection || {};
 
   container.appendChild(el("h1", { class: "page-title", text: "Your Impact" }));
-  container.appendChild(el("p", { class: "page-subtitle", text: "How your observations become part of REEF's science — and a shared send-off." }));
+  container.appendChild(el("p", { class: "page-subtitle", text: "How your observations become part of REEF science." }));
 
   if (r.thankYou) {
     container.appendChild(el("div", { class: "card" }, [el("p", { text: r.thankYou })]));

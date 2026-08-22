@@ -71,7 +71,7 @@ window.TRIP_DATA = {
   endDate: "2026-09-19",
   // Drives the shared footer's "Last updated" line (render.js renderFooter).
   // Update this whenever this file's content changes.
-  lastUpdated: "2026-08-09",
+  lastUpdated: "2026-08-21",
 
   tripLeaders: [
     {
@@ -89,8 +89,8 @@ window.TRIP_DATA = {
       // render.js renderLeaderIntroCard/renderTripLeader.
       photoCredit: "Stacey Henderson",
       bio: [
-        "Martha is REEF's Co-Executive Director of Strategy and Operations. Before joining the REEF staff team in 2011, her passion for teaching people about the oceans grew over ten years of leading residential marine science programs. Her undergraduate degree focused on environmental education, and her master's was in Educational Leadership and Administration.",
-        "She's passionate about connecting people with the marine environment and building a sense of community among ocean enthusiasts — and she's enthusiastic about expanding REEF's impact and reach to create a future where healthy oceans thrive. She believes it's the little things that change the world, like how a single fish survey adds up to the world's largest marine sighting database."
+        "Martha is the REEF Co-Executive Director of Strategy and Operations. Before joining the REEF staff team in 2011, her passion for teaching people about the oceans grew over ten years of leading residential marine science programs. Her undergraduate degree focused on environmental education, and her master's was in Educational Leadership and Administration.",
+        "She's passionate about connecting people with the marine environment and building a sense of community among ocean enthusiasts — and she's enthusiastic about expanding REEF's impact and reach to create a future where healthy oceans thrive. She believes it's the little things that change the world, like how a single fish survey adds up to one of the largest marine life databases in the world."
       ],
       // funFact replaced 2026-07-23 per the governing PRD — Martha's Midriff
       // favorite fish is the Bluespotted Jawfish (Opistognathus
@@ -112,18 +112,29 @@ window.TRIP_DATA = {
       funFact: {
         label: "Favorite Fish in This Region",
         value: "Bluespotted Jawfish",
-        note: "found only in the Gulf of California, so this is one of the few trips anywhere you can look for it — watch for one hovering just above its sandy burrow; it drops straight back in the instant it feels threatened.",
-        photo: {
-          src: "resources/photos/bluespotted-jawfish.jpg",
-          alt: "Bluespotted Jawfish (Opistognathus rosenblatti)",
-          credit: "Christy Semmens"
-        }
+        note: "found only in the Gulf of California, so this is one of the few trips anywhere you can look for it — watch for one hovering just above its sandy burrow; it drops straight back in the instant it feels threatened."
+      // PHOTO REMOVED 2026-08-21 — do not re-add without Martha's sign-off.
+      // Two blocking problems were found with resources/photos/bluespotted-jawfish.jpg:
+      //   1. The file does not exist. It was referenced on 2026-08-09 but never
+      //      placed in resources/photos/, so this reference renders a broken
+      //      image. (The live site is unaffected — it still serves the 2026-07-23
+      //      build, which had no photo field here.)
+      //   2. The only source images REEF holds for Opistognathus rosenblatti are
+      //      three files in the Marine Life Species base (Media Assets:
+      //      bluespottedjawfish_ccoxIMG_1400/1597/0637), and all three carry the
+      //      licence note "REEF internal use only, photographer credit required."
+      //      This is a public site, so they cannot be published as-is.
+      // Also note the credit previously written here ("Christy Semmens") does not
+      // match the source records, which all credit CAROL COX with Credit
+      // Confirmed = true.
+      // The species feature itself is kept — the text is sound and sourced. Add a
+      // photo once Martha confirms a publication-cleared image and its credit.
       },
       whyILead: "Leading REEF trips combines so many things I care about: exploring remarkable places, connecting with wonderful people, and discovering something new about the underwater world. I love helping people see the ocean in a new way. Whether someone is brand new to fish identification or has surveyed for decades, everyone has something to learn and something to share. My goal is for every participant to leave with new skills, new friends, and a deeper appreciation and understanding of the ocean.",
       // Added 2026-07-23 per the governing PRD's Trip Leader page spec.
       askMeAbout: [
         "Fish ID for anything you spotted on a dive that day",
-        "How the Roving Diver Technique and REEF's Experience Levels work",
+        "How the Roving Diver Technique and REEF Experience Levels work",
         "What to expect on a liveaboard trip, if this is your first one",
         "Sea of Cortez / Tropical Eastern Pacific marine life and conservation"
       ]
@@ -151,29 +162,42 @@ window.TRIP_DATA = {
       alt: "A curious pod of sea lions in the Sea of Cortez, Midriff Islands region",
       credit: "Christy Semmens"
     },
-    // No confirmed Frogfish photo exists yet for this region (see Study
-    // Tips/During-Trip Fun gaps below) — left without a photo field rather
-    // than attaching an unconfirmed image to a specific species claim.
+    // Replaced 2026-08-21 per REEF editorial review: the static spotlight is
+    // now a species with a confirmed, credited REEF photo already in this
+    // trip's resources folder (Opistognathus rosenblatti, REEF Media Assets,
+    // Christy Semmens) — the same image used on the Trip Leader page.
     featuredFish: {
-      name: "Frogfish",
-      blurb: "Frogfish are ambush predators that lure prey with a modified fin spine that looks like a tiny fishing rod and bait — and they're masters of camouflage, so they're often sitting in plain sight near sponges and rubble. Slow down and look closely."
+      name: "Bluespotted Jawfish",
+      blurb: "A Gulf of California endemic, found nowhere else in the world. Colonies burrow into sandy patches near the reef, and you will usually see one hovering just above its burrow before it drops straight back in. Approach slowly and stay low."
+      // PHOTO REMOVED 2026-08-21 — do not re-add without Martha's sign-off.
+      // Two blocking problems were found with resources/photos/bluespotted-jawfish.jpg:
+      //   1. The file does not exist. It was referenced on 2026-08-09 but never
+      //      placed in resources/photos/, so this reference renders a broken
+      //      image. (The live site is unaffected — it still serves the 2026-07-23
+      //      build, which had no photo field here.)
+      //   2. The only source images REEF holds for Opistognathus rosenblatti are
+      //      three files in the Marine Life Species base (Media Assets:
+      //      bluespottedjawfish_ccoxIMG_1400/1597/0637), and all three carry the
+      //      licence note "REEF internal use only, photographer credit required."
+      //      This is a public site, so they cannot be published as-is.
+      // Also note the credit previously written here ("Christy Semmens") does not
+      // match the source records, which all credit CAROL COX with Credit
+      // Confirmed = true.
+      // The species feature itself is kept — the text is sound and sourced. Add a
+      // photo once Martha confirms a publication-cleared image and its credit.
     },
-    // Rotating pre-trip pool — added 2026-07-23, window widened to 60 days
-    // out the same day (v2). Sourced from REEF's own Batch Report for the
-    // "Rocio del Mar Baja Field Survey 2019" trip (this exact liveaboard
-    // route, TEP region, led by Amy Lee — REEF's reef.org/db/reports/batch),
-    // cross-referenced with REEF's own species reference pages
-    // (reef.org/species/...) for scientific name and description text
-    // where REEF has published one. render.js's pickFeaturedFish() rotates
-    // through this list in the last 60 days before the trip (every 4
-    // days); outside that window Start Here shows the static Frogfish
-    // spotlight above instead. Ordered roughly by how
-    // frequently REEF's own group recorded each species (highest first).
-    // Five species below have real REEF-written descriptions; the other six
-    // have a confirmed photo and credit but REEF hasn't published a written
-    // profile for them yet — flagged honestly in their blurb rather than
-    // inventing distinctive features not in REEF's own text.
-    featuredFishPool: [
+    // Rotating featured-fish pool RETIRED 2026-08-21. Per REEF editorial
+    // review the Start Here spotlight is now a single, scientifically sound
+    // species feature — the Bluespotted Jawfish above, with the credited REEF
+    // photo also used on the Trip Leader page. The rotation was overriding
+    // that choice, so the pool is disabled here rather than deleted: the 11
+    // entries below are all real, REEF-sourced species with credited photos
+    // (from REEF's own Batch Report for the 2019 Rocio del Mar Baja Field
+    // Survey), so re-enabling this is a one-line change if Martha wants
+    // rotation back. render.js's pickFeaturedFish() falls through to the
+    // static featuredFish whenever this field is absent.
+    _retiredFeaturedFishPool: [
+
       {
         name: "Mexican Hogfish",
         blurb: "Also called the streamer hogfish, for the long, trailing filaments on its dorsal, anal, and tail fins. Look for a yellow bar across the midbody — REEF's own 2019 Sea of Cortez trip recorded this as the single most frequently sighted fish of the week.",
@@ -221,7 +245,7 @@ window.TRIP_DATA = {
       },
       {
         name: "Cortez Angelfish",
-        blurb: "Gray body with two yellow bars across the face — the King Angelfish's closest lookalike in these waters, and the two species even hybridize where their ranges overlap.",
+        blurb: "Gray body with two broad yellow bars across the face and a yellow tail. Named for the Gulf of California, where it is a common sight on rocky reefs.",
         photo: { src: "resources/photos/cortez-angelfish.jpg", alt: "Cortez Angelfish in the Sea of Cortez", credit: "Beth & Al Brunton" }
       },
       {
@@ -233,27 +257,29 @@ window.TRIP_DATA = {
     destinationStory: {
       heading: "Why the Midriff Islands Matter",
       body: [
-        // Tightened 2026-07-23 (PRD: "tighten Start Here copy") and reworded
-        // so whale sharks read as seasonal, not guaranteed — matching the
-        // conditional framing already used in the itinerary and Fishy Hour
-        // ("optional add-on," "typically offered," "if it happens").
-        "This stretch of the Sea of Cortez is home to sea lion colonies, mobula rays that leap clear out of the water, and, seasonally, some of the best whale shark encounters anywhere in the world around Bahía de los Ángeles.",
-        "It's also part of REEF's Tropical Eastern Pacific survey region — every fish you log this week joins a dataset that's been tracking reef fish populations for decades, the same one that makes a REEF trip different from an ordinary dive vacation."
+        // Rewritten 2026-08-21 per REEF editorial review: no superlatives, no
+        // comparison to other kinds of travel, accurate survey description
+        // ("positively identified species and abundance categories," not
+        // "every fish you log"), and "marine life" rather than "reef fish"
+        // since REEF surveys both coral and non-coral habitats.
+        "This stretch of the Sea of Cortez is home to sea lion colonies, mobula rays that leap clear out of the water, and, seasonally, whale sharks around Bahía de los Ángeles.",
+        "It is also part of the Tropical Eastern Pacific survey region for the REEF Volunteer Fish Survey Project. Every survey conducted this week contributes species and abundance observations to a long-running dataset used to understand changes in marine life. It is an extraordinary travel experience that also contributes to a clearer understanding of how ocean ecosystems are changing."
       ]
     },
     aboutThisResource: {
       heading: "Before You Dive In",
       body: [
-        "Welcome! This page brings together trip information, travel logistics, fish ID resources, and a few other helpful references for our REEF Field Survey Trip to the Midriff Islands. Use whatever's useful to you now, and save the rest — we'll work through plenty of it together during Fishy Hour, conversations, and time on and around the water all week.",
-        "This trip is a liveaboard aboard the Rocio del Mar, so a bit more advance planning goes into getting everyone from Phoenix to the boat than on a resort-based trip — the Pre-Trip Info page walks through it step by step.",
-        "If you think of something that would make this even more helpful for future trips, we'd love to hear your ideas."
+        "Welcome! This page brings together trip information, travel logistics, fish ID resources, and a few other helpful references for our REEF Field Survey Trip to the Midriff Islands.",
+        "Two different kinds of things live here. The Before the Trip checklist on Pre-Trip Info covers what is genuinely required — forms, documents, and travel arrangements with real deadlines. Everything on Explore & Prepare is there for you to browse however you like: dip in, skip around, or leave it entirely. We will work through plenty of it together during Fishy Hour and time on the water all week.",
+        "This trip is a liveaboard aboard the Rocio del Mar, and the Pre-Trip Info page walks through getting from Phoenix to the boat step by step.",
+        "If you think of something that would make this even more helpful for future trips, we would love to hear your ideas."
       ]
     }
   },
 
   itinerary: {
-    overview: "This is a liveaboard trip aboard the Rocio del Mar, so the rhythm is a little different from a resort-based trip: we board in Puerto Peñasco the evening of September 12 and spend the week moving between islands in the Midriff region of the Sea of Cortez — Isla Ángel de la Guarda, Isla San Pedro Mártir, Isla Salsipuedes, Isla Las Ánimas, and Bahía de los Ángeles — with 3-4 dives most days. The Captain and crew set the exact daily dive sites based on conditions, so think of the plan below as the shape of the week rather than a fixed hour-by-hour schedule.",
-    note: "Because a small liveaboard's schedule depends on weather, currents, and what each island offers that day, the Captain and divemasters make the day-to-day call on sites and timing — that's their expertise, not ours. Martha will keep everyone posted on the plan each morning. Evenings are Fishy Hour, our chance to gather in the salon for a short fish ID session tied to whatever we actually saw that day.",
+    overview: "This is a liveaboard trip aboard the Rocio del Mar: we board in Puerto Peñasco the evening of September 12 and spend the week moving between islands in the Midriff region of the Sea of Cortez — Isla Ángel de la Guarda, Isla San Pedro Mártir, Isla Salsipuedes, Isla Las Ánimas, and Bahía de los Ángeles — with 3-4 dives most days. The Captain and crew set the exact daily dive sites based on conditions, so think of the plan below as the shape of the week rather than a fixed hour-by-hour schedule.",
+    note: "The Captain and crew choose the dive sites and timing each day based on conditions, which is what makes the week work well. Martha will share the plan each morning. Evenings are Fishy Hour, a chance to gather in the salon for fish ID and conversation about whatever the group saw that day.",
     days: [
       {
         date: "Saturday, September 12",
@@ -270,15 +296,15 @@ window.TRIP_DATA = {
         tag: "Island Days",
         events: [
           { time: "Daily", desc: "3–4 dives a day across the Midriff Islands, exact sites set by the Captain based on conditions — likely stops include Isla Ángel de la Guarda, Isla San Pedro Mártir, Isla Salsipuedes, and Isla Las Ánimas." },
-          { time: "Evenings", desc: "Fishy Hour: a short, casual fish ID gathering in the salon based on what the group actually saw that day, plus our recurring traditions (Fish of the Day, Wildlife of the Day, species-count updates — see Fishy Hour)." }
+          { time: "Evenings", desc: "Fishy Hour: a casual fish ID gathering in the salon based on what the group saw that day. Timing is shared onboard." }
         ]
       },
       {
         date: "Around Day 7 (Friday, September 18)",
         tag: "Bahía de los Ángeles",
         events: [
-          { time: "TBD by crew", desc: "An optional whale shark snorkel add-on is typically offered around Bahía de los Ángeles — Martha will share timing and any add-on cost once the crew confirms it onboard." },
-          { time: "Evening", desc: "Final-night gathering: a look back at the week's species list, wildlife sightings, and any survey-level testing to celebrate." }
+          { time: "Per the vessel itinerary", desc: "Two dives at Bahía de los Ángeles plus a snorkel with whale sharks, both part of the planned itinerary. Exact timing is the crew's call based on conditions." },
+          { time: "Evening", desc: "Final-night gathering: a look back at the week together." }
         ]
       },
       {
@@ -286,7 +312,7 @@ window.TRIP_DATA = {
         tag: "Disembarkation Day",
         events: [
           { time: "~7:30 AM", desc: "Return to Marina Fonatur; disembark and board the same shuttle back to Phoenix." },
-          { time: "Afternoon", desc: "Arrive back in Phoenix — book your departing flight for 2:00 PM or later out of PHX so you're not rushing off the shuttle." }
+          { time: "~12:00 noon", desc: "The shuttle is expected to reach Phoenix Sky Harbor around midday, so please book your departing flight for 2:00 PM or later out of PHX." }
         ]
       }
     ]
@@ -294,20 +320,21 @@ window.TRIP_DATA = {
 
   preTripInfo: {
     firstDayVignette: [
-      "You'll likely be tired by the time you reach Puerto Peñasco — it's an early flight into Phoenix, a few hours on the shuttle with a border crossing in the middle, and then suddenly you're standing at Marina Fonatur looking at the Rocio del Mar.",
-      "There's no rush once you're aboard: dinner's waiting around 7:00 PM, and the welcome meeting happens during the overnight transit out of port — so there's nothing to prepare for on the spot. Just settle into your cabin and get your bearings."
+      "Travel day has a nice shape to it: a flight into Phoenix, a few hours on the shuttle with the border crossing in the middle, and then you are standing at Marina Fonatur looking at the Rocio del Mar.",
+      "There is no rush once you are aboard. Dinner is around 7:00 PM, and the welcome meeting happens during the overnight transit out of port, so there is nothing to prepare for on the spot. Settle into your cabin and get your bearings."
     ],
-    // Expanded 2026-07-23 — the real must-do list for a Mexico Liveaboards
-    // trip is longer than three items (the shared shell heading no longer
-    // hardcodes a count; see render.js). Passport photo + New Passenger
-    // Registration were already documented under "Forms to Complete Before
-    // You Go" below but were missing from this priority callout.
+    // Merged 2026-08-21: the old "If You Do Nothing Else" callout and the
+    // separate "Forms to Complete Before You Go" card said many of the same
+    // things twice. Now one checklist of what is genuinely required, phrased
+    // positively. Links live here so the list is self-contained.
     priorityList: [
-      "Complete your REEF Liability Form (Smartwaiver) as soon as you can — REEF can't ship your survey materials until it's done.",
-      "Send a close-up photo of your passport's photo/info page to Documents@MexicoLiveaboards.com at least two weeks before departure.",
-      "New to Mexico Liveaboards? Complete your New Passenger Registration. Returning guests, use the individual portal link Stacey sent you instead.",
-      "Book your Head Out to Rocky Point shuttle and note your transfer info on your Rocio del Mar passenger forms.",
-      "Pack your full dive kit — Puerto Peñasco has no fin/mask/wetsuit rentals, so there's no backup plan if you leave gear at home."
+      "Complete your REEF Liability Form (Smartwaiver) — this is what lets REEF ship your survey materials out to you: https://www.smartwaiver.com/w/5508b640d0310/web/",
+      "Forward your airline itinerary to Noa.Parks@REEF.org, and send an update if anything changes.",
+      "Email a close-up photo of your passport's photo and information page to Documents@MexicoLiveaboards.com at least two weeks before departure.",
+      "Complete your Mexico Liveaboards passenger registration. New guests use the online New Passenger Registration form (allow an uninterrupted stretch — it expires four hours after you start): https://www.mexicoliveaboards.com/ords/f?p=rqpif:1:0 — returning guests use the individual portal link sent to you directly.",
+      "Book your Head Out to Rocky Point shuttle (about $175 per person round trip, subject to change) and note your transfer details on your Rocio del Mar passenger forms: https://www.headouttorockypoint.com/scuba",
+      "Bring your full dive kit, including exposure protection, fins, mask, SMB, and whistle. The vessel does not rent these and there is no local rental source in Puerto Peñasco.",
+      "Plan to obtain your FMM (Mexican tourist card) at the border on the way in. Every non-Mexican passenger needs one and the vessel cannot depart without them. For a seven-day stay there is normally no fee, but the stop to get the form is still required — the shuttle driver walks the group through it."
     ],
     sections: [
       {
@@ -316,19 +343,9 @@ window.TRIP_DATA = {
         items: [
           "Plan your arriving flight into PHX for no later than 11:00 AM on September 12 to make the 1:00 PM shuttle.",
           "The shuttle departs PHX Terminal 4, Door #5 (outer curb, north side arrivals) and crosses the U.S.–Mexico border at Lukeville/Sonoyta — the driver handles the crossing process and makes scheduled rest stops along the way.",
-          { label: "Book your Head Out to Rocky Point shuttle", url: "https://www.headouttorockypoint.com/scuba", note: "About $175–190 per person, paid directly to the shuttle company. Note your transfer arrangements on your Rocio del Mar passenger forms once booked." },
-          "On the return, plan to disembark around 7:30 AM on September 19 and book your departing PHX flight for 2:00 PM or later.",
-          "Arriving a different way? Let Martha know so we can plan accordingly."
-        ]
-      },
-      {
-        heading: "Forms to Complete Before You Go",
-        items: [
-          { label: "REEF Liability Form (Smartwaiver)", url: "https://www.smartwaiver.com/w/5508b640d0310/web/", note: "Please complete this as soon as you can — REEF can't ship your survey materials until it's done." },
-          { label: "Flight itinerary", note: "Forward your airline itinerary to Noa.Parks@REEF.org, and let us know right away if anything changes." },
-          { label: "Passport copy to Mexico Liveaboards", note: "Send a close-up photo of your passport's photo/info page to Valerie at Documents@MexicoLiveaboards.com at least two weeks before departure." },
-          { label: "New Passenger Registration (new Mexico Liveaboards guests only)", url: "https://www.mexicoliveaboards.com/ords/f?p=rqpif:1:0", note: "You'll have 4 hours to complete it once you start, or it resets — no travel info yet? You can submit now and add it later." },
-          "Returning Mexico Liveaboards guests: use the individual portal link Stacey sent you directly rather than the new-guest form."
+          { label: "Book your Head Out to Rocky Point shuttle", url: "https://www.headouttorockypoint.com/scuba", note: "About $175 per person round trip, subject to change, paid directly to the shuttle company. Note your transfer arrangements on your Rocio del Mar passenger forms once booked." },
+          "On the return, plan to disembark around 7:30 AM on September 19. The shuttle is expected to reach Phoenix around midday, so book your departing PHX flight for 2:00 PM or later.",
+          "Traveling a different way, or need to change a travel arrangement? Please email trips@REEF.org."
         ]
       },
       {
@@ -367,9 +384,10 @@ window.TRIP_DATA = {
       {
         heading: "Diving Information",
         items: [
-          "This is a bring-your-own-gear trip — Puerto Peñasco does not have fin/mask/exposure-suit rentals, so pack your full dive kit.",
-          "A 5mm wetsuit plus a hooded vest is recommended for early September water temperatures.",
-          "A dive computer, SMB, and whistle are required for every diver.",
+          "Bring your own exposure protection, fins, mask, SMB, whistle, and lights. The vessel does not rent these, and there is no local rental source in Puerto Peñasco.",
+          "The vessel has a limited number of regulators, BCDs, dive computers, and HP100 tanks available by advance reservation — contact Valerie at Documents@MexicoLiveaboards.com as early as you can, since they go first come, first served.",
+          "Expected water temperatures in mid-September are roughly 79–84°F. The operator generally suggests a 3mm wetsuit with a hooded vest through mid-September. Comfort varies a lot from person to person, though, and the Sea of Cortez has thermoclines that move through, so if you tend to get cold you may well want more protection — layers you can adjust are a good bet.",
+          "A dive computer, SMB, and whistle are required for every diver, along with proof of certification and dive insurance.",
           "Islands typically visited include Isla Ángel de la Guarda, Isla San Pedro Mártir, Isla Salsipuedes, Isla Las Ánimas, and Bahía de los Ángeles — exact sites are the crew's call based on conditions."
         ]
       },
@@ -388,50 +406,44 @@ window.TRIP_DATA = {
         items: [
           { label: "TEP Surveyor Toolbox", url: "https://www.reef.org/reef-surveyor-toolbox#TEP", note: "The best starting point for Sea of Cortez / Tropical Eastern Pacific species." },
           { label: "Archived TEP Fishinars", url: "https://www.reef.org/fishinar-and-fishy-hour-archive-directory", note: "Log in to your REEF account to watch — several are specific to the Sea of Cortez." },
-          "REEF's 2010 trip to this region has a batch report on file — a good beginner starting point, and Martha can share it on request. A more recent regional summary isn't available yet."
+          { label: "REEF Geographic Zone Report for the islands on our itinerary", url: "https://www.reef.org/db/reports/geo?end_date=2026-08-21&format_type=chart&group_type=species&language=common&region_code=TEP&start_date=1993-01-01&zones=2154%2C2164%2C2155%2C3108&zone_map=0", note: "REEF sighting data for Isla Ángel de la Guarda, Isla San Pedro Mártir, Isla Salsipuedes / Isla Las Ánimas, and Bahía de los Ángeles — sorted by how often each species has been recorded. A useful way to see what is most likely to turn up." }
         ]
       },
       {
         heading: "Don't Forget to Pack",
         items: [
-          "Passport with at least 6 months remaining, plus the copy you've already sent ahead.",
+          "Passport valid for the full duration of the trip, plus the copy you have already sent ahead.",
           "Dive certification card and dive insurance card (DAN or similar).",
           "Dive computer, SMB, and whistle (all required) — plus your full dive kit, since gear rental isn't available locally.",
-          "5mm wetsuit and a hooded vest.",
+          "Exposure protection that suits you — a 3mm wetsuit with a hooded vest is the operator's general suggestion for mid-September, with something warmer if you tend to get cold.",
           // "(it's bee season)" removed 2026-07-23 — unverified and
           // unexplained (no confirmation of what "bee season" means for
           // participants or whether it poses any real risk). Flagged for
           // REEF confirmation before adding back with real detail.
-          "Reef-safe sunscreen, a rash guard, and foot coverings for the deck.",
-          "Any medications you take, including motion-sickness remedies just in case — and let Martha know ahead of time about anything (like an EpiPen) that needs cool storage.",
+          "Reef-safe sunscreen and a rash guard.",
+          "Any medications you take, including motion-sickness remedies just in case. If anything needs cool storage — an EpiPen, for example — speak with the captain or lead divemaster when you board and they will keep it in the galley for you.",
           "Camera, housing, and batteries if you're bringing one — pack batteries and memory cards in your carry-on.",
-          // Outlet-adapter recommendation removed 2026-07-23 — the boat's
-          // outlets are already standard 110V U.S. plugs (see "What to
-          // Expect Onboard" above), so a "U.S.-style outlet adapter" was
-          // self-contradictory as written. A dry bag stands on its own.
-          "A dry bag.",
-          "Fish ID resources you like to study from, and your REEF shirt!"
+          "Any fish ID resources you enjoy using, and your REEF shirt!"
         ]
       }
     ]
   },
 
   studyTips: {
-    intro: "These lists aren't a checklist to complete — think of them like learning your neighbors' names before trying to memorize the phone book. Don't hesitate to look into a fish that isn't mentioned here, either — some of the most memorable discoveries are the unexpected ones. Here's where to spend your prep time:",
+    intro: "None of this is a checklist to complete. Think of it like learning your neighbors' names rather than memorizing the phone book — and follow your curiosity to any fish that is not mentioned here, because some of the most memorable finds are the unexpected ones. A few ideas, if you feel like exploring:",
     tips: [
       "Learn families before species. Once you can place a fish in its family (angelfish, triggerfish, damselfish, wrasse, blenny, etc.), the rest gets much easier — families share body shape and behavior, so species-level ID is often just color and pattern from there.",
-      "Know your lookalikes. The Sea of Cortez's King Angelfish and Cortez Angelfish are a classic pair to watch for — they even hybridize where their ranges overlap, which is exactly why fish ID is about patterns, not perfect labels.",
-      "Look low and slow for the small stuff. Blennies, jawfish, seahorses, and frogfish reward patient, careful looking rather than fast swimming — REEF's trip leaders will point these out at Fishy Hour.",
+      "Look low and slow for the small things. Blennies, jawfish, seahorses, and frogfish reward patient, careful observation rather than fast swimming, and they are some of the most rewarding finds of the week.",
       "Expect variation. Fish look different from different angles and life stages — a photo you studied ahead of time may look a little different head-on or as a juvenile.",
-      "Save some for Fishy Hour. Each night we'll gather to talk fish and share the day's favorite finds. No advance prep required — just come curious.",
+      "Save some for Fishy Hour. We gather to talk fish and share the day's favorite finds. No advance preparation needed — just come curious.",
       "Questions welcome, any time before the trip. Happy to point you in the right direction."
     ],
     toolkit: {
-      intro: "A dedicated Sea of Cortez / Tropical Eastern Pacific flashcard set and pocket field guide (like the ones built for our Caribbean trips) haven't been built yet for this region — that's an honest gap, not an oversight, and it's on the list for a future trip. In the meantime, these REEF resources are the best way to prepare:",
+      intro: "These REEF resources are a good place to start exploring Sea of Cortez fish ID:",
       items: [
         {
           title: "TEP Surveyor Toolbox",
-          desc: "REEF's survey method, gear list, and regional guide for the Tropical Eastern Pacific — the best entry point for Sea of Cortez fish ID prep.",
+          desc: "The REEF survey method, gear list, and regional guide for the Tropical Eastern Pacific — the best entry point for Sea of Cortez fish ID prep.",
           externalUrl: "https://www.reef.org/reef-surveyor-toolbox#TEP",
           linkLabel: "Open the TEP Surveyor Toolbox"
         },
@@ -440,38 +452,25 @@ window.TRIP_DATA = {
           desc: "Recorded sessions covering Sea of Cortez species and survey topics. Log in to your REEF account to watch.",
           externalUrl: "https://www.reef.org/fishinar-and-fishy-hour-archive-directory",
           linkLabel: "Browse the Fishinar archive"
+        },
+        {
+          title: "Sighting data for our islands",
+          desc: "The REEF Geographic Zone Report for the four island areas on our itinerary, sorted by how often each species has been recorded there. A good way to see what is most likely to turn up.",
+          externalUrl: "https://www.reef.org/db/reports/geo?end_date=2026-08-21&format_type=chart&group_type=species&language=common&region_code=TEP&start_date=1993-01-01&zones=2154%2C2164%2C2155%2C3108&zone_map=0",
+          linkLabel: "Open the Geographic Zone Report"
         }
       ]
     },
-    // Expanded 2026-07-23 from a single pair to three — PRD review flagged
-    // Midriff's regional lookalike/fish-family guidance as thin relative to
-    // Bonaire's. All three added here are well-established biology (general
-    // wrasse sex-change / angelfish juvenile-coloration patterns, plus the
-    // already-documented King/Cortez Angelfish hybridization), not
-    // speculative — still worth a REEF science-staff read before publishing.
-    lookalikes: {
-      intro: "A few pairs worth knowing before you go, so a tricky ID doesn't throw you off:",
-      pairs: [
-        {
-          names: "King Angelfish vs. Cortez Angelfish",
-          note: "Close enough relatives that they sometimes hybridize where their ranges overlap — a great early lesson in why fish ID is about patterns, not just field-guide certainty."
-        },
-        {
-          names: "Mexican Hogfish — juvenile/female vs. terminal-phase male",
-          note: "Like many wrasses, this species changes color dramatically as it matures and changes sex. The streaming fin filaments and bold yellow midbody bar belong to the terminal-phase male — younger fish and females can look quite different."
-        },
-        {
-          names: "Angelfish — juveniles vs. adults",
-          note: "Several angelfish species here look nothing like their adult selves as juveniles, with entirely different color patterns — don't assume a small, unfamiliar-looking fish is a different species from the adult you already know."
-        }
-      ]
-    },
+    // The "lookalikes" block was removed 2026-08-21 per REEF editorial
+    // review: species-comparison and hybridization copy reads as speculative
+    // identification advice and does not belong on a participant page. The
+    // shared shell no longer renders this field at all.
     surveyBasics: {
-      intro: "Here's the other half of getting ready: how a REEF survey actually works. No certification or experience needed, just curiosity and a little practice.",
+      intro: "Here is how a REEF survey works. No previous experience needed, just curiosity and a little practice.",
       steps: [
         {
           title: "It's called the Roving Diver Technique",
-          desc: "You're a REEF surveyor the moment you start counting. Swim your normal dive — no set path or timed segment — and record every fish species you can positively identify."
+          desc: "You conduct a survey by swimming your normal dive — no set path and no timed segment — and recording the species you can positively identify, along with an abundance category for each one."
         },
         {
           title: "Jot down the metadata too",
@@ -479,7 +478,7 @@ window.TRIP_DATA = {
         },
         {
           title: "It's the same method everywhere",
-          desc: "You'll use the identical Roving Diver Technique REEF surveyors use in all 10 of its regions worldwide, including here in the Sea of Cortez — see Start Here for how the method got its start."
+          desc: "The same Roving Diver Technique is used by REEF surveyors across all 10 REEF regions worldwide, including here in the Sea of Cortez."
         }
       ],
       abundance: [
@@ -493,7 +492,7 @@ window.TRIP_DATA = {
         "Or the free Offline Data Entry Program — no internet needed on the boat, just sync once you're back online",
         "Either way, you'll need your free REEF member number"
       ],
-      levelsNote: "REEF has 5 Experience Levels, based on survey counts and ID tests. Wherever you're starting from, ask Martha if you'd like to test up this week — several returning guests on this trip are already experienced Sea of Cortez surveyors and are happy to help.",
+      levelsNote: "REEF has 5 Experience Levels, based on survey counts and identification tests. Wherever you are starting from, the Surveyor Toolbox explains how the levels work and how to take an Experience Level test. Martha is glad to talk through fish ID and the survey method any time during the week.",
       toolboxLink: {
         label: "REEF Surveyor Toolbox — the full method, gear list, and regional guides",
         url: "https://www.reef.org/reef-surveyor-toolbox#TEP"
@@ -503,10 +502,6 @@ window.TRIP_DATA = {
 
   duringTripFun: {
     dailyDiscoveries: [
-      {
-        fact: "The Sea of Cortez's King Angelfish and Cortez Angelfish are close enough relatives that they sometimes hybridize where their territories overlap — a great early lesson in why fish ID is about patterns, not just field-guide certainty.",
-        question: "If you spot an angelfish that doesn't look quite like either species in the book, that might be exactly why."
-      },
       {
         // Rewritten 2026-07-23 to name the actual species (Bluespotted
         // Jawfish, Martha's favorite fish in this region — see Trip Leader)
@@ -534,14 +529,14 @@ window.TRIP_DATA = {
       },
       {
         fact: "Bahía de los Ángeles is, seasonally, one of the more reliable places in the world to encounter whale sharks, the largest fish in the ocean — despite their size, they're filter feeders and no threat to snorkelers.",
-        question: "If the whale shark snorkel add-on happens this trip, what's the one thing you're hoping to notice up close?"
+        question: "What is the one thing you are hoping to notice up close at Bahía de los Ángeles?"
       },
       {
-        fact: "Every survey logged this trip feeds directly into REEF's long-term dataset — the same one that's been tracking reef fish populations, in this case in the Tropical Eastern Pacific, for decades.",
+        fact: "Every survey conducted and submitted on this trip contributes species and abundance observations to the REEF Volunteer Fish Survey Project — the same long-running dataset used to understand changes in marine fish populations across the Tropical Eastern Pacific.",
         question: "What's one species you can confidently name now that you couldn't before the trip?"
       },
       {
-        fact: "Your data doesn't end when you fly home — once submitted, it joins REEF's long-running Volunteer Fish Survey Project database alongside three decades of sightings from divers just like you.",
+        fact: "Your surveys keep contributing long after you fly home — once submitted, they join the REEF Volunteer Fish Survey Project database alongside three decades of observations from divers just like you.",
         question: "Which fish story from this trip are you most excited to tell people back home?"
       }
     ],
@@ -584,11 +579,6 @@ window.TRIP_DATA = {
           label: "2017 Baja REEF Field Survey — full album (33 photos)",
           url: "https://flic.kr/s/aHsm92KdGh",
           note: "Also aboard the Rocio del Mar, led by Brice and Christy Semmens."
-        },
-        {
-          label: "Read a 2021 Explore Baja trip report",
-          url: "https://www.bluewaterdivetravel.com/article/explore-baja-trip-report-2021",
-          note: "A third-party account of this same Rocio del Mar route, from Blue Water Dive Travel — jawfish, sea lions, whale sharks, and frogfish all make an appearance."
         }
       ]
     },
@@ -596,17 +586,51 @@ window.TRIP_DATA = {
     // no built Fishy-Hour-style game (Jeopardy, Bingo, etc.) exists yet for
     // this trip. The shell (render.js renderDuringTripFun) already supports
     // this field the moment REEF builds one for the Sea of Cortez/TEP region.
-    intro: "A few more things to enjoy whenever you like — recurring traditions from past REEF trips, plus a little evening fun.",
-    items: [
-      {
-        title: "Wildlife of the Day",
-        desc: "Sea lions, mobula rays, whales, and — around Bahía de los Ángeles — whale sharks are as much a part of this trip as the fish. Each evening, the group calls out the day's best megafauna sighting alongside the fish list."
-      },
-      {
-        title: "Species-Count Guess & Fish of the Day",
-        desc: "On the first night, the group guesses how many total species we'll collectively record by the end of the week — then each evening, everyone names one fish that caught their eye. No printing or downloading needed; we just keep a running tally together."
-      }
-    ],
+    // The "Wildlife of the Day" and "Species-Count Guess & Fish of the Day"
+    // items were removed 2026-08-21 per REEF editorial review: optional
+    // evening activities must not be presented to participants as guaranteed
+    // features of every trip unless the trip leader has confirmed them.
+    intro: "",
+    items: [],
+    // Added 2026-08-21. Each fact carries a rendered source. The REEF figures
+    // below come from REEF's own Geographic Zone Report for the four island
+    // areas on this itinerary (zones 2154, 2164, 2155 and 3108), pulled
+    // 2026-08-21; the vessel and region facts come from the Mexico
+    // Liveaboards Know Before You Go document dated 2026-05-01.
+    didYouKnow: {
+      heading: "Did You Know?",
+      intro: "A few verified facts about where we are going.",
+      items: [
+        {
+          fact: "REEF surveyors have recorded 218 species across the four island areas on our itinerary, from 1,354 surveys logged since 1993.",
+          source: "REEF Geographic Zone Report, zones 2154 / 2164 / 2155 / 3108, retrieved August 2026"
+        },
+        {
+          fact: "Isla San Pedro Mártir alone accounts for 372 of those surveys, across 18 named dive sites — it is one of the best-surveyed places in the whole Gulf of California.",
+          source: "REEF Geographic Zone Report, zone 3108, retrieved August 2026"
+        },
+        {
+          fact: "The King Angelfish is the single most frequently recorded species in the central Gulf of California, reported on about 90% of surveys by experienced REEF surveyors.",
+          source: "REEF Geographic Zone Report, TEP Region 3, retrieved August 2026"
+        },
+        {
+          fact: "Jacques Cousteau called the Sea of Cortez \"the world's aquarium.\"",
+          source: "Mexico Liveaboards, Know Before You Go — Midriff Islands / Sea of Cortez, May 2026"
+        },
+        {
+          fact: "The Sea of Cortez is a strongly seasonal sea, and it has vertical thermoclines — you can sometimes see the water shimmer before you feel it. A temperature difference of 10°F within a single dive is not unusual, and the cool layers do not last long.",
+          source: "Mexico Liveaboards, Know Before You Go — Midriff Islands / Sea of Cortez, May 2026"
+        },
+        {
+          fact: "The Cortez Angelfish is endemic to this region, and fields of black coral grow along the walls here.",
+          source: "Mexico Liveaboards, Know Before You Go — Midriff Islands / Sea of Cortez, May 2026"
+        },
+        {
+          fact: "Every island we visit sits inside a Mexican federal protected area administered by CONANP, which is what the marine park fee supports.",
+          source: "Mexico Liveaboards, Know Before You Go — Midriff Islands / Sea of Cortez, May 2026"
+        }
+      ]
+    },
     jokes: [
       { q: "What do you call a fish with no eye?", a: "A fsh." },
       { q: "Why don't fish do well in school?", a: "They're always below C-level." },
@@ -639,12 +663,18 @@ window.TRIP_DATA = {
     // today. Update this string by hand when Airtable's numbers change;
     // never add the raw counts themselves to this file (see render.js's
     // renderAvailabilityBand comment for why).
+    // audience marks this guide as being shared only with people who have
+    // already registered and paid, so render.js suppresses the availability
+    // pill, the payment schedule, and the register/waitlist CTA.
+    audience: "registered",
     availabilityBand: "waitlist",
     accommodations: {
-      heading: "Aboard the Rocio del Mar",
+      heading: "About the Rocio del Mar",
       body: [
-        "This trip is a full-charter liveaboard aboard the Rocio del Mar (Mexico Liveaboards), boarding at Marina Fonatur in Puerto Peñasco the evening of September 12. The charter carries our full REEF group — about 20 people — for the whole week, moving between islands rather than staying at a fixed resort.",
-        "Cabin assignments are handled by Mexico Liveaboards as part of your passenger registration; note any rooming preference there rather than on this page."
+        "The Rocio del Mar is a 110-foot vessel built specifically for divers, carrying our full REEF group for the whole week. We board at Marina Fonatur in Puerto Peñasco on the evening of September 12 and move between islands rather than staying in one place.",
+        "There are ten private staterooms, each with its own bathroom. Every interior area is air conditioned, including the cabins, salon, galley, and hallways, and the outlets are 110V with standard U.S. plugs.",
+        "Onboard you will find a large salon with a television and computer station — that is where Fishy Hour happens — plus a dive deck, a large fully equipped camera table with power outlets, two freshwater showers, and a shaded sun deck. The vessel has external stabilizers, and diving is done from two inflatable pangas.",
+        "Cabin assignments are handled by Mexico Liveaboards as part of your passenger registration. For any question about your cabin, please email trips@REEF.org."
       ]
     },
     // includes/excludes/requirements[0]/faq updated 2026-07-24 against REEF's
@@ -660,41 +690,42 @@ window.TRIP_DATA = {
       "3 daily meals plus snacks; beverages including soda, local beer, and wine",
       "Taxes and port fees",
       "Tanks and weights (80 cubic foot tanks; weights and weight belts)",
-      "REEF trip leadership, daily fish ID instruction, and survey facilitation",
-      "REEF program fee and standard trip deposit, per your registration"
+      "REEF trip leadership, daily fish ID sessions, and survey facilitation"
     ],
+    // Amounts below are the current figures in the vessel's Know Before You
+    // Go document dated 2026-05-01 and are all marked subject to change.
     excludes: [
       "Round-trip flights to Phoenix (PHX)",
-      "Head Out to Rocky Point shuttle, PHX ↔ Puerto Peñasco (~$175–190/person) — book directly, not through REEF",
-      "Marine park fees and gratuities, paid directly aboard the vessel — gratuities are at each participant's discretion",
-      "Dive travel insurance — not included; REEF partners with DiveAssure and DAN if you need to purchase a policy",
-      "Onboard Wi-Fi ($50/device where available; no signal during open-water crossings)",
-      "Optional whale shark snorkel add-on and optional private-divemaster add-on (ask your trip leader for current pricing)",
-      "Nitrox, available by request for an additional fee"
+      "Head Out to Rocky Point shuttle, PHX to Puerto Peñasco and back — about $175 per person, subject to change, booked directly with the shuttle company rather than through REEF",
+      "Marine park fees — 240 pesos per day for six days, subject to change, paid aboard the vessel to CONANP",
+      "Crew gratuity — the vessel's guidance is 10–15% of the trip price, and the REEF trip listing notes gratuities are at each participant's discretion",
+      "Dive travel insurance — REEF partners with DiveAssure and DAN if you need to purchase a policy",
+      "Onboard Wi-Fi — $50 per device, subject to change, working within about 10 miles of an island or at port and unavailable during open-ocean crossings",
+      "Nitrox — $140 for the trip, subject to change, arranged in advance with Guest Services",
+      "Private divemaster, if you would like more individual attention — $600, subject to change, arranged at least 30 days ahead through Mexico Liveaboards",
+      "Rental regulators, BCDs, dive computers, or HP100 tanks, by advance reservation with Valerie at Documents@MexicoLiveaboards.com"
     ],
     requirements: [
-      { status: "required", label: "Open Water scuba certification (or higher), plus proof of dive insurance", note: "Per REEF's own trip listing: \"Best Suited For: Divers.\" No advanced certification or minimum dive count is specified for this trip — proof of certification and dive insurance are required to dive, same as any REEF Field Survey Trip." },
-      { status: "required", label: "Dive computer, safety sausage (SMB), and whistle", note: "Required for every diver — all diving is done from two inflatable zodiacs." },
-      { status: "required", label: "Passport valid for international travel", note: "A passport photo page must be sent to Mexico Liveaboards at least 2 weeks before departure." },
+      { status: "required", label: "Open Water scuba certification (or higher), plus proof of dive insurance", note: "The REEF trip listing describes this trip as best suited for divers. No advanced certification or minimum dive count is specified. Proof of certification and dive insurance are required in order to dive. REEF surveys generally can also be conducted while snorkeling, and this particular itinerary is built around diving." },
+      { status: "required", label: "Dive computer, safety sausage (SMB), and whistle", note: "Required for every diver — all diving is done from two inflatable pangas." },
+      { status: "required", label: "Passport valid for the full duration of the trip", note: "A photo of your passport's photo and information page goes to Mexico Liveaboards at least two weeks before departure. You will also obtain an FMM (Mexican tourist card) at the border on the way in — required for every non-Mexican passenger, normally with no fee for a stay of this length." },
       { status: "required", label: "Vessel passenger registration completed online", note: "Required by Mexico Liveaboards, typically due about 30 days before departure; the online form expires after a 4-hour window once started." },
       { status: "recommended", label: "Comfortable with limited connectivity for a full week", note: "Wi-Fi is paid and limited near islands, and unavailable entirely during open-water crossings." },
-      { status: "recommended", label: "Comfortable with small-boat transfers and liveaboard living", note: "This is a full-charter liveaboard, not a resort — everyone shares the boat for the whole week." }
+      { status: "recommended", label: "Comfortable with small-boat transfers and liveaboard living", note: "Diving is done from two inflatable pangas, and the group shares the vessel for the whole week." }
     ],
     pricing: [
-      { label: "Trip cost (Double Occupancy)", amount: "$3,095 total" },
-      { label: "REEF program fee", amount: "$350" },
-      { label: "Deposit due at booking", amount: "$500" }
+      { label: "Trip price, double occupancy", amount: "$3,095 per person" },
+      { label: "REEF program fee, added to the trip price", amount: "$350 per person" }
     ],
     paymentSchedule: [
       { when: "At booking", amount: "$500 deposit" },
       { when: "180 days before departure (March 16, 2026)", amount: "$1,298" },
       { when: "90 days before departure (June 14, 2026)", amount: "$1,297" }
     ],
-    pricingNote: "Figures above are REEF's own real, current pricing records for this trip. Onboard-paid items (marine park fees, gratuities) are not yet itemized — see What's Not Included.",
+    pricingNote: "The $350 REEF program fee is in addition to the $3,095 trip price, not included in it. Items paid aboard the vessel are listed under What's Not Included. For any question about your payments, please email trips@REEF.org.",
     faq: [
-      { q: "Is this trip right for a first-time liveaboard traveler?", a: "Many participants on this exact roster are repeat Mexico Liveaboards guests, and REEF's trip leader plans a beginner orientation the first night for anyone new to liveaboard diving or REEF surveying. If you're unsure, reach out before booking." },
-      { q: "What if this trip is full?", a: "This trip is currently full, with a real waitlist. Joining the waitlist is the right next step — REEF will reach out if a spot opens." },
-      { q: "Can snorkelers join, or is this dive-only?", a: "REEF's own trip listing describes this trip as \"Best Suited For: Divers,\" and diving requires proof of certification and dive insurance — so plan on this being a dive-focused trip. There is a seasonal whale shark snorkel add-on around Bahía de los Ángeles; ask us if you have a specific non-diving question." }
+      { q: "This is my first liveaboard — what should I expect?", a: "You will be in good company: this roster includes both repeat Mexico Liveaboards guests and people sailing for the first time. Martha runs a welcome session on the first night that covers the survey method and how the week works, with time afterwards for anyone who would like to go over the basics of setting up survey paper." },
+      { q: "Is this trip dive-focused?", a: "Yes. The REEF trip listing describes it as best suited for divers, and the itinerary is built around three to four dives a day. REEF surveys generally can also be conducted while snorkeling, and the itinerary includes a whale shark snorkel at Bahía de los Ángeles. For questions about a specific situation, please email trips@REEF.org." }
     ]
   },
 
@@ -704,9 +735,9 @@ window.TRIP_DATA = {
   // happens, add real (non-personal, no participant names/photos) highlights
   // here and consider a past-trip-photos-style teaser for actual 2026 shots.
   reflection: {
-    thankYou: "Thank you for signing up to spend a week counting fish with us. Whether you're reading this before you've even packed a bag or looking back at a week that's already behind you, the same thing is true: every survey you log becomes part of something REEF has been building since 1993, one sighting at a time.",
-    conservationNote: "Every fish survey logged this week adds to REEF's Volunteer Fish Survey Project (VFSP) — the same long-running database that's helped track real changes in reef fish populations across the Tropical Eastern Pacific for decades. Your data doesn't stop being useful when you fly home; it becomes part of the scientific record for as long as REEF keeps this work going, informing conservation research across the region.",
-    invitation: "If this week leaves you wanting more, REEF runs Field Survey Trips to destinations all over the world, every year — ask Martha about what's coming up next, or keep an eye on <a href=\"https://www.REEF.org/trips\" target=\"_blank\" rel=\"noopener\">www.REEF.org/trips</a> for upcoming trips."
+    thankYou: "Thank you for spending a week conducting marine-life surveys with us. Whether you are reading this before you have packed a bag or looking back on a week already behind you, the same thing is true: every survey you conduct and submit becomes part of something REEF has been building since 1993, one observation at a time.",
+    conservationNote: "Each survey contributes positively identified species, an abundance category for each one, and environmental metadata such as site, depth, visibility, and habitat. Submissions go through quality checks and then become part of the REEF Volunteer Fish Survey Project database — a long-running, publicly accessible record used by researchers, resource managers, and conservation partners. Your surveys contribute observations to REEF science that stay useful long after the trip, helping build a clearer picture of how marine fish populations in the Tropical Eastern Pacific are changing over time.",
+    invitation: "REEF runs Field Survey Trips around the world each year. You can see what is coming up at <a href=\"https://www.REEF.org/trips\" target=\"_blank\" rel=\"noopener\">www.REEF.org/trips</a>."
     // highlights: intentionally left out — there's nothing genuine to put
     // here before the trip happens. Once it does, add a few real, shared
     // (non-personal) moments — no participant names or photos.
