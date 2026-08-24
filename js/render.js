@@ -170,10 +170,30 @@ function renderBanner() {
   return wrap;
 }
 
+/* Shared list renderer. Extended 2026-08-23: items may be plain strings OR
+   { label, url, note } objects — the same shape renderPreTripInfo's section
+   items already accept. Previously string-only, which meant any list built
+   with renderList (trip includes/excludes, survey submitting steps, post-trip
+   highlights) silently rendered "[object Object]" if a trip tried to put a
+   real link in one. Now they can. renderPreTripInfo still carries its own
+   copy of this same logic — worth collapsing into this function next time
+   that renderer is touched, but left alone here to keep this change additive. */
 function renderList(items) {
   var ul = el("ul");
   items.forEach(function (item) {
-    ul.appendChild(el("li", { text: item }));
+    if (!item) return;
+    if (typeof item === "string") {
+      ul.appendChild(el("li", { text: item }));
+      return;
+    }
+    var li = el("li");
+    if (item.url) {
+      li.appendChild(el("a", { href: item.url, target: "_blank", rel: "noopener", text: item.label }));
+      if (item.note) li.appendChild(document.createTextNode(" — " + item.note));
+    } else {
+      li.textContent = item.label + (item.note ? " — " + item.note : "");
+    }
+    ul.appendChild(li);
   });
   return ul;
 }
