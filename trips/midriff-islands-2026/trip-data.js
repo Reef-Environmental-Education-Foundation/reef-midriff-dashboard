@@ -53,12 +53,80 @@
    Gulf of California endemic; Yellowhead = Opistognathus aurifrons,
    Tropical Western Atlantic/Caribbean, Martha's favorite fish in the
    world generally and the correct choice for her Bonaire entry). This
-   file's text was already correct from the 07-23 pass. Closed the "no
-   confirmed photo" gap by attaching a real credited photo of O.
-   rosenblatti from REEF's Media Assets archive (Christy Semmens). See
-   TECH_DEBT.md for the new standing process note this prompted: trip
-   leader profiles (funFact especially) need a per-trip regional-accuracy
-   check, not just a one-time write.
+   file's text was already correct from the 07-23 pass. A photo of O.
+   rosenblatti was attached in this pass, sourced from REEF's Media Assets
+   archive. See TECH_DEBT.md for the new standing process note this
+   prompted: trip leader profiles (funFact especially) need a per-trip
+   regional-accuracy check, not just a one-time write.
+
+   2026-08-21 correction to the above: that photo attachment was REVERSED.
+   The referenced file was never placed in resources/photos/, and the only
+   images REEF holds for this species are licensed "REEF internal use only,
+   photographer credit required" and so cannot be published here. The credit
+   written at the time ("Christy Semmens") was also wrong — the source
+   records credit Carol Cox. RESOLVED 2026-08-23 by retiring the species:
+   see the second 08-23 note below.
+
+   2026-08-23 pass 1 (Participant Pre-Trip Webpage Content QA handoff):
+   rewrote reflection.* so "Your Impact" reads correctly before, during and
+   after the trip and is substantial rather than three thin cards — new
+   generic reflection.sections support in render.js, plus the survey
+   data-entry card the page was missing. Softened whale shark and mobula
+   claims to what the sources actually support, replaced the sea lion
+   in-water advice with crew-deferring wildlife-respect framing, and
+   corrected the Cortez Angelfish endemism claim to Tropical Eastern
+   Pacific. No post-trip content, photos, participant names or unverified
+   statistics were added.
+
+   2026-08-23 pass 2 (Martha's review of pass 1, two decisions):
+
+   (a) NO PRICING OR FEE FIGURES ON THIS DASHBOARD, at all. Pass 1 had
+   re-confirmed the marine park fee against the vessel's May 2026 Know
+   Before You Go document and found the public Mexico Liveaboards page
+   disagreeing with it (240 pesos/day for six days vs 230 pesos per day of
+   diving — different rate, different basis). Martha's call was to stop
+   publishing amounts rather than adjudicate them: everyone reading this has
+   already registered and paid, the figures belong to Mexico Liveaboards,
+   and a stale number on a public page is worse than no number. Removed:
+   tripDetails.pricing, tripDetails.paymentSchedule, tripDetails.pricingNote
+   (trip price, REEF program fee, deposit schedule), every amount in
+   tripDetails.excludes, and the shuttle and Wi-Fi amounts in preTripInfo.
+   excludes[] now names what participants pay separately and points at the
+   Know Before You Go document and trips@REEF.org for current figures.
+   Do not reintroduce amounts anywhere in this file.
+
+   (b) BLUESPOTTED JAWFISH RETIRED, replaced by blennies as a group, in both
+   the trip leader funFact and home.featuredFish. Every blenny species named
+   is backed by REEF sighting-frequency data in Midriff Fish ID Tools/data/
+   species.json and by FishBase behaviour checks run 2026-08-23 — see the
+   full sourcing comment on funFact.
+
+   2026-08-23 pass 3 (Martha corrected a wrong conclusion in pass 2, and it
+   is worth reading before anyone repeats it):
+
+   Pass 2 concluded that REEF's species photo library could not supply an
+   image for a public page, because every asset checked carried the licence
+   note "REEF internal use only, photographer credit required." That
+   conclusion was WRONG, and the note is misleading rather than restrictive.
+   Martha, who curates the base, states the actual policy: only photos REEF
+   has permission to use are allowed into that base at all, so everything in
+   it is cleared for REEF use. What the note is really about is CREDIT:
+
+     - Photographer Credit filled  -> that photographer MUST be credited.
+     - Photographer Credit empty    -> credit "REEF" (staff photos taken over
+       the years, which the organisation holds rights to, with no individual
+       attribution).
+
+   Both blenny cards therefore now carry real credited photos. The two files
+   were pulled from Marine Life Photo Library/TEP Tropical Eastern Pacific/
+   and cropped to the 842x532 this site already uses.
+
+   STANDING NOTE for whoever edits this file next: a photo from that base is
+   publishable. Read the Photographer Credit field, show that name if it has
+   one and "REEF" if it does not, and never publish an image from it with no
+   credit line at all. Do NOT read the "internal use only" licence text as a
+   block — that misreading cost this project a pass, and the field text
+   should probably be rewritten in Airtable to stop it happening again.
    ============================================================ */
 
 window.TRIP_DATA = {
@@ -71,7 +139,7 @@ window.TRIP_DATA = {
   endDate: "2026-09-19",
   // Drives the shared footer's "Last updated" line (render.js renderFooter).
   // Update this whenever this file's content changes.
-  lastUpdated: "2026-08-21",
+  lastUpdated: "2026-08-23",
 
   tripLeaders: [
     {
@@ -92,43 +160,65 @@ window.TRIP_DATA = {
         "Martha is the REEF Co-Executive Director of Strategy and Operations. Before joining the REEF staff team in 2011, her passion for teaching people about the oceans grew over ten years of leading residential marine science programs. Her undergraduate degree focused on environmental education, and her master's was in Educational Leadership and Administration.",
         "She's passionate about connecting people with the marine environment and building a sense of community among ocean enthusiasts — and she's enthusiastic about expanding REEF's impact and reach to create a future where healthy oceans thrive. She believes it's the little things that change the world, like how a single fish survey adds up to one of the largest marine life databases in the world."
       ],
-      // funFact replaced 2026-07-23 per the governing PRD — Martha's Midriff
-      // favorite fish is the Bluespotted Jawfish (Opistognathus
-      // rosenblatti), a Gulf of California endemic, NOT the Yellowhead
-      // Jawfish (Opistognathus aurifrons, a Tropical Western Atlantic/
-      // Caribbean species) reused from her Bonaire entry — confirmed
-      // 2026-08-09 these are two genuinely distinct species, not a naming
-      // variant of one. Facts below verified against FishBase, WoRMS, and
-      // IUCN (Least Concern, assessed 2007) — see the Change Log for full
-      // sourcing.
-      // Photo added 2026-08-09, closing the "no confirmed photo" gap noted
-      // when this funFact was first written: sourced from REEF's own Media
-      // Assets archive (Airtable, REEF Species ID 0084), credited photo of
-      // the actual Opistognathus rosenblatti. An unrelated leftover
-      // "yellowhead-jawfish.jpg" file was found sitting unused in this same
-      // resources/photos/ folder (carried over from the Bonaire template
-      // scaffold, never referenced by this file) — flagged for Martha to
-      // delete so it doesn't cause future confusion.
+      // funFact replaced 2026-08-23 at Martha's direction: blennies as a
+      // group, rather than a single species. This retires the Bluespotted
+      // Jawfish entry that had run here since 2026-07-23 and ends the
+      // photo-clearance problem it carried (see the note below).
+      //
+      // Species named below were chosen on two criteria: they are in the
+      // Midriff Fish ID Tools species set with real REEF sighting-frequency
+      // data (Midriff Fish ID Tools/data/species.json, TEP region), and REEF
+      // holds a photo of each. Sighting frequencies from that dataset:
+      // Panamic Fanged 32.41%, Redside 28.55%, Browncheek 26.48%,
+      // Orangethroat Pikeblenny 16.20%.
+      //
+      // Behaviour claims verified against FishBase 2026-08-23:
+      //   Ophioblennius steindachneri — "Adults prefer the surge zone of
+      //     unprotected rocky headlands... They wedge themselves in crevices
+      //     close to shore in shallow water, darting out to defend their
+      //     territory." Its range is given as including Isla Angel de la
+      //     Guarda, which is on this itinerary.
+      //   Acanthemblemaria crockeri — "Eastern Central Pacific: Gulf of
+      //     California"; "Inhabits empty worm and mollusk tubes on rocky
+      //     reefs." Described here as "a Gulf of California species," NOT as
+      //     "found nowhere else" — FishBase gives the distribution as the
+      //     Gulf but its coordinate box runs further south, and STRI was
+      //     unreachable for a second opinion. Deliberately not an endemism
+      //     claim; see the Cortez Angelfish correction elsewhere in this file
+      //     for why that distinction now gets treated carefully.
+      //   Malacoctenus hubbsi — "Gulf of California and southwestern coast
+      //     of Baja California"; "Occurs in shallow rocky areas." Depth range
+      //     1-4 m, hence "shallow" rather than a general reef claim.
+      //   Chaenopsis alepidota — "Inhabits sandy areas in worm tubes."
+      // Cirri are stated as a family-level trait, which is what they are, not
+      // attributed to any one species.
+      //
+      // PHOTO RIGHTS, corrected 2026-08-23 by Martha, who curates the base.
+      // Every blenny image in REEF's Media Assets table (Airtable
+      // appDD6S7n5AS7wtZ4 / tblHZzUE5dKxJZNHj) carries the note "REEF
+      // internal use only, photographer credit required." That note had been
+      // read as blocking publication. It does not. Martha's standing policy:
+      // ONLY photos REEF has permission to use are allowed into that base at
+      // all, so anything in there is cleared for REEF use. The credit rule is
+      // what the note is actually about:
+      //   - Photographer Credit filled  -> that name MUST be shown.
+      //   - Photographer Credit empty    -> credit "REEF" (staff photos the
+      //     organisation holds rights to, with no individual attribution).
+      // Photo below: panamic-fanged-blenny.jpg, cropped for the web from
+      // panamicfangblenny_ccoxIMG_1170_.jpg (Media Assets recJ3ydDgyzAR8syn,
+      // Marine Life Photo Library/TEP Tropical Eastern Pacific/). Credit
+      // Carol Cox, Credit Confirmed = true, Status = Ready. Chosen because it
+      // shows the thing the copy describes: propped up on its pectoral fins
+      // on the rock, cirri visible above the eye.
       funFact: {
         label: "Favorite Fish in This Region",
-        value: "Bluespotted Jawfish",
-        note: "found only in the Gulf of California, so this is one of the few trips anywhere you can look for it — watch for one hovering just above its sandy burrow; it drops straight back in the instant it feels threatened."
-      // PHOTO REMOVED 2026-08-21 — do not re-add without Martha's sign-off.
-      // Two blocking problems were found with resources/photos/bluespotted-jawfish.jpg:
-      //   1. The file does not exist. It was referenced on 2026-08-09 but never
-      //      placed in resources/photos/, so this reference renders a broken
-      //      image. (The live site is unaffected — it still serves the 2026-07-23
-      //      build, which had no photo field here.)
-      //   2. The only source images REEF holds for Opistognathus rosenblatti are
-      //      three files in the Marine Life Species base (Media Assets:
-      //      bluespottedjawfish_ccoxIMG_1400/1597/0637), and all three carry the
-      //      licence note "REEF internal use only, photographer credit required."
-      //      This is a public site, so they cannot be published as-is.
-      // Also note the credit previously written here ("Christy Semmens") does not
-      // match the source records, which all credit CAROL COX with Credit
-      // Confirmed = true.
-      // The species feature itself is kept — the text is sound and sourced. Add a
-      // photo once Martha confirms a publication-cleared image and its credit.
+        value: "Blennies",
+        photo: {
+          src: "resources/photos/panamic-fanged-blenny.jpg",
+          alt: "A Panamic Fanged Blenny perched on a rocky reef in the Sea of Cortez",
+          credit: "Carol Cox"
+        },
+        note: "I love them all. Blennies are full of personality — big eyes, quirky expressions, feathery cirri sprouting over the brow like unruly eyebrows, and that habit of perching up on a rock like a tiny underwater dog watching the street go by. Ones to look for this week: the <strong>Panamic Fanged Blenny</strong>, wedged into a crevice in the shallow surge and darting out to defend its patch; the <strong>Browncheek Blenny</strong>, a Gulf of California species that lives inside an empty worm or mollusk tube with only its face showing; the <strong>Redside Blenny</strong>, in shallow rocky areas; and the <strong>Orangethroat Pikeblenny</strong>, long and slender, tucked into an abandoned worm tube out on the sand."
       },
       whyILead: "Leading REEF trips combines so many things I care about: exploring remarkable places, connecting with wonderful people, and discovering something new about the underwater world. I love helping people see the ocean in a new way. Whether someone is brand new to fish identification or has surveyed for decades, everyone has something to learn and something to share. My goal is for every participant to leave with new skills, new friends, and a deeper appreciation and understanding of the ocean.",
       // Added 2026-07-23 per the governing PRD's Trip Leader page spec.
@@ -162,29 +252,28 @@ window.TRIP_DATA = {
       alt: "A curious pod of sea lions in the Sea of Cortez, Midriff Islands region",
       credit: "Christy Semmens"
     },
-    // Replaced 2026-08-21 per REEF editorial review: the static spotlight is
-    // now a species with a confirmed, credited REEF photo already in this
-    // trip's resources folder (Opistognathus rosenblatti, REEF Media Assets,
-    // Christy Semmens) — the same image used on the Trip Leader page.
+    // Replaced 2026-08-23 at Martha's direction, in step with the trip
+    // leader funFact: the Start Here spotlight is now blennies as a group
+    // rather than the Bluespotted Jawfish. Deliberately NOT the same words
+    // as the funFact note — that one is Martha's own "why I love these"
+    // in first person, this one is the practical how-to-actually-find-them
+    // and carries the REEF sighting-frequency figures. See the funFact
+    // comment above for full sourcing of every species claim and for the
+    // photo-rights position.
+    // Photo: browncheek-blenny.jpg, cropped for the web from
+    // blenny_browncheek_madalynmussey.JPG (Media Assets rechtGF4mF2lM59xu).
+    // Credit Madalyn Mussey, Credit Confirmed = true, Status = Ready.
+    // Deliberately a different species and photographer from the funFact
+    // card, so the two cards do not show the same picture twice — and this
+    // one is the in-the-tube view the blurb describes, only a face showing.
     featuredFish: {
-      name: "Bluespotted Jawfish",
-      blurb: "A Gulf of California endemic, found nowhere else in the world. Colonies burrow into sandy patches near the reef, and you will usually see one hovering just above its burrow before it drops straight back in. Approach slowly and stay low."
-      // PHOTO REMOVED 2026-08-21 — do not re-add without Martha's sign-off.
-      // Two blocking problems were found with resources/photos/bluespotted-jawfish.jpg:
-      //   1. The file does not exist. It was referenced on 2026-08-09 but never
-      //      placed in resources/photos/, so this reference renders a broken
-      //      image. (The live site is unaffected — it still serves the 2026-07-23
-      //      build, which had no photo field here.)
-      //   2. The only source images REEF holds for Opistognathus rosenblatti are
-      //      three files in the Marine Life Species base (Media Assets:
-      //      bluespottedjawfish_ccoxIMG_1400/1597/0637), and all three carry the
-      //      licence note "REEF internal use only, photographer credit required."
-      //      This is a public site, so they cannot be published as-is.
-      // Also note the credit previously written here ("Christy Semmens") does not
-      // match the source records, which all credit CAROL COX with Credit
-      // Confirmed = true.
-      // The species feature itself is kept — the text is sound and sourced. Add a
-      // photo once Martha confirms a publication-cleared image and its credit.
+      name: "Blennies",
+      photo: {
+        src: "resources/photos/browncheek-blenny.jpg",
+        alt: "A Browncheek Blenny peering out of its tube in the reef, only its head showing",
+        credit: "Madalyn Mussey"
+      },
+      blurb: "Small, big-eyed, and easy to swim straight past — blennies reward slowing down more than almost anything else on the reef. Most are only a few inches long, and they spend their time propped on a rock or tucked inside an empty worm tube with just a face showing. Get low, hold still for a few seconds, and let your eye adjust to the scale. REEF surveyors record the Panamic Fanged, Redside, and Browncheek Blennies on roughly a quarter to a third of surveys in this region, so there is a fair chance of all three."
     },
     // Rotating featured-fish pool RETIRED 2026-08-21. Per REEF editorial
     // review the Start Here spotlight is now a single, scientifically sound
@@ -196,6 +285,13 @@ window.TRIP_DATA = {
     // Survey), so re-enabling this is a one-line change if Martha wants
     // rotation back. render.js's pickFeaturedFish() falls through to the
     // static featuredFish whenever this field is absent.
+    // Photographer credit corrected 2026-08-23: two entries below credited
+    // "Jonathan Laven". REEF's Media Assets table spells it "Jonathan Lavan"
+    // across all 8 of his records, so the site was misspelling a
+    // photographer's name. Nothing here renders today (this pool is
+    // retired), but under Martha's photo-credit policy a named photographer
+    // must be credited correctly, and this would have published wrong the
+    // moment anyone re-enabled rotation.
     _retiredFeaturedFishPool: [
 
       {
@@ -221,12 +317,12 @@ window.TRIP_DATA = {
       {
         name: "Blue-and-Yellow Chromis",
         blurb: "REEF doesn't have a written species profile for this one yet, but it was a regular sighting on REEF's own 2019 Sea of Cortez survey trip — keep an eye out and see what you notice.",
-        photo: { src: "resources/photos/blue-and-yellow-chromis.jpg", alt: "Blue-and-Yellow Chromis in the Sea of Cortez", credit: "Jonathan Laven" }
+        photo: { src: "resources/photos/blue-and-yellow-chromis.jpg", alt: "Blue-and-Yellow Chromis in the Sea of Cortez", credit: "Jonathan Lavan" }
       },
       {
         name: "Finescale Triggerfish",
         blurb: "REEF doesn't have a written species profile for this one yet, but it was a regular sighting on REEF's own 2019 Sea of Cortez survey trip — keep an eye out and see what you notice.",
-        photo: { src: "resources/photos/finescale-triggerfish.jpg", alt: "Finescale Triggerfish in the Sea of Cortez", credit: "Jonathan Laven" }
+        photo: { src: "resources/photos/finescale-triggerfish.jpg", alt: "Finescale Triggerfish in the Sea of Cortez", credit: "Jonathan Lavan" }
       },
       {
         name: "Panama Graysby",
@@ -303,7 +399,12 @@ window.TRIP_DATA = {
         date: "Around Day 7 (Friday, September 18)",
         tag: "Bahía de los Ángeles",
         events: [
-          { time: "Per the vessel itinerary", desc: "Two dives at Bahía de los Ángeles plus a snorkel with whale sharks, both part of the planned itinerary. Exact timing is the crew's call based on conditions." },
+          // Softened 2026-08-23: the vessel's published route and its Know
+          // Before You Go document (May 1, 2026) both list a whale shark
+          // snorkel at Bahía de los Ángeles on Day 7, so the ACTIVITY is
+          // genuinely planned — but a wildlife ENCOUNTER is never
+          // guaranteed, and the previous wording read as though it were.
+          { time: "Per the vessel itinerary", desc: "Two dives at Bahía de los Ángeles, plus a planned whale shark snorkel if conditions and wildlife allow. Exact timing is the crew's call." },
           { time: "Evening", desc: "Final-night gathering: a look back at the week together." }
         ]
       },
@@ -332,7 +433,7 @@ window.TRIP_DATA = {
       "Forward your airline itinerary to Noa.Parks@REEF.org, and send an update if anything changes.",
       "Email a close-up photo of your passport's photo and information page to Documents@MexicoLiveaboards.com at least two weeks before departure.",
       "Complete your Mexico Liveaboards passenger registration. New guests use the online New Passenger Registration form (allow an uninterrupted stretch — it expires four hours after you start): https://www.mexicoliveaboards.com/ords/f?p=rqpif:1:0 — returning guests use the individual portal link sent to you directly.",
-      "Book your Head Out to Rocky Point shuttle (about $175 per person round trip, subject to change) and note your transfer details on your Rocio del Mar passenger forms: https://www.headouttorockypoint.com/scuba",
+      "Book your Head Out to Rocky Point shuttle (round trip, booked and paid directly with the shuttle company) and note your transfer details on your Rocio del Mar passenger forms: https://www.headouttorockypoint.com/scuba",
       "Bring your full dive kit, including exposure protection, fins, mask, SMB, and whistle. The vessel does not rent these and there is no local rental source in Puerto Peñasco.",
       "Plan to obtain your FMM (Mexican tourist card) at the border on the way in. Every non-Mexican passenger needs one and the vessel cannot depart without them. For a seven-day stay there is normally no fee, but the stop to get the form is still required — the shuttle driver walks the group through it."
     ],
@@ -343,7 +444,7 @@ window.TRIP_DATA = {
         items: [
           "Plan your arriving flight into PHX for no later than 11:00 AM on September 12 to make the 1:00 PM shuttle.",
           "The shuttle departs PHX Terminal 4, Door #5 (outer curb, north side arrivals) and crosses the U.S.–Mexico border at Lukeville/Sonoyta — the driver handles the crossing process and makes scheduled rest stops along the way.",
-          { label: "Book your Head Out to Rocky Point shuttle", url: "https://www.headouttorockypoint.com/scuba", note: "About $175 per person round trip, subject to change, paid directly to the shuttle company. Note your transfer arrangements on your Rocio del Mar passenger forms once booked." },
+          { label: "Book your Head Out to Rocky Point shuttle", url: "https://www.headouttorockypoint.com/scuba", note: "Round trip, booked and paid directly with the shuttle company. Note your transfer arrangements on your Rocio del Mar passenger forms once booked." },
           "On the return, plan to disembark around 7:30 AM on September 19. The shuttle is expected to reach Phoenix around midday, so book your departing PHX flight for 2:00 PM or later.",
           "Traveling a different way, or need to change a travel arrangement? Please email trips@REEF.org."
         ]
@@ -352,7 +453,7 @@ window.TRIP_DATA = {
         heading: "What to Expect Onboard",
         items: [
           "Ten cabins aboard the Rocio del Mar, most set up as two twin bunks, a few as queen or full-bed-with-bunk configurations.",
-          "Wi-Fi is limited — about $50/device within roughly 10 miles of an island, and unavailable during open-water crossings. Plan on being mostly offline for the week.",
+          "Wi-Fi is limited and paid — it works within roughly 10 miles of an island and is unavailable during open-water crossings. Plan on being mostly offline for the week.",
           "Fishy Hour happens each evening in the boat's salon, using the onboard TV/computer station.",
           "Outlets aboard are 110V, standard U.S. plugs.",
           "REEF trip leader role: marine life educator and survey facilitator. The Captain and divemasters own all dive planning, site selection, panga groups, diver supervision and in-water safety decisions."
@@ -376,7 +477,7 @@ window.TRIP_DATA = {
         items: [
           { label: "Mexico Liveaboards 24-hour emergency line: +1 (602) 558-9580", note: "Phone or WhatsApp. This is the number family and friends should call. Give it to them before you leave." },
           "The vessel maintains daily radio contact with the Mexico Liveaboards US office, and office staff relay messages to the boat.",
-          "Wi-Fi aboard is about $50 per device and only works within roughly 10 miles of an island or at port \u2014 it is unavailable during open-ocean crossings. The office line is the only reliable channel while we are at sea.",
+          "Wi-Fi aboard is paid, per device, and only works within roughly 10 miles of an island or at port \u2014 it is unavailable during open-ocean crossings. The office line is the only reliable channel while we are at sea.",
           { label: "Guest services and passenger documents", note: "Documents@MexicoLiveaboards.com" },
           { label: "Mexico Liveaboards office", note: "Dora@MexicoLiveaboards.com" }
         ]
@@ -511,7 +612,11 @@ window.TRIP_DATA = {
         // family generally but not confirmed species-specifically, hence
         // "believed to" — flag for REEF science-staff confirmation.
         fact: "One to watch for here is the Bluespotted Jawfish, found only in the Gulf of California. Colonies burrow into sandy patches near the reef, and — like related species — males are believed to incubate the eggs in their mouths. The color is a fun twist: the vivid blue spotting is actually more pronounced on females and resting males, while courting males turn strikingly pale as they dash up from the burrow to defend their territory.",
-        question: "Has anyone spotted a jawfish hovering just above its burrow yet?",
+        // Made time-neutral 2026-08-23. This is dailyDiscoveries[0], which
+        // is what currentTripDayIndex() shows to every pre-departure
+        // visitor, and "yet?" made the trip sound already underway. Belt
+        // and braces alongside the stage-aware framing now in render.js.
+        question: "Who can spot a jawfish hovering just above its burrow?",
         prompt: "Approach slowly and stay low — jawfish drop straight back into the sand the instant they feel threatened, so patience is the only way to get a good look."
       },
       {
@@ -519,16 +624,28 @@ window.TRIP_DATA = {
         question: "Slow down near sponges and rubble — that's prime frogfish habitat."
       },
       {
-        fact: "The Sea of Cortez is one of the best places in the world to see mobula rays, which are famous for leaping clear out of the water — nobody's entirely sure why, but theories range from communication to just shaking off parasites.",
+        // Superlative removed 2026-08-23: "one of the best places in the
+        // world" was not supported by any source REEF holds. The leaping
+        // behaviour and the competing explanations for it are well
+        // documented; the ranking was not.
+        fact: "The Sea of Cortez is known for mobula rays, which are famous for leaping clear out of the water — nobody's entirely sure why, but theories range from communication to just shaking off parasites.",
         question: "Has anyone seen one breach yet?"
       },
       {
         fact: "Sea lion colonies are common around the Midriff Islands, and young sea lions are famously curious divers — don't be surprised if one comes over to check out your gear rather than the other way around.",
         question: "What's the most curious animal encounter you've had so far this trip?",
-        prompt: "If a young sea lion comes over to check out your gear, that's completely normal here — no need to swim away."
+        // Rewritten 2026-08-23. The previous prompt ("no need to swim
+        // away") gave in-water behaviour advice from a webpage, which can
+        // conflict with what the crew tells you on the day. Wildlife-respect
+        // framing that defers to the divemaster instead.
+        prompt: "If a sea lion comes over to investigate, stay calm and follow the crew and divemaster guidance, keep your hands to yourself, and let the animal choose the distance. Do not touch, chase, feed, or block wildlife."
       },
       {
-        fact: "Bahía de los Ángeles is, seasonally, one of the more reliable places in the world to encounter whale sharks, the largest fish in the ocean — despite their size, they're filter feeders and no threat to snorkelers.",
+        // Softened 2026-08-23: "one of the more reliable places in the
+        // world" was an unsourced ranking, and pairing it with a planned
+        // snorkel implied a guaranteed encounter. The seasonality and the
+        // filter-feeding are sound; the ranking and the certainty were not.
+        fact: "Bahía de los Ángeles is known for seasonal whale shark encounters. Whale sharks are the largest fish in the ocean, and despite their size they are filter feeders and no threat to snorkelers. Whether we see one is down to the season, the conditions, and the animals — it is never a given.",
         question: "What is the one thing you are hoping to notice up close at Bahía de los Ángeles?"
       },
       {
@@ -621,8 +738,21 @@ window.TRIP_DATA = {
           fact: "The Sea of Cortez is a strongly seasonal sea, and it has vertical thermoclines — you can sometimes see the water shimmer before you feel it. A temperature difference of 10°F within a single dive is not unusual, and the cool layers do not last long.",
           source: "Mexico Liveaboards, Know Before You Go — Midriff Islands / Sea of Cortez, May 2026"
         },
+        // Corrected 2026-08-23. The vessel's Know Before You Go document
+        // calls the Cortez Angelfish "endemic to this region," which is too
+        // narrow if "this region" reads as the Gulf of California — the
+        // species ranges well beyond it. Shorefishes of the Tropical Eastern
+        // Pacific (STRI) gives the distribution as "Southern Baja and Gulf
+        // of California to Peru, including all the oceanic islands," i.e. a
+        // Tropical Eastern Pacific endemic, not a Gulf endemic. Split into
+        // two facts so each carries the source that actually supports it;
+        // the black coral claim is the vessel's and stays with the vessel.
         {
-          fact: "The Cortez Angelfish is endemic to this region, and fields of black coral grow along the walls here.",
+          fact: "The Cortez Angelfish takes its name from the Sea of Cortez, but it is a Tropical Eastern Pacific species rather than a Gulf of California one — it ranges from southern Baja and the Gulf south to Peru, including the region's oceanic islands. The Gulf is one end of its range, not the whole of it.",
+          source: "Shorefishes of the Tropical Eastern Pacific (Smithsonian Tropical Research Institute), retrieved August 2026"
+        },
+        {
+          fact: "Fields of black coral grow along the walls here.",
           source: "Mexico Liveaboards, Know Before You Go — Midriff Islands / Sea of Cortez, May 2026"
         },
         {
@@ -651,10 +781,11 @@ window.TRIP_DATA = {
   // than guessed, per this project's own "flag, don't guess" convention:
   // (1) no minimum-certification-level fact exists in either source, so the
   // one requirement most participants would ask first is marked "ask us,"
-  // not assumed; (2) the vessel's onboard-paid items (park fees, tips) have
-  // no confirmed dollar amount yet in Airtable's Pricing table ("Paid
-  // onboard and Pricing TBD"), so excludes[] says so honestly instead of
-  // inventing a number.
+  // not assumed; (2) the vessel's onboard-paid items (park fees, tips) had
+  // no confirmed dollar amount in Airtable's Pricing table ("Paid onboard
+  // and Pricing TBD"), so excludes[] never invented one. As of 2026-08-23
+  // that question is moot: no amounts of any kind are published on this
+  // dashboard — see the note above excludes[].
   tripDetails: {
     // availabilityBand is the ONLY availability fact in this public file —
     // deliberately pre-computed, never a raw count. Real source (Airtable
@@ -692,18 +823,25 @@ window.TRIP_DATA = {
       "Tanks and weights (80 cubic foot tanks; weights and weight belts)",
       "REEF trip leadership, daily fish ID sessions, and survey facilitation"
     ],
-    // Amounts below are the current figures in the vessel's Know Before You
-    // Go document dated 2026-05-01 and are all marked subject to change.
+    // ALL AMOUNTS REMOVED 2026-08-23 at Martha's direction: this dashboard
+    // carries no pricing or fee figures. Everyone reading it has already
+    // registered and paid, the amounts are Mexico Liveaboards' to set and
+    // change, and a stale figure on a public page is worse than no figure —
+    // which is exactly what the 240-vs-230 peso park fee discrepancy found
+    // on 2026-08-23 demonstrated. The list still tells participants WHAT
+    // they pay separately and WHO to ask; the last item points at the
+    // authoritative source for the numbers. Do not reintroduce amounts here.
     excludes: [
       "Round-trip flights to Phoenix (PHX)",
-      "Head Out to Rocky Point shuttle, PHX to Puerto Peñasco and back — about $175 per person, subject to change, booked directly with the shuttle company rather than through REEF",
-      "Marine park fees — 240 pesos per day for six days, subject to change, paid aboard the vessel to CONANP",
-      "Crew gratuity — the vessel's guidance is 10–15% of the trip price, and the REEF trip listing notes gratuities are at each participant's discretion",
+      "Head Out to Rocky Point shuttle, PHX to Puerto Peñasco and back — booked and paid directly with the shuttle company rather than through REEF",
+      "Marine park fees, paid aboard the vessel to CONANP",
+      "Crew gratuity — at each participant's discretion, per the REEF trip listing",
       "Dive travel insurance — REEF partners with DiveAssure and DAN if you need to purchase a policy",
-      "Onboard Wi-Fi — $50 per device, subject to change, working within about 10 miles of an island or at port and unavailable during open-ocean crossings",
-      "Nitrox — $140 for the trip, subject to change, arranged in advance with Guest Services",
-      "Private divemaster, if you would like more individual attention — $600, subject to change, arranged at least 30 days ahead through Mexico Liveaboards",
-      "Rental regulators, BCDs, dive computers, or HP100 tanks, by advance reservation with Valerie at Documents@MexicoLiveaboards.com"
+      "Onboard Wi-Fi, which works within about 10 miles of an island or at port and is unavailable during open-ocean crossings",
+      "Nitrox, arranged in advance with Guest Services",
+      "Private divemaster, if you would like more individual attention — arranged at least 30 days ahead through Mexico Liveaboards",
+      "Rental regulators, BCDs, dive computers, or HP100 tanks, by advance reservation with Valerie at Documents@MexicoLiveaboards.com",
+      "Current amounts for all of the above come from Mexico Liveaboards and can change. Your Know Before You Go document has the latest figures, and trips@REEF.org can help if you need them."
     ],
     requirements: [
       { status: "required", label: "Open Water scuba certification (or higher), plus proof of dive insurance", note: "The REEF trip listing describes this trip as best suited for divers. No advanced certification or minimum dive count is specified. Proof of certification and dive insurance are required in order to dive. REEF surveys generally can also be conducted while snorkeling, and this particular itinerary is built around diving." },
@@ -713,19 +851,18 @@ window.TRIP_DATA = {
       { status: "recommended", label: "Comfortable with limited connectivity for a full week", note: "Wi-Fi is paid and limited near islands, and unavailable entirely during open-water crossings." },
       { status: "recommended", label: "Comfortable with small-boat transfers and liveaboard living", note: "Diving is done from two inflatable pangas, and the group shares the vessel for the whole week." }
     ],
-    pricing: [
-      { label: "Trip price, double occupancy", amount: "$3,095 per person" },
-      { label: "REEF program fee, added to the trip price", amount: "$350 per person" }
-    ],
-    paymentSchedule: [
-      { when: "At booking", amount: "$500 deposit" },
-      { when: "180 days before departure (March 16, 2026)", amount: "$1,298" },
-      { when: "90 days before departure (June 14, 2026)", amount: "$1,297" }
-    ],
-    pricingNote: "The $350 REEF program fee is in addition to the $3,095 trip price, not included in it. Items paid aboard the vessel are listed under What's Not Included. For any question about your payments, please email trips@REEF.org.",
+    // pricing / paymentSchedule / pricingNote REMOVED 2026-08-23 at Martha's
+    // direction. The renderer already suppressed paymentSchedule for
+    // audience: "registered", but the Trip Cost card and the pricing note
+    // still showed the trip price, the REEF program fee, and the deposit
+    // schedule to an audience that has already paid all of it. All three
+    // fields are optional in render.js (renderTripDetails guards on
+    // td.pricing), so deleting them removes the card cleanly. Payment
+    // questions go to trips@REEF.org, which the FAQ and Pre-Trip Info
+    // already say. Do not reintroduce these fields for this trip.
     faq: [
       { q: "This is my first liveaboard — what should I expect?", a: "You will be in good company: this roster includes both repeat Mexico Liveaboards guests and people sailing for the first time. Martha runs a welcome session on the first night that covers the survey method and how the week works, with time afterwards for anyone who would like to go over the basics of setting up survey paper." },
-      { q: "Is this trip dive-focused?", a: "Yes. The REEF trip listing describes it as best suited for divers, and the itinerary is built around three to four dives a day. REEF surveys generally can also be conducted while snorkeling, and the itinerary includes a whale shark snorkel at Bahía de los Ángeles. For questions about a specific situation, please email trips@REEF.org." }
+      { q: "Is this trip dive-focused?", a: "Yes. The REEF trip listing describes it as best suited for divers, and the itinerary is built around three to four dives a day. REEF surveys generally can also be conducted while snorkeling, and the itinerary includes a planned whale shark snorkel at Bahía de los Ángeles, conditions and wildlife permitting. For questions about a specific situation, please email trips@REEF.org." }
     ]
   },
 
@@ -735,11 +872,75 @@ window.TRIP_DATA = {
   // happens, add real (non-personal, no participant names/photos) highlights
   // here and consider a past-trip-photos-style teaser for actual 2026 shots.
   reflection: {
-    thankYou: "Thank you for spending a week conducting marine-life surveys with us. Whether you are reading this before you have packed a bag or looking back on a week already behind you, the same thing is true: every survey you conduct and submit becomes part of something REEF has been building since 1993, one observation at a time.",
-    conservationNote: "Each survey contributes positively identified species, an abundance category for each one, and environmental metadata such as site, depth, visibility, and habitat. Submissions go through quality checks and then become part of the REEF Volunteer Fish Survey Project database — a long-running, publicly accessible record used by researchers, resource managers, and conservation partners. Your surveys contribute observations to REEF science that stay useful long after the trip, helping build a clearer picture of how marine fish populations in the Tropical Eastern Pacific are changing over time.",
+    // Rewritten 2026-08-23 per the Participant Pre-Trip Webpage Content QA
+    // handoff. The opening card used to begin "Thank you for spending a week
+    // conducting marine-life surveys with us," which read as post-trip on a
+    // page participants are using weeks before departure. It is now
+    // before/during/after neutral: it states what the page is FOR rather
+    // than thanking people for something they may not have done yet.
+    // Field name kept as thankYou for renderer compatibility — it is a data
+    // key only and never appears in visible copy.
+    thankYou: "Before, during, and after the trip, this page connects your survey slate to the bigger REEF picture. Every survey you complete and submit adds positively identified species, abundance observations, and site information to a long-running dataset REEF has been building since 1993.",
+    // sections[] is generic renderer support added to render.js on the same
+    // date (renderReflection) — any trip can supply heading + body
+    // paragraphs and get ordinary cards. Added because "Your Impact" had
+    // only three possible cards, which was too thin for a page with that
+    // name, and because everything here is true before the trip as well as
+    // after it. Every claim below is drawn from REEF's own Volunteer Fish
+    // Survey Project page and Surveyor Toolbox — nothing about this
+    // specific trip's results, which do not exist yet.
+    sections: [
+      {
+        heading: "From Your Slate to REEF Science",
+        body: [
+          "On a survey you swim your normal dive — no set path, no timed segment — and record the marine life you can positively identify, assign each species an abundance category, and note the basic site information: location, date, depth, visibility, and habitat.",
+          "Once you submit, those observations go through REEF's quality checks and become part of the Volunteer Fish Survey Project database, one of the largest marine life databases in the world. REEF data are used in species distribution and population trend reports, in published research, and in monitoring and conservation work with management agencies and partner organizations.",
+          "One survey is a small act. Many surveys, over many years, become a way to see patterns no single diver could see alone."
+        ]
+      },
+      {
+        heading: "Why Surveys from the Midriff Islands Matter",
+        body: [
+          "The Midriff Islands sit within REEF's Tropical Eastern Pacific survey region. Surveys from this trip add observations from a distinctive Gulf of California setting, where rocky reefs, islands, sandy patches, sea lion colonies, and seasonal wildlife movements all shape what a surveyor may see.",
+          "No single trip proves a population trend on its own. What a week of surveys does is add well-documented observations from a specific place and time to a record that already stretches back three decades — which is exactly what makes a trend visible later."
+        ]
+      },
+      {
+        heading: "Keeping Your Records Accurate",
+        body: [
+          "Write your site information down promptly rather than trusting it to memory — details fade fast once you are back aboard and getting ready for the next dive.",
+          "Record only what you can positively identify. If an identification is uncertain, leave it off or ask rather than guessing: a species left out costs the dataset far less than a species recorded wrongly.",
+          "If you are working from paper, hold on to your slates and survey paper until your entries are complete and submitted."
+        ]
+      }
+    ],
+    // Added 2026-08-23 using the renderer's existing generic dataEntry
+    // support (present since 2026-07-23, unused by this trip until now).
+    // This page previously never answered the most practical question a
+    // participant has: what do I actually do with my survey data? Submission
+    // wording matches REEF's own VFSP instructions — online interface, or
+    // the free offline program with a connection needed only to submit.
+    dataEntry: {
+      heading: "Submit Your Surveys After the Trip",
+      intro: "Once you are back online, enter each completed survey through REEF's data entry system. You will need your free REEF member number, your site and dive information, and the species and abundance notes from your slate. You can enter surveys directly through REEF's online interface, or use REEF's free offline data entry program and submit once you have a connection.",
+      link: {
+        label: "Open REEF survey data entry",
+        url: "https://www.reef.org/dataentry"
+      }
+    },
+    // Rewritten 2026-08-23 to cut the repetition the handoff flagged: the
+    // survey mechanics (abundance categories, site metadata, quality checks)
+    // now live once, in the "From Your Slate to REEF Science" section above.
+    // This card carries only the point that section does not — why a
+    // consistent method over a long record is what makes the data usable.
+    conservationNote: "What makes the Volunteer Fish Survey Project useful is not any single survey. It is the consistency of the method and the length of the record: the same Roving Diver Technique, used by volunteer divers and snorkelers in the same places, year after year since 1993. That is what turns a week of diving into evidence, and it is why your surveys stay useful long after you have unpacked.",
     invitation: "REEF runs Field Survey Trips around the world each year. You can see what is coming up at <a href=\"https://www.REEF.org/trips\" target=\"_blank\" rel=\"noopener\">www.REEF.org/trips</a>."
-    // highlights: intentionally left out — there's nothing genuine to put
-    // here before the trip happens. Once it does, add a few real, shared
-    // (non-personal) moments — no participant names or photos.
+    // highlights, impactStats and photoAlbums: intentionally still left out.
+    // There is nothing genuine to put in them before the trip happens, and
+    // the handoff was explicit that this restraint is correct and should be
+    // preserved. After the trip, add real shared (non-personal) highlights
+    // and verified stats using those existing optional fields — no
+    // participant names, no participant photos, no private comments, and no
+    // impact statistic without verified: true.
   }
 };
