@@ -877,6 +877,33 @@ function currentTripDayIndex(data, totalDays) {
   return diffDays;
 }
 
+/* Stage-aware framing for the daily-discovery card — added 2026-08-23.
+   currentTripDayIndex() clamps a pre-departure visitor to the first
+   discovery, which used to render with onboard framing ("One thing to
+   notice today", "…yet?") on a page participants read weeks ahead — it made
+   the trip sound as though it were already underway. The copy below is
+   generic platform copy keyed off computeGuideStage(), so a pre-trip
+   visitor gets a preview, an in-trip visitor gets today's prompt, and a
+   post-trip visitor gets a look back. {cadence} is filled from the trip's
+   own home.cadenceLabel, so no trip-specific string lives here. */
+var DISCOVERY_STAGE_COPY = {
+  before: {
+    intro: "A preview of the kind of thing we talk over at {cadence} once we are aboard.",
+    questionLabel: "Something to think about:",
+    promptLabel: "One thing to look for:"
+  },
+  during: {
+    intro: "A few things to think about or chat over dinner.",
+    questionLabel: "If you feel like it:",
+    promptLabel: "One thing to notice today:"
+  },
+  after: {
+    intro: "A few of the things we talked about during the week, worth another look.",
+    questionLabel: "Still worth asking:",
+    promptLabel: "One thing to keep noticing:"
+  }
+};
+
 function renderDuringTripFun(container) {
   var data = window.TRIP_DATA;
   var fun = data.duringTripFun || {};
@@ -885,18 +912,24 @@ function renderDuringTripFun(container) {
   container.appendChild(el("p", { class: "page-subtitle", text: "Onboard fish ID and conversation. Timing is shared during the trip." }));
 
   if (fun.dailyDiscoveries && fun.dailyDiscoveries.length) {
+    var stage = computeGuideStage(data);
+    var stageKey = stage === "during" ? "during" : (stage === "after" ? "after" : "before");
+    var stageCopy = DISCOVERY_STAGE_COPY[stageKey];
+    var cadence = (data.home && data.home.cadenceLabel) || "Fishy Hour";
     var dayIdx = currentTripDayIndex(data, fun.dailyDiscoveries.length);
     var today = fun.dailyDiscoveries[dayIdx];
     var discoveryCard = el("div", { class: "card" }, [
       el("h2", { text: "Fish (or Food) for Thought" })
     ]);
-    discoveryCard.appendChild(el("p", { text: "A few things to think about or chat over dinner." }));
+    discoveryCard.appendChild(el("p", { text: stageCopy.intro.replace("{cadence}", cadence) }));
     var discoveryPhoto = renderCreditedPhoto(today.photo, "fish-photo-thumb");
     if (discoveryPhoto) discoveryCard.appendChild(discoveryPhoto);
     discoveryCard.appendChild(el("p", { text: today.fact }));
-    discoveryCard.appendChild(el("p", { html: "<strong>If you feel like it:</strong> " + today.question }));
+    if (today.question) {
+      discoveryCard.appendChild(el("p", { html: "<strong>" + stageCopy.questionLabel + "</strong> " + today.question }));
+    }
     if (today.prompt) {
-      discoveryCard.appendChild(el("p", { html: "<strong>One thing to notice today:</strong> " + today.prompt }));
+      discoveryCard.appendChild(el("p", { html: "<strong>" + stageCopy.promptLabel + "</strong> " + today.prompt }));
     }
     container.appendChild(discoveryCard);
   }
@@ -1142,6 +1175,34 @@ function renderReflection(container) {
     container.appendChild(el("div", { class: "card" }, [el("p", { text: r.thankYou })]));
   }
 
+  /* Generic content sections — added 2026-08-23. Any trip can supply
+     reflection.sections: [{ heading, body: [ "paragraph", ... ] }] and get
+     ordinary cards rendered here, between the opening card and the optional
+     post-trip blocks below. Deliberately generic: no trip-specific strings
+     live in this file. This exists because "Your Impact" previously had only
+     three possible cards (opening, conservationNote, invitation), which is
+     too thin for the page — and because everything a trip wants to say about
+     how surveys become science is true before the trip as well as after it,
+     so it must not be gated behind the post-trip-only fields below.
+     body accepts a single string as well as an array. Paragraphs are set as
+     html (not text), the same convention as the invitation card below, so a
+     section can carry a real <a> link — this content is trusted,
+     hand-authored, static trip data, never user input. */
+  if (r.sections && r.sections.length) {
+    r.sections.forEach(function (section) {
+      if (!section) return;
+      var body = section.body || [];
+      if (typeof body === "string") body = [body];
+      if (!section.heading && !body.length) return;
+      var sectionCard = el("div", { class: "card" });
+      if (section.heading) sectionCard.appendChild(el("h2", { text: section.heading }));
+      body.forEach(function (para) {
+        if (para) sectionCard.appendChild(el("p", { html: para }));
+      });
+      container.appendChild(sectionCard);
+    });
+  }
+
   if (r.highlights && r.highlights.length) {
     var highlightsCard = el("div", { class: "card" }, [el("h2", { text: "A Few Highlights" })]);
     highlightsCard.appendChild(renderList(r.highlights));
@@ -1232,6 +1293,7 @@ function renderReflection(container) {
   }
 
   if (!r.thankYou && !r.conservationNote && !r.invitation &&
+      (!r.sections || !r.sections.length) &&
       (!r.highlights || !r.highlights.length) &&
       (!r.photoAlbums || !r.photoAlbums.length) && !r.dataEntry) {
     container.appendChild(el("div", { class: "card" }, [
