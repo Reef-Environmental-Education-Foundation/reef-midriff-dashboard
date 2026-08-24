@@ -152,10 +152,21 @@ window.TRIP_DATA = {
       // renderPreTripInfo() and renderTripLeader() no longer render a
       // phone field even if one is present.
       photo: "resources/photos/martha-klitzkie-headshot.jpg",
-      // Added 2026-07-24 (V2 pass) — this credit previously sat only in a
-      // code comment on this line and was never shown to participants. See
-      // render.js renderLeaderIntroCard/renderTripLeader.
-      photoCredit: "Stacey Henderson",
+      // photoCredit REMOVED 2026-08-24 at Martha's request, deliberately
+      // reversing the 2026-07-24 (V2 pass) decision that added it. The V2
+      // reasoning was that a real documented credit should not sit unseen in
+      // a code comment. In practice the rendered line read "Photo: Stacey
+      // Henderson" directly beneath Martha's headshot, which looks like a
+      // caption naming the person IN the photo rather than the person who
+      // took it. Martha's rule: headshots are fine to use without a photo
+      // credit. The photographer is still recorded here for the record --
+      // Martha's headshot was taken by Stacey Henderson -- it is just not
+      // published. Do not re-add photoCredit for a headshot.
+      // Note this removes the credit line from BOTH the Start Here leader
+      // intro card and the Trip Leader page, since render.js reads the same
+      // field in both places (renderLeaderIntroCard / renderTripLeader). The
+      // renderer still supports photoCredit and it stays in use for species
+      // photos, where a named photographer must always be credited.
       bio: [
         "Martha is the REEF Co-Executive Director of Strategy and Operations. Before joining the REEF staff team in 2011, her passion for teaching people about the oceans grew over ten years of leading residential marine science programs. Her undergraduate degree focused on environmental education, and her master's was in Educational Leadership and Administration.",
         "She's passionate about connecting people with the marine environment and building a sense of community among ocean enthusiasts — and she's enthusiastic about expanding REEF's impact and reach to create a future where healthy oceans thrive. She believes it's the little things that change the world, like how a single fish survey adds up to one of the largest marine life databases in the world."
@@ -725,7 +736,7 @@ window.TRIP_DATA = {
     // Liveaboards Know Before You Go document dated 2026-05-01.
     didYouKnow: {
       heading: "Did You Know?",
-      intro: "A few verified facts about where we are going.",
+      intro: "A few fun facts about where we are going.",
       items: [
         {
           fact: "REEF surveyors have recorded 218 species across the four island areas on our itinerary, from 1,354 surveys logged since 1993.",
