@@ -505,9 +505,9 @@ window.TRIP_DATA = {
       {
         heading: "Getting Ready for Fish ID",
         items: [
-          { label: "TEP Surveyor Toolbox", url: "https://www.reef.org/reef-surveyor-toolbox#TEP", note: "The best starting point for Sea of Cortez / Tropical Eastern Pacific species." },
-          { label: "Archived TEP Fishinars", url: "https://www.reef.org/fishinar-and-fishy-hour-archive-directory", note: "Log in to your REEF account to watch — several are specific to the Sea of Cortez." },
-          { label: "REEF Geographic Zone Report for the islands on our itinerary", url: "https://www.reef.org/db/reports/geo?end_date=2026-08-21&format_type=chart&group_type=species&language=common&region_code=TEP&start_date=1993-01-01&zones=2154%2C2164%2C2155%2C3108&zone_map=0", note: "REEF sighting data for Isla Ángel de la Guarda, Isla San Pedro Mártir, Isla Salsipuedes / Isla Las Ánimas, and Bahía de los Ángeles — sorted by how often each species has been recorded. A useful way to see what is most likely to turn up." }
+          { label: "TEP Surveyor Toolbox", url: "https://www.REEF.org/reef-surveyor-toolbox#TEP", note: "The best starting point for Sea of Cortez / Tropical Eastern Pacific species." },
+          { label: "Archived TEP Fishinars", url: "https://www.REEF.org/fishinar-and-fishy-hour-archive-directory", note: "Log in to your REEF account to watch — several are specific to the Sea of Cortez." },
+          { label: "REEF Geographic Zone Report for the islands on our itinerary", url: "https://www.REEF.org/db/reports/geo?end_date=2026-08-21&format_type=chart&group_type=species&language=common&region_code=TEP&start_date=1993-01-01&zones=2154%2C2164%2C2155%2C3108&zone_map=0", note: "REEF sighting data for Isla Ángel de la Guarda, Isla San Pedro Mártir, Isla Salsipuedes / Isla Las Ánimas, and Bahía de los Ángeles — sorted by how often each species has been recorded. A useful way to see what is most likely to turn up." }
         ]
       },
       {
@@ -545,19 +545,19 @@ window.TRIP_DATA = {
         {
           title: "TEP Surveyor Toolbox",
           desc: "The REEF survey method, gear list, and regional guide for the Tropical Eastern Pacific — the best entry point for Sea of Cortez fish ID prep.",
-          externalUrl: "https://www.reef.org/reef-surveyor-toolbox#TEP",
+          externalUrl: "https://www.REEF.org/reef-surveyor-toolbox#TEP",
           linkLabel: "Open the TEP Surveyor Toolbox"
         },
         {
           title: "Archived TEP Fishinars",
           desc: "Recorded sessions covering Sea of Cortez species and survey topics. Log in to your REEF account to watch.",
-          externalUrl: "https://www.reef.org/fishinar-and-fishy-hour-archive-directory",
+          externalUrl: "https://www.REEF.org/fishinar-and-fishy-hour-archive-directory",
           linkLabel: "Browse the Fishinar archive"
         },
         {
           title: "Sighting data for our islands",
           desc: "The REEF Geographic Zone Report for the four island areas on our itinerary, sorted by how often each species has been recorded there. A good way to see what is most likely to turn up.",
-          externalUrl: "https://www.reef.org/db/reports/geo?end_date=2026-08-21&format_type=chart&group_type=species&language=common&region_code=TEP&start_date=1993-01-01&zones=2154%2C2164%2C2155%2C3108&zone_map=0",
+          externalUrl: "https://www.REEF.org/db/reports/geo?end_date=2026-08-21&format_type=chart&group_type=species&language=common&region_code=TEP&start_date=1993-01-01&zones=2154%2C2164%2C2155%2C3108&zone_map=0",
           linkLabel: "Open the Geographic Zone Report"
         }
       ]
@@ -588,15 +588,24 @@ window.TRIP_DATA = {
         { label: "Many", range: "11–100" },
         { label: "Abundant", range: "100+" }
       ],
+      // Offline entry turned into a real download link 2026-08-23 at Martha's
+      // request: Wi-Fi aboard is limited, so the program needs to be on your
+      // laptop BEFORE you travel, not downloaded from the boat. renderList
+      // gained { label, url, note } support the same day so this list could
+      // carry a link at all.
       submitting: [
-        "Online at reef.org/dataentry (needs an internet connection — easiest once you're back on land)",
-        "Or the free Offline Data Entry Program — no internet needed on the boat, just sync once you're back online",
+        "Online at REEF.org/dataentry (needs an internet connection — easiest once you're back on land)",
+        {
+          label: "Download the free REEF Survey Data Entry Program before the trip",
+          url: "https://www.REEF.org/reef-survey-data-entry-program",
+          note: "We recommend everyone downloads this before departure, since Wi-Fi aboard is limited. It runs on a Mac or Windows laptop, not on phones or tablets, and it lets you enter surveys offline during the week and upload them all at once once you are back online."
+        },
         "Either way, you'll need your free REEF member number"
       ],
       levelsNote: "REEF has 5 Experience Levels, based on survey counts and identification tests. Wherever you are starting from, the Surveyor Toolbox explains how the levels work and how to take an Experience Level test. Martha is glad to talk through fish ID and the survey method any time during the week.",
       toolboxLink: {
         label: "REEF Surveyor Toolbox — the full method, gear list, and regional guides",
-        url: "https://www.reef.org/reef-surveyor-toolbox#TEP"
+        url: "https://www.REEF.org/reef-surveyor-toolbox#TEP"
       }
     }
   },
@@ -663,7 +672,7 @@ window.TRIP_DATA = {
       // an internal build note ("see VERSION.md" was a leftover reference
       // to this project's own dev documentation, not something a
       // participant should ever see).
-      intro: "This will be our first trip together to the Midriff Islands in 2026, so we don't have this year's photos yet — but REEF has sailed this same route aboard the Rocio del Mar before, and these shots give you a real taste of what's waiting for you.",
+      intro: "REEF has explored the Sea of Cortez aboard the Rocio del Mar before, and these shots give you a real taste of what's waiting for you.",
       photos: [
         {
           src: "https://live.staticflickr.com/65535/52419550335_0e77bf419d_c.jpg",
@@ -835,7 +844,7 @@ window.TRIP_DATA = {
       "Round-trip flights to Phoenix (PHX)",
       "Head Out to Rocky Point shuttle, PHX to Puerto Peñasco and back — booked and paid directly with the shuttle company rather than through REEF",
       "Marine park fees, paid aboard the vessel to CONANP",
-      "Crew gratuity — at each participant's discretion, per the REEF trip listing",
+      "Crew gratuity — at each participant's discretion, per the trip listing",
       "Dive travel insurance — REEF partners with DiveAssure and DAN if you need to purchase a policy",
       "Onboard Wi-Fi, which works within about 10 miles of an island or at port and is unavailable during open-ocean crossings",
       "Nitrox, arranged in advance with Guest Services",
@@ -844,7 +853,7 @@ window.TRIP_DATA = {
       "Current amounts for all of the above come from Mexico Liveaboards and can change. Your Know Before You Go document has the latest figures, and trips@REEF.org can help if you need them."
     ],
     requirements: [
-      { status: "required", label: "Open Water scuba certification (or higher), plus proof of dive insurance", note: "The REEF trip listing describes this trip as best suited for divers. No advanced certification or minimum dive count is specified. Proof of certification and dive insurance are required in order to dive. REEF surveys generally can also be conducted while snorkeling, and this particular itinerary is built around diving." },
+      { status: "required", label: "Open Water scuba certification (or higher), plus proof of dive insurance", note: "The trip listing describes this trip as best suited for divers. No advanced certification or minimum dive count is specified. Proof of certification and dive insurance are required in order to dive. REEF surveys can also be conducted while snorkeling, but this particular itinerary is built around diving." },
       { status: "required", label: "Dive computer, safety sausage (SMB), and whistle", note: "Required for every diver — all diving is done from two inflatable pangas." },
       { status: "required", label: "Passport valid for the full duration of the trip", note: "A photo of your passport's photo and information page goes to Mexico Liveaboards at least two weeks before departure. You will also obtain an FMM (Mexican tourist card) at the border on the way in — required for every non-Mexican passenger, normally with no fee for a stay of this length." },
       { status: "required", label: "Vessel passenger registration completed online", note: "Required by Mexico Liveaboards, typically due about 30 days before departure; the online form expires after a 4-hour window once started." },
@@ -862,7 +871,7 @@ window.TRIP_DATA = {
     // already say. Do not reintroduce these fields for this trip.
     faq: [
       { q: "This is my first liveaboard — what should I expect?", a: "You will be in good company: this roster includes both repeat Mexico Liveaboards guests and people sailing for the first time. Martha runs a welcome session on the first night that covers the survey method and how the week works, with time afterwards for anyone who would like to go over the basics of setting up survey paper." },
-      { q: "Is this trip dive-focused?", a: "Yes. The REEF trip listing describes it as best suited for divers, and the itinerary is built around three to four dives a day. REEF surveys generally can also be conducted while snorkeling, and the itinerary includes a planned whale shark snorkel at Bahía de los Ángeles, conditions and wildlife permitting. For questions about a specific situation, please email trips@REEF.org." }
+      { q: "Is this trip dive-focused?", a: "Yes. The trip listing describes it as best suited for divers, and the itinerary is built around three to four dives a day. REEF surveys can also be conducted while snorkeling, and the itinerary includes a planned whale shark snorkel at Bahía de los Ángeles, conditions and wildlife permitting. For questions about a specific situation, please email trips@REEF.org." }
     ]
   },
 
@@ -894,7 +903,7 @@ window.TRIP_DATA = {
         heading: "From Your Slate to REEF Science",
         body: [
           "On a survey you swim your normal dive — no set path, no timed segment — and record the marine life you can positively identify, assign each species an abundance category, and note the basic site information: location, date, depth, visibility, and habitat.",
-          "Once you submit, those observations go through REEF's quality checks and become part of the Volunteer Fish Survey Project database, one of the largest marine life databases in the world. REEF data are used in species distribution and population trend reports, in published research, and in monitoring and conservation work with management agencies and partner organizations.",
+          "Once you submit, those observations go through REEF's quality checks and become part of the Volunteer Fish Survey Project database. REEF data are used in species distribution and population trend reports, in published research, and in monitoring and conservation work with management agencies and partner organizations.",
           "One survey is a small act. Many surveys, over many years, become a way to see patterns no single diver could see alone."
         ]
       },
@@ -910,7 +919,7 @@ window.TRIP_DATA = {
         body: [
           "Write your site information down promptly rather than trusting it to memory — details fade fast once you are back aboard and getting ready for the next dive.",
           "Record only what you can positively identify. If an identification is uncertain, leave it off or ask rather than guessing: a species left out costs the dataset far less than a species recorded wrongly.",
-          "If you are working from paper, hold on to your slates and survey paper until your entries are complete and submitted."
+          "Hold on to your slates and survey paper until your entries are complete and submitted."
         ]
       }
     ],
@@ -925,7 +934,7 @@ window.TRIP_DATA = {
       intro: "Once you are back online, enter each completed survey through REEF's data entry system. You will need your free REEF member number, your site and dive information, and the species and abundance notes from your slate. You can enter surveys directly through REEF's online interface, or use REEF's free offline data entry program and submit once you have a connection.",
       link: {
         label: "Open REEF survey data entry",
-        url: "https://www.reef.org/dataentry"
+        url: "https://www.REEF.org/dataentry"
       }
     },
     // Rewritten 2026-08-23 to cut the repetition the handoff flagged: the
@@ -933,7 +942,25 @@ window.TRIP_DATA = {
     // now live once, in the "From Your Slate to REEF Science" section above.
     // This card carries only the point that section does not — why a
     // consistent method over a long record is what makes the data usable.
-    conservationNote: "What makes the Volunteer Fish Survey Project useful is not any single survey. It is the consistency of the method and the length of the record: the same Roving Diver Technique, used by volunteer divers and snorkelers in the same places, year after year since 1993. That is what turns a week of diving into evidence, and it is why your surveys stay useful long after you have unpacked.",
+    // Opening claim added 2026-08-23, corrected 2026-08-24 by Martha.
+    //
+    // RANKING: "one of the largest," not "the world's largest." The first
+    // draft said "the world's largest"; Martha confirmed the softer claim is
+    // the correct one. It now matches REEF.org's own Volunteer Fish Survey
+    // Project page and Martha's bio on the Trip Leader page, both of which
+    // say "one of the largest marine life databases in the world." Keep all
+    // three in step — do not upgrade this to a superlative.
+    //
+    // COUNT: "over 325,000" is a DELIBERATE ROUND-DOWN, not a stale figure.
+    // REEF.org's home page carries a live auto-updating survey count (326,664
+    // on 2026-08-24). This page is static trip data, so quoting the live
+    // number would need hand-maintenance forever. Rounding down to 325,000
+    // stays true as the real count climbs and needs no upkeep. Only revisit
+    // when the live count approaches the next round figure — then move to
+    // "over 350,000," not to an exact number. This is the only survey-count
+    // reference in this file; if another is ever added, use the same rounded
+    // figure so the two cannot drift apart.
+    conservationNote: "You're part of one of the largest marine life sightings databases in the world — over 325,000 surveys and counting. What makes it valuable is not any single survey. It is the consistency of the method and the length of the record: the same Roving Diver Technique, used by volunteer divers and snorkelers in the same places, year after year since 1993. That is what turns a week of diving into evidence, and it is why your surveys stay useful long after you have unpacked.",
     invitation: "REEF runs Field Survey Trips around the world each year. You can see what is coming up at <a href=\"https://www.REEF.org/trips\" target=\"_blank\" rel=\"noopener\">www.REEF.org/trips</a>."
     // highlights, impactStats and photoAlbums: intentionally still left out.
     // There is nothing genuine to put in them before the trip happens, and
