@@ -54,11 +54,74 @@ function formatDisplayDate(isoDate) {
   return MONTH_NAMES[m - 1] + " " + d + ", " + y;
 }
 
+/* ---------- Automatic linking of emails and URLs ----------
+   Added 2026-08-24 at Martha's request: every email address and web address
+   on the site should be clickable. They were previously plain text in a
+   dozen places (trips@REEF.org, the Smartwaiver form, the Mexico Liveaboards
+   registration form, the shuttle booking page), which meant a participant on
+   a phone had to retype them by hand.
+
+   Done here, once, rather than by hand-wrapping strings in trip data,
+   because the addresses live inside sentences and every trip will have the
+   same need. el() now checks any `text` value for a link and, only if it
+   finds one, escapes the string and sets it as HTML with anchors. A string
+   with no link is still set as textContent exactly as before, so headings
+   and labels are untouched.
+
+   Escaping happens BEFORE linking, so this is safe for arbitrary content --
+   the result is identical to textContent for anything link-free. */
+var LINKABLE_RE = /(https?:\/\/|www\.)|[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function linkifyHtml(str) {
+  var out = escapeHtml(str);
+  // URLs first. The lookahead stops the match before sentence punctuation so
+  // a trailing period or comma does not end up inside the href.
+  out = out.replace(/\b(https?:\/\/|www\.)[^\s<]+/g, function (match) {
+    var trailing = "";
+    while (match.length && ".,;:!?)]".indexOf(match.charAt(match.length - 1)) !== -1) {
+      trailing = match.charAt(match.length - 1) + trailing;
+      match = match.slice(0, -1);
+    }
+    var href = match.indexOf("http") === 0 ? match : "https://" + match;
+    return '<a href="' + href + '" target="_blank" rel="noopener">' + match + "</a>" + trailing;
+  });
+  // Then emails, skipping anything already inside an anchor's href or text.
+  out = out.replace(/([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})/g, function (match, addr, offset, whole) {
+    var before = whole.slice(0, offset);
+    var lastOpen = before.lastIndexOf("<a ");
+    var lastClose = before.lastIndexOf("</a>");
+    if (lastOpen > lastClose) return match; // already inside a link
+    var trailing = "";
+    while (addr.length && ".,;:!?)".indexOf(addr.charAt(addr.length - 1)) !== -1) {
+      trailing = addr.charAt(addr.length - 1) + trailing;
+      addr = addr.slice(0, -1);
+    }
+    return '<a href="mailto:' + addr + '">' + addr + "</a>" + trailing;
+  });
+  return out;
+}
+
+/* Set trip copy on a node: linked if it contains an address, plain if not. */
+function setCopy(node, str) {
+  var v = String(str);
+  if (LINKABLE_RE.test(v)) node.innerHTML = linkifyHtml(v);
+  else node.textContent = v;
+  return node;
+}
+
 function el(tag, attrs, children) {
   var node = document.createElement(tag);
   attrs = attrs || {};
   Object.keys(attrs).forEach(function (key) {
-    if (key === "text") node.textContent = attrs[key];
+    if (key === "text") setCopy(node, attrs[key]);
     else if (key === "html") node.innerHTML = attrs[key];
     else node.setAttribute(key, attrs[key]);
   });
@@ -199,9 +262,9 @@ function renderList(items) {
     var li = el("li");
     if (item.url) {
       li.appendChild(el("a", { href: item.url, target: "_blank", rel: "noopener", text: item.label }));
-      if (item.note) li.appendChild(document.createTextNode(" — " + item.note));
+      if (item.note) li.appendChild(el("span", { text: " — " + item.note }));
     } else {
-      li.textContent = item.label + (item.note ? " — " + item.note : "");
+      setCopy(li, item.label + (item.note ? " — " + item.note : ""));
     }
     ul.appendChild(li);
   });
@@ -707,7 +770,7 @@ function renderTripDetails(container) {
     ]));
   } else {
     container.appendChild(el("div", { class: "card" }, [
-      el("p", { html: "Questions about forms, payments, reservations, or travel changes? Email <strong>trips@REEF.org</strong>." })
+      el("p", { html: 'Questions about forms, payments, reservations, or travel changes? Email <a href="mailto:trips@REEF.org"><strong>trips@REEF.org</strong></a>.' })
     ]));
   }
 }
@@ -758,9 +821,9 @@ function renderPreTripInfo(container) {
         if (item.url) {
           var a = el("a", { href: item.url, target: "_blank", rel: "noopener", text: item.label });
           li.appendChild(a);
-          if (item.note) li.appendChild(document.createTextNode(" — " + item.note));
+          if (item.note) li.appendChild(el("span", { text: " — " + item.note }));
         } else {
-          li.textContent = item.label + (item.note ? " — " + item.note : "");
+          setCopy(li, item.label + (item.note ? " — " + item.note : ""));
         }
         ul.appendChild(li);
       });
@@ -778,7 +841,7 @@ function renderPreTripInfo(container) {
   // for free.
   var contactCard = el("div", { class: "card" }, [el("h2", { text: "Questions Before You Go?" })]);
   contactCard.appendChild(el("p", {
-    html: "<strong>Forms, payments, reservations, or other administrative questions:</strong> email <strong>trips@REEF.org</strong>."
+    html: '<strong>Forms, payments, reservations, or other administrative questions:</strong> email <a href="mailto:trips@REEF.org"><strong>trips@REEF.org</strong></a>.' 
   }));
   if (data.tripLeaders && data.tripLeaders.length) {
     var leaderNote = el("p", {
