@@ -156,9 +156,19 @@ function renderFooter() {
    every page gets this for free the moment it sets bannerImage — no
    trip-specific code here. No banner set = nothing rendered. */
 
-function renderBanner() {
+/* Page banner. Extended 2026-08-24: a trip may supply
+   home.pageBanners as a map of pageId -> { src, alt, credit } and get a
+   different header image on each section, falling back to the single
+   home.bannerImage for any page it does not name. Generic and data-driven
+   -- no page-to-image mapping lives in this file. Added because one image
+   repeated across all eight pages gave participants nothing to navigate by
+   visually, and because on a fish-survey trip the header is the most
+   valuable piece of real estate for showing fish. A trip that sets only
+   bannerImage behaves exactly as before. */
+function renderBanner(pageId) {
   var data = window.TRIP_DATA;
-  var banner = data && data.home && data.home.bannerImage;
+  var home = (data && data.home) || {};
+  var banner = (pageId && home.pageBanners && home.pageBanners[pageId]) || home.bannerImage;
   if (!banner || !banner.src) return null;
   var src = window.tripResourceUrl ? window.tripResourceUrl(banner.src) : banner.src;
   var wrap = el("div", { class: "site-banner" }, [
@@ -1322,6 +1332,49 @@ function renderReflection(container) {
   }
 }
 
+/* ---------- Bottom page navigation ----------
+   Added 2026-08-24. These pages are long enough that reaching the end left
+   participants scrolling all the way back up to continue, so the same
+   journey is now available at the foot of every page: Previous, Back to
+   Start Here, Next. Order comes from NAV_ITEMS, so it stays correct
+   automatically if a page is added, removed or reordered -- there is no
+   second list to keep in sync. The top nav is unchanged. */
+function renderPageNav(activePageId) {
+  var idx = -1;
+  NAV_ITEMS.forEach(function (item, i) { if (item.id === activePageId) idx = i; });
+  if (idx < 0) return null;
+
+  var prev = idx > 0 ? NAV_ITEMS[idx - 1] : null;
+  var next = idx < NAV_ITEMS.length - 1 ? NAV_ITEMS[idx + 1] : null;
+  var nav = el("nav", { class: "page-nav", "aria-label": "Continue to another section" });
+
+  if (prev) {
+    nav.appendChild(el("a", {
+      class: "page-nav-link page-nav-prev",
+      href: window.SITE_ROOT + prev.href,
+      text: "← " + prev.label
+    }));
+  }
+  // No "Back to Start Here" on Start Here itself, and not on the page
+  // immediately after it either -- there, Previous already goes home, and
+  // two adjacent buttons pointing at index.html reads like a mistake.
+  if (activePageId !== "home" && !(prev && prev.id === "home")) {
+    nav.appendChild(el("a", {
+      class: "page-nav-link page-nav-home",
+      href: window.SITE_ROOT + "index.html",
+      text: "Back to Start Here"
+    }));
+  }
+  if (next) {
+    nav.appendChild(el("a", {
+      class: "page-nav-link page-nav-next",
+      href: window.SITE_ROOT + next.href,
+      text: next.label + " →"
+    }));
+  }
+  return nav.childNodes.length ? nav : null;
+}
+
 /* ---------- Dispatcher ---------- */
 
 var PAGE_RENDERERS = {
@@ -1347,8 +1400,10 @@ window.initPage = function (pageId) {
   // showing up above the real page content. Doing it once here, in the one
   // function every page already calls, makes it impossible to forget.
   container.innerHTML = "";
-  var banner = renderBanner();
+  var banner = renderBanner(pageId);
   if (banner) container.appendChild(banner);
   var renderer = PAGE_RENDERERS[pageId];
   if (renderer) renderer(container);
+  var pageNav = renderPageNav(pageId);
+  if (pageNav) container.appendChild(pageNav);
 };
