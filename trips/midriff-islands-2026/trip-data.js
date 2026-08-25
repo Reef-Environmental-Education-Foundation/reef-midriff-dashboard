@@ -508,10 +508,12 @@ window.TRIP_DATA = {
       "There is no rush once you are aboard. Dinner is around 7:00 PM, and the welcome meeting happens during the overnight transit out of port, so there is nothing to prepare for on the spot. Settle into your cabin and get your bearings.",
       // Added 2026-08-24 per Martha's trip-leader notes. Deliberately
       // low-key: the first-night crossing is the part where seasickness is
-      // most likely to matter and the rest of the week is usually calm, so
-      // this says that plainly rather than making people anxious about a
-      // week of rough water.
-      "One practical note: we leave port that first evening and cross overnight, which is the stretch where motion is most noticeable. If you are prone to seasickness, take whatever you normally use once you are aboard, before we get underway. The rest of the week is usually fairly calm."
+      // most likely to matter, so this names that and stops.
+      // "The rest of the week is usually fairly calm" was removed later the
+      // same day at Martha's request -- do not reinstate it. Sea conditions
+      // are not REEF's to promise, and a reassurance that does not hold up
+      // costs more trust than it buys.
+      "One practical note: we leave port that first evening and cross overnight, which is the stretch where motion is most noticeable. If you are prone to seasickness, take whatever you normally use once you are aboard, before we get underway."
     ],
     // Merged 2026-08-21: the old "If You Do Nothing Else" callout and the
     // separate "Forms to Complete Before You Go" card said many of the same
