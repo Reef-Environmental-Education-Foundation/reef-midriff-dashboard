@@ -263,73 +263,68 @@ window.TRIP_DATA = {
       alt: "A curious pod of sea lions in the Sea of Cortez, Midriff Islands region",
       credit: "Christy Semmens"
     },
-    // Per-page banners added 2026-08-24 at Martha's request: the sea lion
-    // shot above was the header on all eight pages, which gave participants
-    // nothing to navigate by visually and wasted the most prominent slot on
-    // the page for a fish-survey trip. The sea lions now appear on Start
-    // Here only (any page not named below falls back to bannerImage).
+    // Per-page banners. Added 2026-08-24, RE-SHOT the same day after Martha
+    // saw them live: the first set used REEF's species-ID photos, which are
+    // macro close-ups. Cropped to a wide banner those render as one enormous
+    // fish filling the frame with its head or tail cut off -- technically a
+    // correct crop, visually wrong. The fix was not more zoom (you cannot zoom
+    // out past the original frame) but different source material: SCENE
+    // photographs with many fish at middle distance, where losing an edge
+    // costs nothing.
     //
-    // Every image below: pulled from Marine Life Photo Library/TEP Tropical
-    // Eastern Pacific/, all Baja-sourced rather than Costa Rica or
-    // Galapagos so the header actually shows the region we are visiting,
-    // and all seven verified in Airtable Media Assets as Credit Confirmed =
-    // true, Status = Ready before use. Credited to Christy Semmens per
-    // Martha's photo-credit rule. Cropped to 1400x529, which is the display
-    // box the CSS produces (900px page width, 340px max-height, object-fit
-    // cover) -- so the crop chosen here is the crop participants see, rather
-    // than being cropped a second time by the browser.
+    // RULE for whoever picks the next set: a banner needs a scene, not a
+    // specimen. Schooling shots and wide reef shots crop well. Species-ID
+    // photos do not, however good they look at full frame.
     //
-    // Species chosen for page fit and for REEF sighting frequency in this
-    // region (Midriff Fish ID Tools/data/species.json):
-    //   leader      Cortez Damselfish, adult with juveniles behind (77.7% /
-    //               71.4%) -- the two life stages in one frame, which is the
-    //               story behind why the TEP survey form records them
-    //               separately.
-    //   itinerary   Whale Shark -- the Bahia de los Angeles day.
-    //   details     Chameleon Wrasse (59.0%).
-    //   study       King Angelfish (81.1%) -- the single most frequently
-    //               recorded species in the region, on the page about
-    //               learning what you will see.
-    //   pretrip     Barspot Cardinalfish (42.4%).
-    //   fun         Stone Scorpionfish (42.1%) -- a camouflage "can you spot
-    //               it" image, which is a Fishy Hour conversation on its own.
-    //   reflection  Juvenile Pacific Highhat sheltering in urchin spines --
-    //               the reward for looking carefully.
+    // Sea lions now appear on Start Here only -- any page not named below
+    // falls back to home.bannerImage.
+    //
+    // All seven are Baja-sourced from Marine Life Photo Library/TEP Tropical
+    // Eastern Pacific/, and all seven were verified in Airtable Media Assets
+    // as Credit Confirmed = true, Status = Ready before use. One candidate
+    // (Green Jack, Al Bruton) was rejected for sitting at Needs Confirmation.
+    // Cropped to 1400x529, the exact display box the CSS produces (900px page
+    // width, 340px max-height, object-fit cover), so nothing is cropped twice.
     pageBanners: {
       leader: {
-        src: "resources/photos/banners/cortez-damselfish-banner.jpg",
-        alt: "An adult Cortez Damselfish on a rocky reef, with blue juveniles behind it",
-        credit: "Christy Semmens"
+        src: "resources/photos/banners/spottail-grunts-banner.jpg",
+        alt: "A school of Spottail Grunts moving over the reef in the Sea of Cortez",
+        credit: "Al Bruton"
       },
       itinerary: {
-        src: "resources/photos/banners/whale-shark-banner.jpg",
-        alt: "The spotted flank of a whale shark in blue water in the Sea of Cortez",
-        credit: "Christy Semmens"
+        src: "resources/photos/banners/blue-gold-snapper-banner.jpg",
+        alt: "A school of Blue and Gold Snapper above a field of black coral",
+        credit: "Al Bruton"
       },
       details: {
-        src: "resources/photos/banners/chameleon-wrasse-banner.jpg",
-        alt: "A Chameleon Wrasse over the reef in the Sea of Cortez",
-        credit: "Christy Semmens"
+        src: "resources/photos/banners/bluechin-parrot-banner.jpg",
+        alt: "A Bluechin Parrotfish among rocky boulders in the Sea of Cortez",
+        credit: "Al Bruton"
       },
+      // Explore & Prepare gets the busiest frame on purpose: dozens of Cortez
+      // Rainbow Wrasse over open sand, on the page about learning to identify
+      // what you will see.
       study: {
-        src: "resources/photos/banners/king-angelfish-banner.jpg",
-        alt: "A King Angelfish, the most frequently recorded species in the central Gulf of California",
-        credit: "Christy Semmens"
+        src: "resources/photos/banners/rainbow-wrasse-banner.jpg",
+        alt: "Dozens of Cortez Rainbow Wrasse gathered over a sandy patch",
+        credit: "Al Bruton"
       },
       pretrip: {
-        src: "resources/photos/banners/barspot-cardinalfish-banner.jpg",
-        alt: "Two Barspot Cardinalfish tucked under a reef ledge",
-        credit: "Christy Semmens"
+        src: "resources/photos/banners/barberfish-banner.jpg",
+        alt: "A Barberfish over the reef in the Sea of Cortez",
+        credit: "Jeff Haines"
       },
       fun: {
-        src: "resources/photos/banners/stone-scorpionfish-banner.jpg",
-        alt: "A Stone Scorpionfish camouflaged against the reef, easy to swim past",
-        credit: "Christy Semmens"
+        src: "resources/photos/banners/whitetip-shark-banner.jpg",
+        alt: "A Whitetip Reef Shark cruising along a rocky reef",
+        credit: "Carol Cox"
       },
+      // Your Impact gets the big school: one survey is one fish, many surveys
+      // are this.
       reflection: {
-        src: "resources/photos/banners/pacific-highhat-banner.jpg",
-        alt: "A juvenile Pacific Highhat sheltering among sea urchin spines",
-        credit: "Christy Semmens"
+        src: "resources/photos/banners/chub-school-banner.jpg",
+        alt: "A large school of Blue-Bronze Chub in open blue water",
+        credit: "Al Bruton"
       }
     },
     // Replaced 2026-08-23 at Martha's direction, in step with the trip
@@ -365,6 +360,14 @@ window.TRIP_DATA = {
     // Survey), so re-enabling this is a one-line change if Martha wants
     // rotation back. render.js's pickFeaturedFish() falls through to the
     // static featuredFish whenever this field is absent.
+    // Photographer credit corrected AGAIN 2026-08-24: six entries below
+    // credited "Beth & Al Brunton". REEF's Media Assets table credits every
+    // one of his records to "Al Bruton" -- a different surname spelling and a
+    // different name form. Corrected to match the system of record. This is
+    // the SECOND misspelled photographer found in this file (see the Lavan
+    // note below), and both were caught only because a banner pass forced a
+    // look at the real credit records. REEF's published photo credits
+    // elsewhere are probably worth a sweep against Media Assets.
     // Photographer credit corrected 2026-08-23: two entries below credited
     // "Jonathan Laven". REEF's Media Assets table spells it "Jonathan Lavan"
     // across all 8 of his records, so the site was misspelling a
@@ -377,12 +380,12 @@ window.TRIP_DATA = {
       {
         name: "Mexican Hogfish",
         blurb: "Also called the streamer hogfish, for the long, trailing filaments on its dorsal, anal, and tail fins. Look for a yellow bar across the midbody — REEF's own 2019 Sea of Cortez trip recorded this as the single most frequently sighted fish of the week.",
-        photo: { src: "resources/photos/mexican-hogfish.jpg", alt: "Mexican Hogfish in the Sea of Cortez", credit: "Beth & Al Brunton" }
+        photo: { src: "resources/photos/mexican-hogfish.jpg", alt: "Mexican Hogfish in the Sea of Cortez", credit: "Al Bruton" }
       },
       {
         name: "King Angelfish",
         blurb: "Dark blue body with yellow-to-orange markings on the dorsal and anal fins, and a crown of pale blue spots on the forehead — look for the white bar behind the pectoral fin and the bright yellow tail. Often solitary, but sometimes seen in large schools.",
-        photo: { src: "resources/photos/king-angelfish.jpg", alt: "King Angelfish in the Sea of Cortez", credit: "Beth & Al Brunton" }
+        photo: { src: "resources/photos/king-angelfish.jpg", alt: "King Angelfish in the Sea of Cortez", credit: "Al Bruton" }
       },
       {
         name: "Leopard Grouper",
@@ -412,22 +415,22 @@ window.TRIP_DATA = {
       {
         name: "Cortez Damselfish",
         blurb: "REEF doesn't have a written species profile for this one yet, but it was a regular sighting on REEF's own 2019 Sea of Cortez survey trip — keep an eye out and see what you notice.",
-        photo: { src: "resources/photos/cortez-damselfish-adult.jpg", alt: "Cortez Damselfish in the Sea of Cortez", credit: "Beth & Al Brunton" }
+        photo: { src: "resources/photos/cortez-damselfish-adult.jpg", alt: "Cortez Damselfish in the Sea of Cortez", credit: "Al Bruton" }
       },
       {
         name: "Barberfish",
         blurb: "A small silver-and-yellow butterflyfish with a black ring around the snout and a black bar running from the dorsal fin to just above the eye.",
-        photo: { src: "resources/photos/barberfish.jpg", alt: "Barberfish in the Sea of Cortez", credit: "Beth & Al Brunton" }
+        photo: { src: "resources/photos/barberfish.jpg", alt: "Barberfish in the Sea of Cortez", credit: "Al Bruton" }
       },
       {
         name: "Cortez Angelfish",
         blurb: "Gray body with two broad yellow bars across the face and a yellow tail. Named for the Gulf of California, where it is a common sight on rocky reefs.",
-        photo: { src: "resources/photos/cortez-angelfish.jpg", alt: "Cortez Angelfish in the Sea of Cortez", credit: "Beth & Al Brunton" }
+        photo: { src: "resources/photos/cortez-angelfish.jpg", alt: "Cortez Angelfish in the Sea of Cortez", credit: "Al Bruton" }
       },
       {
         name: "Panamic Sergeant Major",
         blurb: "REEF doesn't have a written species profile for this one yet, but it was a regular sighting on REEF's own 2019 Sea of Cortez survey trip — keep an eye out and see what you notice.",
-        photo: { src: "resources/photos/panamic-sergeant-major.jpg", alt: "Panamic Sergeant Major in the Sea of Cortez", credit: "Beth & Al Brunton" }
+        photo: { src: "resources/photos/panamic-sergeant-major.jpg", alt: "Panamic Sergeant Major in the Sea of Cortez", credit: "Al Bruton" }
       }
     ],
     destinationStory: {
@@ -710,7 +713,7 @@ window.TRIP_DATA = {
       // gained { label, url, note } support the same day so this list could
       // carry a link at all.
       submitting: [
-        "Online at REEF.org/dataentry (needs an internet connection — easiest once you're back on land)",
+        "Online at https://www.REEF.org/dataentry (needs an internet connection — easiest once you're back on land)",
         {
           label: "Download the free REEF Survey Data Entry Program before the trip",
           url: "https://www.REEF.org/reef-survey-data-entry-program",
