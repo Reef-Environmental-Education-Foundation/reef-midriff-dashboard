@@ -595,3 +595,62 @@ img { max-width: 100%; }
   font-size: 1rem;
   padding: 0.7rem 1.4rem;
 }
+
+/* ---------- Bottom page navigation (added 2026-08-24) ----------
+   Repeats the Previous / Back to Start Here / Next journey at the foot of
+   every page so a participant reaching the end of a long page does not have
+   to scroll back up to continue. Markup comes from render.js
+   renderPageNav(); order is derived from NAV_ITEMS, not hardcoded here.
+   Prev sits left, Next right, and "Back to Start Here" between them —
+   space-between handles all three cases (first page has no Prev, last has
+   no Next) without extra rules. */
+
+.page-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin: 1.75rem 0 0.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.page-nav-link {
+  display: inline-block;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--bg-card);
+  color: var(--reef-blue);
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.page-nav-link:hover {
+  background: var(--reef-blue);
+  border-color: var(--reef-blue);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* The middle link is the least likely destination, so it reads quieter than
+   the two directional ones. */
+.page-nav-home {
+  color: var(--ink-light);
+  font-weight: 600;
+}
+
+/* Single-column below the existing mobile breakpoint: three side-by-side
+   buttons get too cramped to tap reliably. */
+@media (max-width: 640px) {
+  .page-nav {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .page-nav-link {
+    text-align: center;
+  }
+}
