@@ -139,7 +139,7 @@ window.TRIP_DATA = {
   endDate: "2026-09-19",
   // Drives the shared footer's "Last updated" line (render.js renderFooter).
   // Update this whenever this file's content changes.
-  lastUpdated: "2026-08-23",
+  lastUpdated: "2026-08-24",
 
   tripLeaders: [
     {
@@ -262,6 +262,75 @@ window.TRIP_DATA = {
       src: "resources/photos/midriff-banner.jpg",
       alt: "A curious pod of sea lions in the Sea of Cortez, Midriff Islands region",
       credit: "Christy Semmens"
+    },
+    // Per-page banners added 2026-08-24 at Martha's request: the sea lion
+    // shot above was the header on all eight pages, which gave participants
+    // nothing to navigate by visually and wasted the most prominent slot on
+    // the page for a fish-survey trip. The sea lions now appear on Start
+    // Here only (any page not named below falls back to bannerImage).
+    //
+    // Every image below: pulled from Marine Life Photo Library/TEP Tropical
+    // Eastern Pacific/, all Baja-sourced rather than Costa Rica or
+    // Galapagos so the header actually shows the region we are visiting,
+    // and all seven verified in Airtable Media Assets as Credit Confirmed =
+    // true, Status = Ready before use. Credited to Christy Semmens per
+    // Martha's photo-credit rule. Cropped to 1400x529, which is the display
+    // box the CSS produces (900px page width, 340px max-height, object-fit
+    // cover) -- so the crop chosen here is the crop participants see, rather
+    // than being cropped a second time by the browser.
+    //
+    // Species chosen for page fit and for REEF sighting frequency in this
+    // region (Midriff Fish ID Tools/data/species.json):
+    //   leader      Cortez Damselfish, adult with juveniles behind (77.7% /
+    //               71.4%) -- the two life stages in one frame, which is the
+    //               story behind why the TEP survey form records them
+    //               separately.
+    //   itinerary   Whale Shark -- the Bahia de los Angeles day.
+    //   details     Chameleon Wrasse (59.0%).
+    //   study       King Angelfish (81.1%) -- the single most frequently
+    //               recorded species in the region, on the page about
+    //               learning what you will see.
+    //   pretrip     Barspot Cardinalfish (42.4%).
+    //   fun         Stone Scorpionfish (42.1%) -- a camouflage "can you spot
+    //               it" image, which is a Fishy Hour conversation on its own.
+    //   reflection  Juvenile Pacific Highhat sheltering in urchin spines --
+    //               the reward for looking carefully.
+    pageBanners: {
+      leader: {
+        src: "resources/photos/banners/cortez-damselfish-banner.jpg",
+        alt: "An adult Cortez Damselfish on a rocky reef, with blue juveniles behind it",
+        credit: "Christy Semmens"
+      },
+      itinerary: {
+        src: "resources/photos/banners/whale-shark-banner.jpg",
+        alt: "The spotted flank of a whale shark in blue water in the Sea of Cortez",
+        credit: "Christy Semmens"
+      },
+      details: {
+        src: "resources/photos/banners/chameleon-wrasse-banner.jpg",
+        alt: "A Chameleon Wrasse over the reef in the Sea of Cortez",
+        credit: "Christy Semmens"
+      },
+      study: {
+        src: "resources/photos/banners/king-angelfish-banner.jpg",
+        alt: "A King Angelfish, the most frequently recorded species in the central Gulf of California",
+        credit: "Christy Semmens"
+      },
+      pretrip: {
+        src: "resources/photos/banners/barspot-cardinalfish-banner.jpg",
+        alt: "Two Barspot Cardinalfish tucked under a reef ledge",
+        credit: "Christy Semmens"
+      },
+      fun: {
+        src: "resources/photos/banners/stone-scorpionfish-banner.jpg",
+        alt: "A Stone Scorpionfish camouflaged against the reef, easy to swim past",
+        credit: "Christy Semmens"
+      },
+      reflection: {
+        src: "resources/photos/banners/pacific-highhat-banner.jpg",
+        alt: "A juvenile Pacific Highhat sheltering among sea urchin spines",
+        credit: "Christy Semmens"
+      }
     },
     // Replaced 2026-08-23 at Martha's direction, in step with the trip
     // leader funFact: the Start Here spotlight is now blennies as a group
@@ -386,7 +455,7 @@ window.TRIP_DATA = {
 
   itinerary: {
     overview: "This is a liveaboard trip aboard the Rocio del Mar: we board in Puerto Peñasco the evening of September 12 and spend the week moving between islands in the Midriff region of the Sea of Cortez — Isla Ángel de la Guarda, Isla San Pedro Mártir, Isla Salsipuedes, Isla Las Ánimas, and Bahía de los Ángeles — with 3-4 dives most days. The Captain and crew set the exact daily dive sites based on conditions, so think of the plan below as the shape of the week rather than a fixed hour-by-hour schedule.",
-    note: "The Captain and crew choose the dive sites and timing each day based on conditions, which is what makes the week work well. Martha will share the plan each morning. Evenings are Fishy Hour, a chance to gather in the salon for fish ID and conversation about whatever the group saw that day.",
+    note: "The Captain and crew choose the dive sites and timing each day based on conditions, which is what makes the week work well. Martha will share the plan each morning. Evenings are Fishy Hour, a chance to gather in the TV lounge on the upper deck for fish ID and conversation about whatever the group saw that day.",
     days: [
       {
         date: "Saturday, September 12",
@@ -403,7 +472,7 @@ window.TRIP_DATA = {
         tag: "Island Days",
         events: [
           { time: "Daily", desc: "3–4 dives a day across the Midriff Islands, exact sites set by the Captain based on conditions — likely stops include Isla Ángel de la Guarda, Isla San Pedro Mártir, Isla Salsipuedes, and Isla Las Ánimas." },
-          { time: "Evenings", desc: "Fishy Hour: a casual fish ID gathering in the salon based on what the group saw that day. Timing is shared onboard." }
+          { time: "Evenings", desc: "Fishy Hour: a casual fish ID gathering in the TV lounge on the upper deck, based on what the group saw that day. Timing is shared onboard." }
         ]
       },
       {
@@ -432,8 +501,14 @@ window.TRIP_DATA = {
 
   preTripInfo: {
     firstDayVignette: [
-      "Travel day has a nice shape to it: a flight into Phoenix, a few hours on the shuttle with the border crossing in the middle, and then you are standing at Marina Fonatur looking at the Rocio del Mar.",
-      "There is no rush once you are aboard. Dinner is around 7:00 PM, and the welcome meeting happens during the overnight transit out of port, so there is nothing to prepare for on the spot. Settle into your cabin and get your bearings."
+      "The travel day is fairly straightforward: a flight into Phoenix, a few hours on the shuttle with the border crossing in the middle, and then you are standing at Marina Fonatur looking at the Rocio del Mar.",
+      "There is no rush once you are aboard. Dinner is around 7:00 PM, and the welcome meeting happens during the overnight transit out of port, so there is nothing to prepare for on the spot. Settle into your cabin and get your bearings.",
+      // Added 2026-08-24 per Martha's trip-leader notes. Deliberately
+      // low-key: the first-night crossing is the part where seasickness is
+      // most likely to matter and the rest of the week is usually calm, so
+      // this says that plainly rather than making people anxious about a
+      // week of rough water.
+      "One practical note: we leave port that first evening and cross overnight, which is the stretch where motion is most noticeable. If you are prone to seasickness, take whatever you normally use once you are aboard, before we get underway. The rest of the week is usually fairly calm."
     ],
     // Merged 2026-08-21: the old "If You Do Nothing Else" callout and the
     // separate "Forms to Complete Before You Go" card said many of the same
@@ -445,7 +520,15 @@ window.TRIP_DATA = {
       "Email a close-up photo of your passport's photo and information page to Documents@MexicoLiveaboards.com at least two weeks before departure.",
       "Complete your Mexico Liveaboards passenger registration. New guests use the online New Passenger Registration form (allow an uninterrupted stretch — it expires four hours after you start): https://www.mexicoliveaboards.com/ords/f?p=rqpif:1:0 — returning guests use the individual portal link sent to you directly.",
       "Book your Head Out to Rocky Point shuttle (round trip, booked and paid directly with the shuttle company) and note your transfer details on your Rocio del Mar passenger forms: https://www.headouttorockypoint.com/scuba",
-      "Bring your full dive kit, including exposure protection, fins, mask, SMB, and whistle. The vessel does not rent these and there is no local rental source in Puerto Peñasco.",
+      // Gear language reconciled 2026-08-24 across the whole file. It used
+      // to say in three places that nothing is available to rent, while a
+      // fourth said the vessel holds limited regulators/BCDs/computers/tanks
+      // by advance reservation -- a flat contradiction for anyone reading
+      // both. Per Martha, the dashboard should not try to explain every
+      // rental scenario. ONE message everywhere: arrive with your gear, or
+      // with a plan confirmed in advance through REEF Trips. Do not
+      // reintroduce "no rentals available" or vessel rental detail here.
+      "Make sure you have all of the dive gear you will need for the trip, or that you have confirmed your gear plans in advance with the REEF Trips team at trips@REEF.org.",
       "Plan to obtain your FMM (Mexican tourist card) at the border on the way in. Every non-Mexican passenger needs one and the vessel cannot depart without them. For a seven-day stay there is normally no fee, but the stop to get the form is still required — the shuttle driver walks the group through it."
     ],
     sections: [
@@ -454,7 +537,20 @@ window.TRIP_DATA = {
         intro: "The Rocio del Mar departs from Marina Fonatur in Puerto Peñasco, Mexico — about a 4.5-hour drive from Phoenix, Arizona, the closest and most convenient airport (PHX).",
         items: [
           "Plan your arriving flight into PHX for no later than 11:00 AM on September 12 to make the 1:00 PM shuttle.",
-          "The shuttle departs PHX Terminal 4, Door #5 (outer curb, north side arrivals) and crosses the U.S.–Mexico border at Lukeville/Sonoyta — the driver handles the crossing process and makes scheduled rest stops along the way.",
+          // Corrected 2026-08-24. This used to say "the driver handles the
+          // crossing process," which implied passengers stay in the shuttle.
+          // Per Martha's trip-leader notes the group actually gets out and
+          // walks across carrying their own bags -- worth knowing in advance,
+          // because it affects what you pack in your carry-on. The rest of
+          // her border notes (how inspection varies, that bags are sometimes
+          // opened, that a land crossing is lower-key than an airport) stay
+          // OFF this page on purpose: that is material Martha covers verbally
+          // when she first meets the group, and it lives in the trip leader
+          // tools instead.
+          "The shuttle departs PHX Terminal 4, Door #5 (outer curb, north side arrivals) and crosses the U.S.–Mexico border at Lukeville/Sonoyta. Everyone gets out and walks across with their own bags, and the driver walks the group through the process. There are scheduled rest stops along the way.",
+          // Added 2026-08-24 per Martha's trip-leader notes. Kept practical
+          // and short: what to bring, and what the stop is for.
+          "Bring water and some snacks for the drive. The shuttle stops at a grocery store along the way, which doubles as a restroom break and a chance to pick up food for the road plus anything you want to have with you on the boat.",
           { label: "Book your Head Out to Rocky Point shuttle", url: "https://www.headouttorockypoint.com/scuba", note: "Round trip, booked and paid directly with the shuttle company. Note your transfer arrangements on your Rocio del Mar passenger forms once booked." },
           "On the return, plan to disembark around 7:30 AM on September 19. The shuttle is expected to reach Phoenix around midday, so book your departing PHX flight for 2:00 PM or later.",
           "Traveling a different way, or need to change a travel arrangement? Please email trips@REEF.org."
@@ -465,7 +561,11 @@ window.TRIP_DATA = {
         items: [
           "Ten cabins aboard the Rocio del Mar, most set up as two twin bunks, a few as queen or full-bed-with-bunk configurations.",
           "Wi-Fi is limited and paid — it works within roughly 10 miles of an island and is unavailable during open-water crossings. Plan on being mostly offline for the week.",
-          "Fishy Hour happens each evening in the boat's salon, using the onboard TV/computer station.",
+          // Location corrected 2026-08-24 per Martha: fish class is held in
+          // the TV lounge on the UPPER DECK, not the salon. The salon is
+          // still described accurately elsewhere as a vessel feature --
+          // it is just not where Fishy Hour happens.
+          "Fishy Hour happens each evening in the TV lounge on the upper deck.",
           "Outlets aboard are 110V, standard U.S. plugs.",
           "REEF trip leader role: marine life educator and survey facilitator. The Captain and divemasters own all dive planning, site selection, panga groups, diver supervision and in-water safety decisions."
         ]
@@ -496,8 +596,8 @@ window.TRIP_DATA = {
       {
         heading: "Diving Information",
         items: [
-          "Bring your own exposure protection, fins, mask, SMB, whistle, and lights. The vessel does not rent these, and there is no local rental source in Puerto Peñasco.",
-          "The vessel has a limited number of regulators, BCDs, dive computers, and HP100 tanks available by advance reservation — contact Valerie at Documents@MexicoLiveaboards.com as early as you can, since they go first come, first served.",
+          "Make sure you have all of the dive gear you will need for the trip, or that you have confirmed your gear plans in advance with the REEF Trips team at trips@REEF.org.",
+          "Plan on bringing your own exposure protection, fins, mask, SMB, whistle, and lights. If you need to arrange anything else, do it before you travel rather than counting on it being available when you arrive.",
           "Expected water temperatures in mid-September are roughly 79–84°F. The operator generally suggests a 3mm wetsuit with a hooded vest through mid-September. Comfort varies a lot from person to person, though, and the Sea of Cortez has thermoclines that move through, so if you tend to get cold you may well want more protection — layers you can adjust are a good bet.",
           "A dive computer, SMB, and whistle are required for every diver, along with proof of certification and dive insurance.",
           "Islands typically visited include Isla Ángel de la Guarda, Isla San Pedro Mártir, Isla Salsipuedes, Isla Las Ánimas, and Bahía de los Ángeles — exact sites are the crew's call based on conditions."
@@ -517,7 +617,7 @@ window.TRIP_DATA = {
         heading: "Getting Ready for Fish ID",
         items: [
           { label: "TEP Surveyor Toolbox", url: "https://www.REEF.org/reef-surveyor-toolbox#TEP", note: "The best starting point for Sea of Cortez / Tropical Eastern Pacific species." },
-          { label: "Archived TEP Fishinars", url: "https://www.REEF.org/fishinar-and-fishy-hour-archive-directory", note: "Log in to your REEF account to watch — several are specific to the Sea of Cortez." },
+          { label: "Archived TEP Fishinars", url: "https://www.REEF.org/fishinar-and-fishy-hour-archive-directory#TEP", note: "Log in to your REEF account to watch — several are specific to the Sea of Cortez." },
           { label: "REEF Geographic Zone Report for the islands on our itinerary", url: "https://www.REEF.org/db/reports/geo?end_date=2026-08-21&format_type=chart&group_type=species&language=common&region_code=TEP&start_date=1993-01-01&zones=2154%2C2164%2C2155%2C3108&zone_map=0", note: "REEF sighting data for Isla Ángel de la Guarda, Isla San Pedro Mártir, Isla Salsipuedes / Isla Las Ánimas, and Bahía de los Ángeles — sorted by how often each species has been recorded. A useful way to see what is most likely to turn up." }
         ]
       },
@@ -526,7 +626,7 @@ window.TRIP_DATA = {
         items: [
           "Passport valid for the full duration of the trip, plus the copy you have already sent ahead.",
           "Dive certification card and dive insurance card (DAN or similar).",
-          "Dive computer, SMB, and whistle (all required) — plus your full dive kit, since gear rental isn't available locally.",
+          "Dive computer, SMB, and whistle (all required), plus the rest of your dive kit.",
           "Exposure protection that suits you — a 3mm wetsuit with a hooded vest is the operator's general suggestion for mid-September, with something warmer if you tend to get cold.",
           // "(it's bee season)" removed 2026-07-23 — unverified and
           // unexplained (no confirmation of what "bee season" means for
@@ -535,6 +635,11 @@ window.TRIP_DATA = {
           "Reef-safe sunscreen and a rash guard.",
           "Any medications you take, including motion-sickness remedies just in case. If anything needs cool storage — an EpiPen, for example — speak with the captain or lead divemaster when you board and they will keep it in the galley for you.",
           "Camera, housing, and batteries if you're bringing one — pack batteries and memory cards in your carry-on.",
+          // Added 2026-08-24 per Martha's trip-leader notes. Deliberately
+          // short and non-prescriptive: REEF does not give customs advice,
+          // because requirements and enforcement change. Written so it does
+          // not alarm anyone carrying an ordinary compact camera.
+          "If you are traveling with a large or extensive underwater camera system, review current Mexico customs requirements before you depart. REEF cannot advise on individual customs requirements.",
           "Any fish ID resources you enjoy using, and your REEF shirt!"
         ]
       }
@@ -562,7 +667,7 @@ window.TRIP_DATA = {
         {
           title: "Archived TEP Fishinars",
           desc: "Recorded sessions covering Sea of Cortez species and survey topics. Log in to your REEF account to watch.",
-          externalUrl: "https://www.REEF.org/fishinar-and-fishy-hour-archive-directory",
+          externalUrl: "https://www.REEF.org/fishinar-and-fishy-hour-archive-directory#TEP",
           linkLabel: "Browse the Fishinar archive"
         },
         {
@@ -824,7 +929,7 @@ window.TRIP_DATA = {
       body: [
         "The Rocio del Mar is a 110-foot vessel built specifically for divers, carrying our full REEF group for the whole week. We board at Marina Fonatur in Puerto Peñasco on the evening of September 12 and move between islands rather than staying in one place.",
         "There are ten private staterooms, each with its own bathroom. Every interior area is air conditioned, including the cabins, salon, galley, and hallways, and the outlets are 110V with standard U.S. plugs.",
-        "Onboard you will find a large salon with a television and computer station — that is where Fishy Hour happens — plus a dive deck, a large fully equipped camera table with power outlets, two freshwater showers, and a shaded sun deck. The vessel has external stabilizers, and diving is done from two inflatable pangas.",
+        "Onboard you will find a large salon, plus a TV lounge on the upper deck where Fishy Hour happens, a dive deck, a large fully equipped camera table with power outlets, two freshwater showers, and a shaded sun deck. The vessel has external stabilizers, and diving is done from two inflatable pangas.",
         "Cabin assignments are handled by Mexico Liveaboards as part of your passenger registration. For any question about your cabin, please email trips@REEF.org."
       ]
     },
@@ -860,7 +965,7 @@ window.TRIP_DATA = {
       "Onboard Wi-Fi, which works within about 10 miles of an island or at port and is unavailable during open-ocean crossings",
       "Nitrox, arranged in advance with Guest Services",
       "Private divemaster, if you would like more individual attention — arranged at least 30 days ahead through Mexico Liveaboards",
-      "Rental regulators, BCDs, dive computers, or HP100 tanks, by advance reservation with Valerie at Documents@MexicoLiveaboards.com",
+      "Any rental dive gear, which must be arranged and confirmed in advance — start with trips@REEF.org",
       "Current amounts for all of the above come from Mexico Liveaboards and can change. Your Know Before You Go document has the latest figures, and trips@REEF.org can help if you need them."
     ],
     requirements: [
